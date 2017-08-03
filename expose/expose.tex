@@ -2,6 +2,7 @@
 \usepackage{selinput}
 \usepackage[babel, german=quotes]{csquotes}
 \usepackage[authoryear]{natbib}
+\usepackage{url}
 
 \usepackage{graphicx}
 \usepackage{epstopdf}
@@ -11,10 +12,13 @@
 }
 \usepackage[ngerman]{babel}
 
+\setlength{\parindent}{0pt}
+\setlength{\parskip}\bigskipamount
+
 \begin{document}
 
 \titlehead{\includegraphics[height=30pt]{assets/logo_th-koeln.eps}}
-\subject{Exposé}
+\subject{Exposé zur Bachelor Thesis}
 \title{Entwurf und Implementierung einer Webapplikation zur grafisch gestützten Durchführung von automatisierten Deployments}
 \author{Timo Mämecke}
 \publishers{Erstprüfer: Prof. Christian Noss\\
@@ -26,7 +30,31 @@ Zweitprüfer: Dirk Breuer
 
 \section{Problemstellung}
 \label{sec:problemstellung}
-Unter \emph{Deployment} (zu deutsch etwa ``Verteilung'', ``Bereitstellung'') versteht man in der Software-Entwicklung den Vorgang, den Release einer Applikation auf eine Zielumgebung, bspw. auf einen Produktions-Server zu transferieren und auszuführen. Manuell ausgeführte Deployments, die Schritt für Schritt von einer oder gar mehreren Personen durchgeführt werden, sind fehleranfällig, zeitaufwändig und das Ergebnis oftmals unvorhersehbar – vor allem bei großen und komplexen Applikationen, deren Deployment in vielen Schritten durchgeführt werden muss. \citep[5]{Humble2010}
+
+\subsection{Was versteht man unter Deployment?}
+
+Unter \emph{Deployment} (zu deutsch etwa ``Inbetriebsetzung'') versteht man in der Software-Entwicklung alle notwendigen Schritte, um ein System verwendbar zu machen (vgl. \citep[21]{Breuer2009}). Ein häufiger Anwendungsfall in der Praxis ist der Transfer und die Ausführung einer Applikation auf eine Zielumgebung, bspw. einen Produktions-Server.
+
+Manuelle Deployments, die Schritt für Schritt von einer oder gar mehreren Personen durchgeführt werden, sind aus menschlicher Natur fehleranfällig, zeitaufwändig und das Ergebnis oftmals unvorhersehbar – vor allem bei großen und komplexen Applikationen, deren Deployment in vielen Schritten durchgeführt werden muss. \citep[5]{Humble2010} Stattdessen ist es empfehlenswert, den Deployment-Vorgang komplett zu automatisieren. Die Rolle, die dabei der Mensch spielt, beschränkt \citet[][5f]{Humble2010} auf wenige simple Aufgaben:
+
+\begin{quotation}
+  There should be two tasks for a human being to perform to deploy software into a development, test or production environment: to pick the version and environment and to press the ``deploy'' button.
+\end{quotation}
+
+Die Umsetzung dieses Vorgangs ist die \emph{Deployment Pipeline}. Dabei wird das komplette Deployment in kleinere Schritte aufgeteilt und nacheinander ausgeführt, beispielsweise beginnend mit dem Kompilieren der Anwendung, über automatisierte Tests bis hin zum Transfer auf die Zielumgebung. \citep{FowlerDP}
+
+\subsection{Automatisiertes Deployment in der Praxis}
+
+Obwohl eine Deployment Pipeline der bewährteste Prozess für schnelle und zuverlässige Deployments ist, wird sie – nach eigener Erfahrung, durch die Arbeit mit verschiedenen Unternehmen und Projekten – oftmals nicht verwendet; auch wenn die Nachteile des manuellen Deployments für die Beteiligten deutlich spürbar sind. Gründe dafür sind:
+
+\begin{itemize}
+\item Das Aufsetzen der Pipeline wird als sehr kompliziert wahrgenommen.
+\item Das Aufsetzen und die Wartung der Pipeline nimmt Zeit in Anspruch.
+\item Fehlendes Wissen und Erfahrung im Themengebiet.
+\item Vorhandene applikatorische Lösungen\footnote{zu den bekanntesten zählen u.a. Jenkins, Capistrano und Atlassian Bamboo} sind tatsächlich sehr umfangreich, komplex und verlangen tiefgehendes Wissen.
+\end{itemize}
+
+Letztendlich wird die Thematik dadurch nicht nur für Firmen schwer greifbar, sondern auch für Einsteiger und Fortgeschrittene, die davon profitieren können.
 
 \section{Fragestellung}
 \label{sec:fragestellung}
