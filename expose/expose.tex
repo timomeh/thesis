@@ -1,5 +1,8 @@
 \documentclass{scrartcl}
 \usepackage{selinput}
+\usepackage[babel, german=quotes]{csquotes}
+\usepackage[authoryear]{natbib}
+
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \SelectInputMappings{
@@ -12,7 +15,7 @@
 
 \titlehead{\includegraphics[height=30pt]{assets/logo_th-koeln.eps}}
 \subject{Exposé}
-\title{Entwurf und Implementierung einer Webapplikation zur grafisch gestützten Durchführung von Deployment Prozessen}
+\title{Entwurf und Implementierung einer Webapplikation zur grafisch gestützten Durchführung von automatisierten Deployments}
 \author{Timo Mämecke}
 \publishers{Erstprüfer: Prof. Christian Noss\\
 Zweitprüfer: Dirk Breuer
@@ -23,7 +26,7 @@ Zweitprüfer: Dirk Breuer
 
 \section{Problemstellung}
 \label{sec:problemstellung}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Unter \emph{Deployment} (zu deutsch etwa ``Verteilung'', ``Bereitstellung'') versteht man in der Software-Entwicklung den Vorgang, den Release einer Applikation auf eine Zielumgebung, bspw. auf einen Produktions-Server zu transferieren und auszuführen. Manuell ausgeführte Deployments, die Schritt für Schritt von einer oder gar mehreren Personen durchgeführt werden, sind fehleranfällig, zeitaufwändig und das Ergebnis oftmals unvorhersehbar – vor allem bei großen und komplexen Applikationen, deren Deployment in vielen Schritten durchgeführt werden muss. \citep[5]{Humble2010}
 
 \section{Fragestellung}
 \label{sec:fragestellung}
@@ -36,5 +39,9 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 \section{Aufbau der Arbeit}
 \label{sec:aufbau}
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+\bibliographystyle{natdin}
+\bibliography{references}
 
 \end{document}
