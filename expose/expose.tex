@@ -26,12 +26,12 @@ Zweitprüfer: Dirk Breuer
 }
 \maketitle
 
-\tableofcontents
 
 \section{Problemstellung}
 \label{sec:problemstellung}
 
 \subsection{Was versteht man unter Deployment?}
+\label{sec:deployment-what}
 
 Unter \emph{Deployment} (zu deutsch etwa ``Inbetriebsetzung'') versteht man in der Software-Entwicklung alle notwendigen Schritte, um ein System verwendbar zu machen (vgl. \citep[21]{Breuer2009}). Ein häufiger Anwendungsfall in der Praxis ist der Transfer und die Ausführung einer Applikation auf eine Zielumgebung, bspw. einen Produktions-Server.
 
@@ -41,28 +41,44 @@ Manuelle Deployments, die Schritt für Schritt von einer oder gar mehreren Perso
   There should be two tasks for a human being to perform to deploy software into a development, test or production environment: to pick the version and environment and to press the ``deploy'' button.
 \end{quotation}
 
-Die Umsetzung dieses Vorgangs ist die \emph{Deployment Pipeline}. Dabei wird das komplette Deployment in kleinere Schritte aufgeteilt und nacheinander ausgeführt, beispielsweise beginnend mit dem Kompilieren der Anwendung, über automatisierte Tests bis hin zum Transfer auf die Zielumgebung. \citep{FowlerDP}
+Die Umsetzung dieses Vorgangs ist die \emph{Deployment Pipeline}. Dabei wird der komplette Deployment-Vorgang in kleinere Schritte aufgeteilt, die sequenziell und teilweise auch parallel ausgeführt werden; beispielsweise beginnend mit dem Kompilieren der Anwendung, über automatisierte Tests bis hin zum Transfer auf die Zielumgebung. \citep{FowlerDP}
 
 \subsection{Automatisiertes Deployment in der Praxis}
+\label{sec:deployment-real}
 
-Obwohl eine Deployment Pipeline der bewährteste Prozess für schnelle und zuverlässige Deployments ist, wird sie – nach eigener Erfahrung, durch die Arbeit mit verschiedenen Unternehmen und Projekten – oftmals nicht verwendet; auch wenn die Nachteile des manuellen Deployments für die Beteiligten deutlich spürbar sind. Gründe dafür sind:
+Nach eigener Erfahrung – durch die Arbeit an verschiedenen Projekten und Unternehmen – werden automatisierte Deployments in der Praxis sehr oft nicht oder nur teilweise verwendet. Beispielsweise werden bei der Web Entwicklung immer wieder programmatisch generiert Dateien\footnote{z.B. bei der Konkatenation und Minifizierung von JavaScript oder CSS, oder auch beim Kompilieren von Stylesheet-Sprachen wie Sass, Less oder Stylus} durch den Entwickler lokal generiert und dem Versionskontrollsystem (VCS) hinzugefügt. Kompilierte bzw. transpilierte Dateien sollten allerdings nicht dem VCS hinzugefügt werden: dadurch entstehen unnötige Merge-Konflikte, und letztendlich handelt es sich um redundante Daten.
+
+Auch wenn die Nachteile eines solchen Deployments für die Beteiligten deutlich spürbar sind, so kann dadurch wenigstens das VCS-Repository bzw. Änderungen daran direkt auf einen Server transferiert werden.\footnote{Dies wird zwar oft auch manuell durch den Entwickler angestoßen, jedoch besser als das Hochladen von einzelnen Dateien via FTP.}
+
+Die Verwendung von Versionskontrollsystemen ist weit verbreitet. Der notwendige Schritt zur automatisierten Deployment Pipeline ist folglich ein Server, der mit dem VCS-Repository verbunden ist und daraus Build-Prozesse ausführt, aber auch Tests zentralisiert durchführt und bei Erfolg die Applikation auf die Zielumgebung transferiert.
+
+Applikatorische Lösungen für solche Deployment Server existieren zwar, wirken aber weniger attraktiv:
 
 \begin{itemize}
-\item Das Aufsetzen der Pipeline wird als sehr kompliziert wahrgenommen.
-\item Das Aufsetzen und die Wartung der Pipeline nimmt Zeit in Anspruch.
-\item Fehlendes Wissen und Erfahrung im Themengebiet.
-\item Vorhandene applikatorische Lösungen\footnote{zu den bekanntesten zählen u.a. Jenkins, Capistrano und Atlassian Bamboo} sind tatsächlich sehr umfangreich, komplex und verlangen tiefgehendes Wissen.
+  \item Jenkins\footnote{https://jenkins.io/ – ``The leading open source automation server'', auf Java basiert}, eine der bekanntesten Lösungen, muss auf einem Server installiert werden. Es fallen Kosten für den Server und Aufwand aufgrund der Installation an.
+  \item Viele User Interfaces entsprechen nicht mehr den heutigen Erwartungen.
+  \item Bekannte Systeme sind komplex, da sie eine Vielzahl von Applikationsumgebungen abdecken.\footnote{bspw. nicht nur Webapplikationen, sondern auch Smartphone-Apps}
 \end{itemize}
 
-Letztendlich wird die Thematik dadurch nicht nur für Firmen schwer greifbar, sondern auch für Einsteiger und Fortgeschrittene, die davon profitieren können.
+Letztendlich wird die Thematik dadurch nicht nur für Unternehmen schwer greifbar, sondern auch für Einzelpersonen, die davon profitieren können.
 
-\section{Fragestellung}
-\label{sec:fragestellung}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+\section{Motivation}
+
+Die in Sektion \ref{sec:deployment-real} beschriebenen Rückstände sind mir bei meiner Arbeit als Web Entwickler in letzten Jahren oft begegnet. Selbst große Unternehmen, deren Hauptgeschäft über E-Commerce Webapplikationen abgewickelt wird, hatten Probleme eine Möglichkeit zum komplett automatisierten Deployment, passend zu den eigenen Anforderungen und Kompetenzen der Angestellten zu finden.
+
+Beim Aufsetzen und Experimentieren mit automatisieren Deployments ist mir meine Begeisterung daran aufgefallen, viele bewegliche Teile zu einer Deployment-Pipeline zusammenzufügen, welche in Workflows mit Git integriert sind und ihren Status an APIs melden. Schon öfter hatte ich den Gedanken, ein Tool für genau diesen Zweck zu entwickeln.
+
+Letztendlich ermöglicht mir diese Bachelor Thesis, in das Thema Deployment und Dev\-Ops einzutauchen, um mehr Erfahrung und Expertise darin zu erlangen, wovon ich mir viel Nutzen in der Praxis verspreche.
 
 \section{Ziel}
 \label{sec:ziel}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Ziel der Bachelor Thesis ist die Entwicklung einer prototypischen Webapplikation im Client-Server-Modell zur Durchführung von automatisierten Deployments von Webapplikationen. Die Einschränkung auf Webapplikationen grenzt bewusst den Umfang und die Komplexität des Themas auf die zur Verfügung stehende Bearbeitungszeit ein. Die programmierte Applikation soll keine produktionstaugliche Webapplikation werden, sondern zunächst eine prototypische Umsetzung mit dem Ausblick, sie weiter ausbauen zu können.
+
+Der Server soll dabei die Deployment-Pipeline implementieren, eine Schnittstelle zur Kontrolle der Deployments anbieten und den Status des Deployments in Echtzeit melden. Der Clients soll als Browser Frontend dem Benutzer eine einfache Oberfläche nach dem Grundsatz in Sektion \ref{sec:deployment-what} zur Verfügung stellen: Auswahl der Version und Umgebung, und klick auf einen ``deploy''-Button.
+
+Weiterhin soll der Client die gesamte Pipeline und den aktuellen Status des Deployments ansprechend visualisieren. In Anlehnung an das abgeschlossene Praxisprojekt soll der Client komponentenbasiert umgesetzt werden, um die theoretischen Ergebnisse des abgeschlossenen Praxisprojekts praktisch anzuwenden.
+
 
 \section{Aufbau der Arbeit}
 \label{sec:aufbau}
