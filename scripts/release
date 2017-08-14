@@ -1,8 +1,0 @@
-#!/bin/sh
-
-if [ -z "$1" ]; then
-  echo "You need to provide a version. Like `scripts/release v1.0.3`."
-fi
-
-git tag -s v$1 -m "Release v$1"
-git push --tags

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+git tag -s latest-tex -m "Release latest Latex documents"
+git push --tags
