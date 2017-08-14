@@ -1,0 +1,11 @@
+#!/bin/sh
+
+cd $TRAVIS_BUILD_DIR
+mkdir build
+
+cd $TRAVIS_BUILD_DIR/expose
+latex expose.tex
+bibtex expose
+latex expose.tex
+latex expose.tex
+dvipdf expose.dvi ../build/expose_ba_maemecke.pdf

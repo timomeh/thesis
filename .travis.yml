@@ -5,15 +5,15 @@ branches:
 before_install:
   - sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-full
 script:
-  - cd expose && latex expose.tex && bibtex expose && latex expose.tex && latex expose.tex && dvipdf expose.dvi
+  - ./scripts/build-latex-travis
 deploy:
   skip_cleanup: true
   overwrite: true
   provider: releases
   api_key:
     secure: IK8cQh9dA2QBuKYMxuIxnpC7Iy8yic3ASmBsZBKo8eljia/TwA39jQ/mR/aBWxDk++6QAKpeyq0Nqg0d9HJdzCtF/ZxkvkdHp2oHOOhV14DKwb0F6cbwXXyKqArHfHGH59jBS1v9i+WAkoh88AAzVgH+pVw0VHMclrUiMAzdvpYbgxFjR522SwgSGgb5JUs3LtWEn2o8WN4d9PiL7bkWNyKlgAxA9Y4jl5SGqFUziIf8y0xe9Fh4LwECr401tcroSmsZBSEYAlbU+OzDaAlXSYtMwWi53B3RGIHau1atURC6sVFfnLNbqeVV1KNojpBIIF8p/o0R4eWLe0S1PQVzA+4gjQBqCO8SkeMKFGGrNSLyVXqoUWs7jL+P6C2MwI2J/20wyPs2SHpiYaWv8RQP1ah488IepktW7FAKh7uQ0kpcAU4Rq7r/YL/a0it4b3JHCFx3DzoceXhm/2DLGE+xeeZgOLwDqW/n4//4nTIyS4tbRldenqZxHrH2XZxQSD2q7jbLmDiRPsJ90VjE02whjgvphbP59ZK0T/TaiUu062J80cZct1IWDBMiWOWhV+AfajIt8QeAb1zcR4GYCnc8cOfJVahWAE85Eot24DiGi0F6tkXdjCrdsZkyT+I7x5cdhNAYnXBR5EEXx2tSZrYwoTV0mvCfpawwXFCDAoFXItg=
-  file:
-    - expose/expose.pdf
+  file_glob: true
+  file: build/*
   on:
     tags: true
     repo: timomeh/thesis
