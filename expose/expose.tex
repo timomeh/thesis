@@ -5,12 +5,16 @@
 \usepackage{url}
 
 \usepackage{graphicx}
+\usepackage{enumitem}
 \usepackage{epstopdf}
 \SelectInputMappings{
   adieresis={ä},
   germandbls={ß},
 }
 \usepackage[ngerman]{babel}
+
+\newlist{tocpreview}{enumerate}{2}
+\setlist[tocpreview]{label*=\arabic*.}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}\bigskipamount
@@ -20,9 +24,15 @@
 \titlehead{\includegraphics[height=30pt]{assets/logo_th-koeln.eps}}
 \subject{Exposé zur Bachelor Thesis}
 \title{Entwurf und Implementierung einer Webapplikation zur grafisch gestützten Durchführung von automatisierten Deployments}
-\author{Timo Mämecke}
-\publishers{Erstprüfer: Prof. Christian Noss\\
-Zweitprüfer: Dirk Breuer
+\author{Timo Mämecke\\Matrikelnr.: 11088767}
+\publishers{
+  \vspace{\bigskipamount}
+  \large{
+    \begin{tabular}{ l l }
+      Erstprüfer: & Prof. Dipl. Des. Christian Noss \\
+      Zweitprüfer: & Dirk Breuer
+    \end{tabular}
+  }
 }
 \maketitle
 
@@ -48,9 +58,9 @@ Die Umsetzung dieses Vorgangs ist die \emph{Deployment Pipeline}. Dabei wird der
 
 Nach eigener Erfahrung – durch die Arbeit an verschiedenen Projekten und Unternehmen – werden automatisierte Deployments in der Praxis sehr oft nicht oder nur teilweise verwendet. Beispielsweise werden bei der Web Entwicklung immer wieder programmatisch generiert Dateien\footnote{z.B. bei der Konkatenation und Minifizierung von JavaScript oder CSS, oder auch beim Kompilieren von Stylesheet-Sprachen wie Sass, Less oder Stylus} durch den Entwickler lokal generiert und dem Versionskontrollsystem (VCS) hinzugefügt. Kompilierte bzw. transpilierte Dateien sollten allerdings nicht dem VCS hinzugefügt werden: dadurch entstehen unnötige Merge-Konflikte, und letztendlich handelt es sich um redundante Daten.
 
-Auch wenn die Nachteile eines solchen Deployments für die Beteiligten deutlich spürbar sind, so kann dadurch wenigstens das VCS-Repository bzw. Änderungen daran direkt auf einen Server transferiert werden.\footnote{Dies wird zwar oft auch manuell durch den Entwickler angestoßen, jedoch besser als das Hochladen von einzelnen Dateien via FTP.}
+Auch wenn die Nachteile eines solchen Deployments für die Beteiligten deutlich spürbar sind, so kann dadurch wenigstens das VCS-Repository bzw. Änderungen daran direkt auf einen Server transferiert werden.\footnote{Dies wird zwar oft auch manuell durch den Entwickler angestoßen, was dennoch besser als das Hochladen von einzelnen Dateien via FTP ist.}
 
-Die Verwendung von Versionskontrollsystemen ist weit verbreitet. Der notwendige Schritt zur automatisierten Deployment Pipeline ist folglich ein Server, der mit dem VCS-Repository verbunden ist und daraus Build-Prozesse ausführt, aber auch Tests zentralisiert durchführt und bei Erfolg die Applikation auf die Zielumgebung transferiert.
+Die Verwendung von Versionskontrollsystemen ist weit verbreitet, demnach ist der notwendige Schritt zur automatisierten Deployment Pipeline ein Server, der mit dem VCS-Repository verbunden ist und daraus Build-Prozesse ausführt, aber auch Tests zentralisiert durchführt und bei Erfolg die Applikation auf die Zielumgebung transferiert.
 
 Applikatorische Lösungen für solche Deployment Server existieren zwar, wirken aber weniger attraktiv:
 
@@ -73,16 +83,48 @@ Letztendlich ermöglicht mir diese Bachelor Thesis, in das Thema Deployment und 
 \section{Ziel}
 \label{sec:ziel}
 
-Ziel der Bachelor Thesis ist die Entwicklung einer prototypischen Webapplikation im Client-Server-Modell zur Durchführung von automatisierten Deployments von Webapplikationen. Die Einschränkung auf Webapplikationen grenzt bewusst den Umfang und die Komplexität des Themas auf die zur Verfügung stehende Bearbeitungszeit ein. Die programmierte Applikation soll keine produktionstaugliche Webapplikation werden, sondern zunächst eine prototypische Umsetzung mit dem Ausblick, sie weiter ausbauen zu können.
+Ziel der Bachelor Thesis ist die Entwicklung einer prototypischen Webapplikation als verteilte Client-Server-Anwendung zur Durchführung von automatisierten Deployments von Webapplikationen. Die Einschränkung auf Webapplikationen als Gegenstand des Deployments grenzt bewusst den Umfang und die Komplexität des Themas auf die zur Verfügung stehende Bearbeitungszeit ein. Die programmierte Applikation soll keine produktionstaugliche Webapplikation werden, sondern zunächst eine prototypische Umsetzung mit dem Ausblick, sie weiter ausbauen zu können.
 
 Der Server soll dabei die Deployment-Pipeline implementieren, eine Schnittstelle zur Kontrolle der Deployments anbieten und den Status des Deployments in Echtzeit melden. Der Clients soll als Browser Frontend dem Benutzer eine einfache Oberfläche nach dem Grundsatz in Sektion \ref{sec:deployment-what} zur Verfügung stellen: Auswahl der Version und Umgebung, und klick auf einen ``deploy''-Button.
 
 Weiterhin soll der Client die gesamte Pipeline und den aktuellen Status des Deployments ansprechend visualisieren. In Anlehnung an das abgeschlossene Praxisprojekt soll der Client komponentenbasiert umgesetzt werden, um die theoretischen Ergebnisse des abgeschlossenen Praxisprojekts praktisch anzuwenden.
 
+\section{Vorgehen}
+\label{sec:vorgehen}
 
-\section{Aufbau der Arbeit}
-\label{sec:aufbau}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Zunächst soll die Bachelorarbeit theoretisch ausarbeiten, was man unter Deployment versteht und wie es eingesetzt wird. Es gibt verschiedene Dienste und Applikationen, die eine Deployment Pipeline implementieren, demnach bietet es sich an, die Eigenschaften dieser Lösungen in einer Marktanalyse auszuarbeiten. In Anbetracht der zur Verfügung stehenden Bearbeitungszeit soll die Analyse nur verkürzt behandelt werden, da der Hauptbestandteil der Arbeit auf der Implementation einer eigenen Applikation liegt. Vor der eigentlichen Implementation wird die Webapplikation aus technischer und visueller Seite entworfen. Die Implementation teilt sich letztendlich, wie üblich für Client-Server-Anwendungen, in die Implementation des Servers und die Implementation des Clients.
+
+
+\section{Vorläufige Gliederung}
+\label{sec:gliederung}
+
+\begin{tocpreview}
+  \item Einleitung
+    \begin{tocpreview}
+      \item Problemstellung
+      \item Ziel
+    \end{tocpreview}
+  \item Was ist Deployment?
+    \begin{tocpreview}
+      \item Deployment Pipeline
+      \item Continuous Integration
+      \item Continuous Delivery
+      \item Continuous Deployment
+    \end{tocpreview}
+  \item Marktanalyse
+  \item Entwurf der Webapplikation
+    \begin{tocpreview}
+      \item Entwurf der Systemarchitektur
+      \item Entwurf eines User Interfaces
+    \end{tocpreview}
+  \item Implementation der Webapplikation
+    \begin{tocpreview}
+      \item Implementation des Servers
+      \item Implementation des Clients
+    \end{tocpreview}
+  \item Zusammenfassung der Ergebnisse
+  \item Ausblick
+\end{tocpreview}
 
 
 \bibliographystyle{natdin}
