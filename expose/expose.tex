@@ -57,18 +57,20 @@ Die Umsetzung dieses Vorgangs ist die \emph{Deployment Pipeline}. Dabei wird der
 \subsection{Automatisiertes Deployment in der Praxis}
 \label{sec:deployment-real}
 
-Nach eigener Erfahrung – durch die Arbeit an verschiedenen Projekten und Unternehmen – werden automatisierte Deployments in der Praxis sehr oft nicht oder nur teilweise verwendet. Beispielsweise werden bei der Web Entwicklung immer wieder programmatisch generiert Dateien\footnote{z.B. bei der Konkatenation und Minifizierung von JavaScript oder CSS, oder auch beim Kompilieren von Stylesheet-Sprachen wie Sass, Less oder Stylus} durch den Entwickler lokal generiert und dem Versionskontrollsystem (VCS) hinzugefügt. Kompilierte bzw. transpilierte Dateien sollten allerdings nicht dem VCS hinzugefügt werden: dadurch entstehen unnötige Merge-Konflikte, und letztendlich handelt es sich um redundante Daten.
+Nach eigener Erfahrung – durch die Arbeit an verschiedenen Projekten und Unternehmen – werden automatisierte Deployments in der Praxis oftmals nicht oder nur teilweise verwendet. Das Einrichten der Deployment Pipeline ist komplex und verlangt Expertise, die unter Umständen im Unternehmen nicht vorhanden ist. Es nimmt Zeit in Anspruch, womit unmittelbar auch Kosten verbunden sind. Die Anschaffung eines automatisierten Deployments ist somit eine Investition, welche keinen direkten Vorteil des eigentlichen Produkts mit sich bringt: die Applikation wird dadurch nicht schneller, und natürlich werden dadurch keine Fehler behoben oder gar neue Features eingeführt; alles Aufgaben, die eine höhere Priorität haben.
 
-Auch wenn die Nachteile eines solchen Deployments für die Beteiligten deutlich spürbar sind, so kann dadurch wenigstens das VCS-Repository bzw. Änderungen daran direkt auf einen Server transferiert werden.\footnote{Dies wird zwar oft auch manuell durch den Entwickler angestoßen, was dennoch besser als das Hochladen von einzelnen Dateien via FTP ist.}
+Stattdessen ermöglicht das automatisierte Deployment ein zuverlässigeres und schnelleres Veröffentlichen von Änderungen an der Software. Der Release-Zyklus kann deutlich verkürzt werden, und fehlerhafte Features schneller zurückgenommen werden. \citep[11f]{Humble2010} All diese Merkmale sind auf längere Sicht sehr vorteilhaft und erstrebenswert, aber nicht direkt ersichtlich, wenn man nicht mit der Thematik vertraut ist.
+
+Oft sieht man bei der Entwicklung von Webanwendungen auch, dass programmatisch generiert Dateien\footnote{z.B. bei der Konkatenation und Minifizierung von JavaScript oder CSS, oder auch beim Kompilieren von Stylesheet-Sprachen wie Sass, Less oder Stylus} durch den Entwickler lokal generiert und dem Versionskontrollsystem (VCS) hinzugefügt werden, wenn keine Deployment Pipeline vorhanden ist. Dies hat zumindest den Vorteil, dass Änderungen manuell mit wenigen Befehlen von einem Entwickler aus dem VCS auf die Zielumgebung aufgespielt werden können, da sich die notwendigen generierten Artefakte bereits im VCS befinden. Kompilierte Dateien sollten allerdings nicht dem VCS hinzugefügt werden: dadurch entstehen unnötige Merge-Konflikte, und letztendlich handelt es sich um redundante Daten. Wie in Sektion \ref{sec:deployment-what} beschrieben, sollte der Entwickler diese Schritte nicht manuell durchführen.
 
 Die Verwendung von Versionskontrollsystemen ist weit verbreitet, demnach ist der notwendige Schritt zur automatisierten Deployment Pipeline ein Server, der mit dem VCS-Repository verbunden ist und daraus Build-Prozesse ausführt, aber auch Tests zentralisiert durchführt und bei Erfolg die Applikation auf die Zielumgebung transferiert.
 
 Applikatorische Lösungen für solche Deployment Server existieren zwar, wirken aber weniger attraktiv:
 
 \begin{itemize}
-  \item Jenkins\footnote{https://jenkins.io/ – ``The leading open source automation server'', auf Java basiert}, eine der bekanntesten Lösungen, muss auf einem Server installiert werden. Es fallen Kosten für den Server und Aufwand aufgrund der Installation an.
   \item Viele User Interfaces entsprechen nicht mehr den heutigen Erwartungen.
   \item Bekannte Systeme sind komplex, da sie eine Vielzahl von Applikationsumgebungen abdecken.\footnote{bspw. nicht nur Webapplikationen, sondern auch Smartphone-Apps}
+  \item Jenkins\footnote{https://jenkins.io/ – ``The leading open source automation server'', auf Java basiert}, eine der bekanntesten Lösungen, muss auf einem Server installiert werden. Es fallen Kosten für den Server und Aufwand aufgrund der Installation an.
 \end{itemize}
 
 Letztendlich wird die Thematik dadurch nicht nur für Unternehmen schwer greifbar, sondern auch für Einzelpersonen, die davon profitieren können.
@@ -77,9 +79,9 @@ Letztendlich wird die Thematik dadurch nicht nur für Unternehmen schwer greifba
 
 Die in Sektion \ref{sec:deployment-real} beschriebenen Rückstände sind mir bei meiner Arbeit als Web Entwickler in letzten Jahren oft begegnet. Selbst große Unternehmen, deren Hauptgeschäft über E-Commerce Webapplikationen abgewickelt wird, hatten Probleme eine Möglichkeit zum komplett automatisierten Deployment, passend zu den eigenen Anforderungen und Kompetenzen der Angestellten zu finden.
 
-Beim Aufsetzen und Experimentieren mit automatisieren Deployments ist mir meine Begeisterung daran aufgefallen, viele bewegliche Teile zu einer Deployment-Pipeline zusammenzufügen, welche in Workflows mit Git integriert sind und ihren Status an APIs melden. Schon öfter hatte ich den Gedanken, ein Tool für genau diesen Zweck zu entwickeln.
+Für dieses Problem ist ein Markt vorhanden, der nicht nur von einer Applikation zum automatisierten Deployment profitieren kann; sie bietet auch einen vereinfachten Einstieg in die Thematik und einen Ausgangspunkt zur (selbstständigen) Weiterbildung des Nutzers.
 
-Letztendlich ermöglicht mir diese Bachelor Thesis, in das Thema Deployment und Dev\-Ops einzutauchen, um mehr Erfahrung und Expertise darin zu erlangen, wovon ich mir viel Nutzen in der Praxis verspreche.
+Letztendlich ermöglicht mir diese Bachelor Thesis, selbst in das Thema Deployment und Dev\-Ops einzutauchen: Erfahrung und Expertise darin hat große Relevanz und Nutzen in der Praxis.
 
 \section{Ziel}
 \label{sec:ziel}
@@ -90,7 +92,7 @@ Der Server soll dabei die Deployment-Pipeline implementieren, eine Schnittstelle
 
 Weiterhin soll der Client die gesamte Pipeline und den aktuellen Status des Deployments ansprechend visualisieren. In Anlehnung an das abgeschlossene Praxisprojekt soll der Client komponentenbasiert umgesetzt werden, um die theoretischen Ergebnisse des abgeschlossenen Praxisprojekts praktisch anzuwenden.
 
-Als einer der finalen Meilensteine wird angestrebt, dass die Anwendung nicht nur andere Webapplikationen deployen kann, sondern sich auch selbst als Webapplikation deployen kann.
+Zur kontinuierlichen Evaluation der Lösungsansätze wird die Anwendung mit sich selbst deployed.
 
 \section{Vorgehen}
 \label{sec:vorgehen}
