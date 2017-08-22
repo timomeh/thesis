@@ -4,15 +4,15 @@ cd $TRAVIS_BUILD_DIR
 mkdir build
 
 cd $TRAVIS_BUILD_DIR/expose
-latex expose.tex
+pdflatex expose.tex
 bibtex expose
-latex expose.tex
-latex expose.tex
-dvipdf expose.dvi ../build/expose_ba_maemecke.pdf
+pdflatex expose.tex
+pdflatex expose.tex
+cp expose.pdf ../build/expose_ba_maemecke.pdf
 
 cd $TRAVIS_BUILD_DIR
-latex thesis.tex
+pdflatex thesis.tex
 bibtex thesis
-latex thesis.tex
-latex thesis.tex
-dvipdf thesis.dvi ./build/thesis_ba_maemecke.pdf
+pdflatex thesis.tex
+pdflatex thesis.tex
+cp thesis.pdf build/thesis_ba_maemecke.pdf
