@@ -5,6 +5,7 @@
 \usepackage{url}
 \usepackage[absolute]{textpos}
 \usepackage{makecell}
+\usepackage{epigraph}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -23,3 +24,10 @@
 \setlength{\parindent}{0pt}
 
 \bibliographystyle{natdin}
+
+% Configs for dictum used in chapterpreamble
+\setkomafont{dictumtext}{\itshape}
+\setkomafont{dictumauthor}{\normalfont}
+\renewcommand*\dictumwidth{\linewidth}
+\renewcommand*\dictumauthorformat[1]{\vspace{0.5em}--- #1\vspace{1em}}
+\renewcommand*\dictumrule{}
