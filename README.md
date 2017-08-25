@@ -1,6 +1,6 @@
 # Thesis
 
-> Entwurf und Implementierung einer Webapplikation zur grafisch gestützten Durchführung automatisierter Deployments von Webapplikationen
+> Entwurf und Implementierung einer Webanwendung zur grafisch gestützten Durchführung automatisierter Deployments von Webanwendungen
 
 ## Downloads
 
