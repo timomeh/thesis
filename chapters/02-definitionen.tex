@@ -1,28 +1,64 @@
 %!TEX root = ../thesis.tex
 \chapter{Deployment – Der Weg vom Entwickler zum Nutzer}
 
+Theoretischer Teil der Arbeit. Er soll die Grundlagen des Themas der Arbeit klären, auf denen der danach folgende praktische Teil aufbaut.
+
 
 \section{Definitionen und Begriffserklärungen}
+
+Folgende Begriffe sind Grundlagen zum Verständnis der Arbeit.
 
 \subsection{Automatisierung}
 
 
+
+
 \subsection{Deployment}
 
+Unter \emph{Deployment} (zu deutsch etwa ``Inbetriebsetzung'') versteht man in der Software-Entwicklung alle notwendigen Schritte, um ein System verwendbar zu machen (vgl. \citep[21]{Breuer2009}). Ein häufiger Anwendungsfall in der Praxis ist der Transfer und die Ausführung einer Applikation auf eine Zielumgebung, bspw. einem Produktions-Server.
 
 \subsection{Webanwendung}
+
+Software, die auf einem Server ausgeführt wird. Sie wird vom Nutzer (Client) über eine Schnittstelle, überlicherweise \ac{HTTP}, aufgerufen und die Ausgabe an ihn zurückgeschickt. Webanwendungen werden meist über einen Browser aufgerufen und müssen vom Nutzer nicht installiert werden.
+
+
+\subsection{Tests und Builds}
+
+Der Build ist quasi schon ein Test: ob die Software buildbar ist, was Anforderung ist, damit die Software überhaupt ausgeführt werden kann. Tests testen das Programm weiter auf die Richtigkeit von Funktionalitäten auch zur Laufzeit, zur Vermeidung von Bugs oder Abstürzen.
+
+\textbf{Komponententest.} (Unit testing) Testen kleinster Einheiten.
+
+\textbf{Integrationstest.} (Integration testing) Testet voneinander abhängige Komponenten. Abfolge von mehreren Schritten.
+
+\textbf{Systemtest.} (System testing) Test auf alle funktionale und nichtfunktionale Anforderungen.
+
+\textbf{Akzeptanztest.} (Acceptance testing) Verhalten der Software wird getestet, in Produktivumgebung, durch Kunden, wie der Kunde bzw. Nutzer die Software verwenden würde.
+
+\textbf{Rauchtest.} (Smoke testing) Anwendung starten und testen, ob sie auch wirklich läuft oder direkt abgestürzt ist. Genannt, weil es ein sehr einfacher Test ist, der direkt nach dem Start der Anwendung getestet werden kann.
 
 
 \section{Strukturierte Arbeitsabläufe mit automatisierten Deployments}
 
-
-\subsection{Continuous Delivery}
-
+Bei der Entwicklung von Software in Teams ist es wichtig, dass man strukturiert vorgeht.
 
 \subsection{Continuous Integration}
 
+Änderungen am Code ständig testen. Mindestens einmal am Tag muss jeder in den master mergen. Master muss immer buildbar sein. Wenn nicht: direkt fixen oder revert.
+
+\subsection{Continuous Delivery}
+
+Erweiterung von Continuous Integration. Nach automatisiertem Test/Build auch automatisiert shippen können. Egal welche Zielumgebung/Server, alles automatisch konfiguriert. Je nach Anwendungsfall kann davor auch ein Server automatisch provisioniert werden. Wann deployed wird, kann selbst entschieden werden.
+
+Siehe Agile Manifesto\footnote{http://agilemanifesto.org/principles.html}:
+
+\begin{quote}
+  Our highest priority is to satisfy the customer through early and \emph{continuous delivery} of valuable software.
+\end{quote}
+
 
 \subsection{Continuous Deployment}
+
+Erweiterung von Continuous Delivery. Deployed wird ständig.
 
 
 \section{Die Deployment-Pipeline als Prozess-Manifestation}
