@@ -8,21 +8,25 @@ Theoretischer Teil der Arbeit. Er soll die Grundlagen des Themas der Arbeit klä
 
 Folgende Begriffe sind Grundlagen zum Verständnis der Arbeit.
 
-\subsection{Automatisierung}
-
-
-
-
-\subsection{Deployment}
+\subsection{Definition: Deployment}
 
 Unter \emph{Deployment} (zu deutsch etwa ``Inbetriebsetzung'') versteht man in der Software-Entwicklung alle notwendigen Schritte, um ein System verwendbar zu machen (vgl. \citep[21]{Breuer2009}). Ein häufiger Anwendungsfall in der Praxis ist der Transfer und die Ausführung einer Applikation auf eine Zielumgebung, bspw. einem Produktions-Server.
 
-\subsection{Webanwendung}
+\subsection{Definition und Anforderungen der Automatisierung}
+
+Der Duden \citeyearpar{Duden} definiert \emph{automatisiert} u.a. als ``durch Selbststeuerung oder -regelung erfolgend''. Spezifischer für Software beschreibt \citet[27]{Duvall2007} einen Vorgang als automatisiert, wenn nach seinem Start kein weiteres menschliches Eingreifen mehr benötigt wird. Demnach handelt es sich bei einem \emph{automatisierten Deployment} um die Inbetriebssetzung einer Software ohne menschliches Handeln nach initialem Auslöser.
+
+Im Gegensatz dazu steht die \emph{manuelle Durchführung} eines Prozesses. Im Kontext des Deployments müssen dabei einige oder gar alle Schritte zur Inbetriebssetzung durch menschliches Handeln durchgeführt werden.
+
+
+Dies bedeutet jedoch nicht, dass ein automatisierter Prozess für den Nutzer gänzlich unsichtbar ist. Um auf Erfolg oder Fehlschlag des Automatismus reagieren zu können, muss der Prozess seinen Status an den Nutzer zurück melden. Vorteilhaft sind auch Informationen während des Prozessablaufs, beispielsweise um dessen Fortschritt zu verfolgen. \citep[10f]{Duvall2007}
+
+\subsection{Definition von Webanwendung}
 
 Software, die auf einem Server ausgeführt wird. Sie wird vom Nutzer (Client) über eine Schnittstelle, überlicherweise \ac{HTTP}, aufgerufen und die Ausgabe an ihn zurückgeschickt. Webanwendungen werden meist über einen Browser aufgerufen und müssen vom Nutzer nicht installiert werden.
 
 
-\subsection{Tests und Builds}
+\subsection{Definition und Eingrenzung: Tests und Builds}
 
 Der Build ist quasi schon ein Test: ob die Software buildbar ist, was Anforderung ist, damit die Software überhaupt ausgeführt werden kann. Tests testen das Programm weiter auf die Richtigkeit von Funktionalitäten auch zur Laufzeit, zur Vermeidung von Bugs oder Abstürzen.
 
