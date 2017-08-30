@@ -6,49 +6,63 @@ Theoretischer Teil der Arbeit. Er soll die Grundlagen des Themas der Arbeit klä
 
 \section{Definitionen und Begriffserklärungen}
 
-Folgende Begriffe sind Grundlagen zum Verständnis der Arbeit.
-
-\subsection{Definition: DevOps}
-
-Auch wenn der Begriff DevOps nicht viel Verwendung in dieser Arbeit finden wird\footnote{Der Begriff DevOps beschreibt ein weitgreifendes Konzept, wird aber leider auch oft falsch verstanden und falsch verwendet. Daher wird in dieser Arbeit die Verwendung spezifischerer Begriffe bevorzugt.}, so sollte er auch nicht verschwiegen werden, da er stark mit der Thematik zusammenhängt.
-
-DevOps setzt sich aus zwei englischsprachigen Wörtern zusammen: Development und Operations. Zu deutsch also die Verbindung von Entwicklung und Systembetrieb.
-
-DevOps ist \emph{keine} Berufsgruppe wie oft fälschlicherweise angenommen, sondern eine Philosophie, die Entwicklung und Systembetrieb stärker miteinander verbindet. Im weiteren Sinne ist DevOps die Weiterführung agiler Entwicklungmethoden auf technischer Basis: Bei der agilen Entwicklung wird die Zusammenarbeit und Flexibilität zwischen Entwicklern und Unternehmen so verbessert, dass auf neue Anforderungen schneller eingegangen werden kann, damit jene schneller veröffentlicht werden (``Business Agility''). DevOps ergibt sich daraus, dass auch die Zusammenarbeit zwischen Entwicklern und IT Administratoren verbessert wird (``IT Agility''). \citep[4f]{Chapman2014}
-
-Demnach ist ein großer Aspekt von DevOps die Verwendung automatisierter Prozesse zum schnellen und zuverlässigen Deployment von Anwendungen.
+Dieser Abschnitt soll vorweg jene Begriffe und deren Zusammenhang erklären, die zum Verständnis der Arbeit notwendig sind; vor allem die Begriffe \emph{Deployment}, \emph{automatisiert} und \emph{Webanwendung} aus dem Titel der Arbeit.
 
 \subsection{Definition: Deployment}
 
-Unter \emph{Deployment} (zu deutsch etwa ``Inbetriebsetzung'') versteht man in der Software-Entwicklung alle notwendigen Schritte, um ein System verwendbar zu machen (vgl. \citep[21]{Breuer2009}). Ein häufiger Anwendungsfall in der Praxis ist der Transfer und die Ausführung einer Applikation auf eine Zielumgebung, bspw. einem Produktions-Server.
+Unter \emph{Deployment} (zu deutsch etwa ``Inbetriebsetzung'') versteht man in der Software-Entwicklung alle notwendigen Schritte, um ein System verwendbar zu machen \citep[21]{Breuer2009}. Dies beinhaltet u.a. das Ausführen von Tests, das kompilieren von ausführbaren Dateien oder anderen Artefakten, und dem Transfer auf eine Zielumgebung \citep[4]{Humble2010}.
 
-\subsection{Definition und Anforderungen der Automatisierung}
+Beim Deployment einer Webanwendungen sind jene Schritte beispielsweise:
+
+\begin{itemize}
+  \item Ausführen der Tests des Clients und des Servers
+  \item Kompilieren von Artefakten wie CSS- und JavaScript-Dateien
+  \item Transfer auf einen Server
+  \item Ausführen eines Rauchtests
+\end{itemize}
+
+\subsection{Definition: Automatisierung}
 
 Der Duden \citeyearpar{Duden} definiert \emph{automatisiert} u.a. als ``durch Selbststeuerung oder -regelung erfolgend''. Spezifischer für Software beschreibt \citet[27]{Duvall2007} einen Vorgang als automatisiert, wenn nach seinem Start kein weiteres menschliches Eingreifen mehr benötigt wird. Demnach handelt es sich bei einem \emph{automatisierten Deployment} um die Inbetriebssetzung einer Software ohne menschliches Handeln nach initialem Auslöser.
 
 Im Gegensatz dazu steht die \emph{manuelle Durchführung} eines Prozesses. Im Kontext des Deployments müssen dabei einige oder gar alle Schritte zur Inbetriebssetzung durch menschliches Handeln durchgeführt werden.
 
-
 Dies bedeutet jedoch nicht, dass ein automatisierter Prozess für den Nutzer gänzlich unsichtbar ist. Um auf Erfolg oder Fehlschlag des Automatismus reagieren zu können, muss der Prozess seinen Status an den Nutzer zurück melden. Vorteilhaft sind auch Informationen während des Prozessablaufs, beispielsweise um dessen Fortschritt zu verfolgen. \citep[10f]{Duvall2007}
 
-\subsection{Definition von Webanwendung}
+\subsection{Begriffserklärung: DevOps}
 
-Software, die auf einem Server ausgeführt wird. Sie wird vom Nutzer (Client) über eine Schnittstelle, überlicherweise \ac{HTTP}, aufgerufen und die Ausgabe an ihn zurückgeschickt. Webanwendungen werden meist über einen Browser aufgerufen und müssen vom Nutzer nicht installiert werden.
+Auch wenn der Begriff DevOps nicht viel Verwendung in dieser Arbeit finden wird\footnote{Der Begriff DevOps beschreibt ein weitgreifendes Konzept mit mehreren Aspekten. Daher wird in dieser Arbeit die Verwendung spezifischerer Begriffe bevorzugt.}, so sollte er auch nicht verschwiegen werden, da er stark mit der Thematik in Verbindung steht.
+
+DevOps setzt sich aus den zwei englischsprachigen Wörtern \emph{Development} und \emph{Operations} zusammen. Zu deutsch also die Verbindung von Entwicklung und Systembetrieb. DevOps ist \emph{keine} Berufsgruppe, wie oft fälschlicherweise angenommen wird, sondern eine Kultur, die Entwicklung und Systembetrieb stärker miteinander verbindet.
+
+Im weiteren Sinne ist DevOps die Weiterführung agiler Entwicklungmethoden auf technischer Basis: Bei der agilen Entwicklung wird die Zusammenarbeit und Flexibilität zwischen Entwicklern und Unternehmen so verbessert, dass auf neue Anforderungen direkt eingegangen werden kann, damit jene schneller veröffentlicht werden (``Business Agility''). DevOps ergibt sich daraus, dass auch die Zusammenarbeit zwischen Entwicklern und IT Administratoren verbessert wird (``IT Agility''). \citep[4f]{Chapman2014}
+
+Demnach ist ein Aspekt von DevOps die Verwendung automatisierter Prozesse zum schnellen und zuverlässigen Deployment von Anwendungen.
+
+\subsection{Definition: Webanwendung}
+
+\marginnote{Notiz: Bin mir unsicher, ob ich so einen Begriff wie ``Webanwendung'' definieren mag/soll.}[1em]
+
+Eine Anwendung, die auf einem entfernten Webserver ausgeführt wird und vom Nutzer über eine Schnittstelle, meist \ac{HTTP}, mittels eines Webbrowsers aufgerufen wird. Eine Webanwendung wird dazu passend in zwei Teile aufgeteilt: die Programmlogik als Server und die Darstellung im Webbrowser als Client.
+
+Moderne Webanwendungen werden immer öfter als verteilte Systeme programmiert. Hierbei wird der Server über ein \ac{API} angesprochen – zu deutsch vereifacht \emph{Schnittstelle} –, zu welcher der Client dynamisch mittels JavaScript eine grafische Repräsentation ausgibt.
 
 
-\subsection{Definition und Eingrenzung: Tests und Builds}
+\subsection{Definition und Eingrenzung: Build} \label{ssec02:build}
 
-Der Build ist quasi schon ein Test: ob die Software buildbar ist, was Anforderung ist, damit die Software überhaupt ausgeführt werden kann. Tests testen das Programm weiter auf die Richtigkeit von Funktionalitäten auch zur Laufzeit, zur Vermeidung von Bugs oder Abstürzen.
+\citet[27]{Duvall2007} definiert den Begriff Build als ``a set of activities performed to generate, test, inspect and deploy software''. \emph{Build} wird hierbei als Prozess definiert, welcher in Kapitel \ref{sec02:deployment-pipeline} als \emph{Deployment-Pipeline} näher beleuchtet wird.
 
-\textbf{Komponententest.} (Unit testing) Testen kleinster Einheiten.
+Ein Build kann auch als Ergebnis des Building-Vorgangs interpretiert werden, bei dem eine Software als kompilierte Binärdatei oder – abhängig von der Programmiersprache – auch als Quellcode inklusive generierter Artefakte erstellt wird. Ein solcher Build stellt die fertige Anwendung dar und wird meist mit einer eindeutigen Versionsnummer versehen, um ihn von früheren oder späteren Builds zu unterscheiden.
 
-\textbf{Integrationstest.} (Integration testing) Testet voneinander abhängige Komponenten. Abfolge von mehreren Schritten.
+\subsection{Erklärung und Beispiele: Testing}
 
-\textbf{Systemtest.} (System testing) Test auf alle funktionale und nichtfunktionale Anforderungen.
+Tests überprüfen die Qualität und Anforderungen einer Anwendung. Tests, die automatisiert durchgeführt werden können, werden bereits vom Entwickler geschrieben und helfen dabei, Fehler frühzeitig zu erkennen und zu beheben. Hierzu gehören \emph{Komponententests} (engl. unit test), welche kleinste Einheiten der Anwendung überprüfen, und \emph{Integrationstests} (engl. integration test), die das Zusammenspiel verschiedener Komponenten testen. Ebenso ermöglichen jene Tests das fehlerfreie Umstrukturieren von Code (\emph{refactoring}). \citep[104f]{Wolff2016}
 
-\textbf{Akzeptanztest.} (Acceptance testing) Verhalten der Software wird getestet, in Produktivumgebung, durch Kunden, wie der Kunde bzw. Nutzer die Software verwenden würde.
+Eine weitere Art von Test ist der \emph{Akzeptanztest} (engl. acceptance test), bei dem die Funktionalität der Anwendung für den Nutzer überprüft wird. Diese können vom Kunden, einer \ac{QA} oder gar dem Nutzer durchgeführt werden. Akzeptanztests können automatisiert werden, werden oft aber auch manuell durchgeführt.
 
-\textbf{Rauchtest.} (Smoke testing) Anwendung starten und testen, ob sie auch wirklich läuft oder direkt abgestürzt ist. Genannt, weil es ein sehr einfacher Test ist, der direkt nach dem Start der Anwendung getestet werden kann.
+Der \emph{Rauchtest} (engl. smoke test) ist ein sehr einfach umzusetzender Test, bei dem die Software gestartet wird und danach überprüft wird, ob sie noch läuft oder abgestürzt ist. Bei Webanwendungen kann hierfür die Startseite aufgerufen werden und nach einer Zeichenkette gesucht werden, die dort auftauchen sollte.
+
+Letztlich handelt es sich bei einem Build, wie in Kapitel \ref{ssec02:build} definiert, indirekt ebenfalls um einen Test. Ein Build kann fehlschlagen, was z.B. auf Syntaxfehler oder Abweichungen in der Systemumgebung hinweisen kann. Ein erfolgreicher Build gibt die Sicherheit, dass in diesen Aspekten keine Fehler vorhanden sind.
 
 
 \section{Strukturierte Arbeitsabläufe mit automatisierten Deployments}
@@ -75,4 +89,4 @@ Siehe Agile Manifesto\footnote{http://agilemanifesto.org/principles.html}:
 Erweiterung von Continuous Delivery. Deployed wird ständig.
 
 
-\section{Die Deployment-Pipeline als Prozess-Manifestation}
+\section{Die Deployment-Pipeline als Prozess-Manifestation} \label{sec02:deployment-pipeline}
