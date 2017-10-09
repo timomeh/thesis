@@ -68,21 +68,43 @@ Letztlich handelt es sich bei einem Build, wie in Kapitel \ref{ssec02:build} def
 
 \section{Strukturierte Arbeitsabläufe mit automatisierten Deployments}
 
-\begin{draft}
-Bei der Entwicklung von Software in Teams ist es wichtig, dass man strukturiert vorgeht.
+Sobald mehrere Entwickler an einem Projekt arbeiten, ist ein strukturierter Arbeitsablauf notwendig. Im Bezug auf automatisierte Deployments gibt es drei etablierte Verfahrensweisen, die aufeinander aufbauen: \emph{Continuous Integration}, \emph{Continuous Delivery} und \emph{Continuous Deployment}.
+
+Auch ohne zu wissen, was hinter diesen Begriffen steckt, ist die Gemeinsamkeit \emph{``continuous''} erkennbar; zu Deutsch übersetzbar als \emph{kontinuierlich} oder – noch passender: \emph{ununterbrochen}. Wir können jetzt schon darauf schließen, dass in diesen Verfahrensweisen ständig etwas getan wird.
 
 \subsection{Continuous Integration}
 
-Änderungen am Code ständig testen. Mindestens einmal am Tag muss jeder in den master mergen. Master muss immer buildbar sein. Wenn nicht: direkt fixen oder revert.
+Neue oder geänderte Funktionalitäten einer Software können nur selten innerhalb weniger Stunden entwickelt werden. Manche Features benötigen mehrere Tage, Wochen oder gar Monate zur Fertigstellung. Wenn während\-dessen die Anwendung von anderen Entwicklern noch weiterentwickelt wird, kommt irgendwann der Zeitpunkt, an dem jene Änderungen \emph{integriert} werden müssen.
+
+Nun besteht die Gefahr, dass die Integration der Änderungen in die mittlerweile veränderte Anwendung weiteren Aufwand mit sich bringt. Dieses Szenario soll durch \emph{Continuous Integration} verhindert werden.
+
+\ac{CI} bedeutet die ununterbrochene Integration von Änderungen in die Anwendung. Ein Entwickler soll mindestens einmal am Tag seine Änderungen in den Hauptentwicklungszweig (Trunk) integrieren. Bei jeder Integration muss die Anwendung stabil bleiben, alle Tests müssen erfolgreich sein und die Anwendung muss buildbar sein. Sollte eine Integration fehlschlagen, muss sie entweder mit höchster Priorität innerhalb weniger Minuten behoben werden oder rückgängig gemacht werden.
+
+Das Ergebnis von \ac{CI} ist ein Trunk, der zu jedem Zeitpunkt stabil ist und die neusten Änderungen der Software beinhaltet. Um \ac{CI} erfolgreich betreiben zu können und um den Aufwand für den Entwickler zu reduzieren, sollte das stetige Testen neuer Integrationen von einem Automatismus übernommen werden.
+
 
 \subsection{Continuous Delivery}
+
+Continuous Delivery ist die Weiterführung von Continuous Integration. Da der Trunk jederzeit durch einen Automatismus getestet wird, ist es danach auch möglich, den Transfer und die Ausführung der Anwendung, inklusive aller damit verbundenen Schritte, auf eine beliebige Zielumgebung automatisiert durchzuführen.
+
+Nach der Integration muss nicht zwangsläufig ein automatisiertes Deployment erfolgen. Es soll nur möglich sein, die Anwendung ohne weiteren Aufwand automatisiert zu deployen. Dadurch kann beispielsweise ein Tester eigenständig eine bestimmte Version der Anwendung auf eine Testumgebung aufspielen, genauso wie auch ein neuer Release auf einem Produktionsserver ohne Aufwand aufgespielt werden kann.
+
+Das Konzept des Continuous Delivery ist eng verbunden mit der agilen Arbeitsmethode:
+
+\begin{quote}
+  Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
+\end{quote}
+
+Da Continuous Delivery eng mit automatisiertem Deployment in Verbindung steht, werden oft beide Begriffe synonym verwendet.
+
+\begin{draft}
 
 Erweiterung von Continuous Integration. Nach automatisiertem Test/Build auch automatisiert shippen können. Egal welche Zielumgebung/Server, alles automatisch konfiguriert. Je nach Anwendungsfall kann davor auch ein Server automatisch provisioniert werden. Wann deployed wird, kann selbst entschieden werden.
 
 Siehe Agile Manifesto\footnote{http://agilemanifesto.org/principles.html}:
 
 \begin{quote}
-  Our highest priority is to satisfy the customer through early and \emph{continuous delivery} of valuable software.
+  Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
 \end{quote}
 
 
