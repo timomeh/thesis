@@ -1,2 +1,72 @@
 %!TEX root = ../thesis.tex
 \section{Service: Entwurf und Implementierung}
+
+\subsection{Elixir und Phoenix}
+
+Bei Webanwendungen hängt (wie in anderen Domänen auch) die Wahl einer Programmiersprache des Webservices weniger davon ab, welches Problem die Anwendung lösen soll, sondern mehr von den Erfahrungen der im Projekt beteiligten Entwickler ab. Die Auswahl an serverseitigen Programmiersprachen ist groß, und jede Programmiersprache besitzt ihre eigenen Vorteile.
+
+Die Wahl der Programmiersprache fiel für dieses Projekt auf \textbf{Elixir}.
+
+Elixir wurde 2011 von José Valim veröffentlicht und ist somit eine relativ junge Programmiersprache. Elixir basiert jedoch auf Erlang, einer seit 1986 von Ericsson entwickelten Programmiersprache und Laufzeitumgebung. Das Erlang System ist u.a. für seine hohe Verfügbarkeit bekannt, es kann auf vielen Servern parallel laufen und aktualisiert werden, ohne die Anwendung stoppen zu müssen. Die Programmiersprache Erlang ist funktional, weshalb Elixir ebenfalls eine funktionale Programmiersprache ist.
+
+Elixir wurde nicht gewählt, da darin schon Erfahrung besteht, sondern um Erfahrung in Elixir zu erlangen: Zu Beginn der Arbeit waren weder Kenntnisse in Elixir noch in Erlang vorhanden.
+
+Als Webframework für Elixir wurde das bekannteste Framework gewählt: \textbf{Phoenix}.
+
+Phoenix ist ein Framework für Webanwendungen nach dem \ac{MVC} Modell. Es beinhaltet viele nützliche Bestandteile wie eine Datenbank-Abstraktion (ähnlich zu einem \acs{ORM}\footnote{\acf{ORM}; da Elixir eine funktionale Programmiersprache ist und somit keine Objekte besitzt, ist der Begriff \acs{ORM} nicht zutreffend, jedoch vergleichbar mit ORMs aus anderen Sprachen.}) und eine einfache Implementierung von Websockets, welche im weiteren Verlauf der Arbeit zur Echtzeitkommunikation benötigt werden.
+
+\subsection{Entwurf einer RESTful API}
+
+\ac{REST} ist ein von Roy Fielding entworfener Architekturstil für \emph{``verteilte Hypermedia Systeme''}. Fielding nennt grundlegend zwei Bedingungen für ein solches System:
+
+\begin{itemize}
+  \item Die Trennung des Systems in eine Client-Server Architektur. Dies folgt dem Prinzip der ``Trennung der Belange'' \emph{(Separation of Concern)} in das Belangen der Nutzeroberflächer (Client) und das Belangen der Datenverwaltung (Server).
+  \item Die Kommunikation zwischen Client und Server ist zustandslos \emph{(stateless)}. Der Client muss dem Server alle Daten übermitteln, die der Server zum Verständnis und Ausführen der Anfrage benötigt.\footnote{Im Gegensatz zu Sessions, bei denen auf dem Server Informationen zu jedem Client gespeichert werden.}
+\end{itemize}
+
+Alle Interaktionen bestehen grundlegend aus einer Ressource, einem Identifikator und einer Aktion \citep[12]{Webber2010}. REST ist kein Standard, daher kann sich die Implementierung von REST\footnote{Wenn wir REST implementieren, verwenden wir die Adjektivform \emph{``RESTful''}.} von Fall zu Fall unterscheiden. Bei Webanwendungen werden meist mindestens folgende Informationen aus dem HTTP Protokol genutzt:
+
+\begin{itemize}
+  \item Der Pfad der URL bestimmt die Ressource und den Identifikator.
+  \item Die HTTP Methode bestimmt die auszuführende Aktion.
+\end{itemize}
+
+In Richardsons Maturity Model entspricht dies einem Level Two Service (vgl. \citep[20]{Webber2010}). Dabei werden auch HTTP Statuscodes genutzt, um dem Client einen standardisierten Status der Anfrage zu übermitteln.
+
+Für den Service wurden die in Tabelle \ref{tab:rest-routes} definierten Endpunkte für eine RESTful API ausgearbeitet. Als Datenformat soll JSON genutzt werden, was sich für die Verwendung in einem JavaScript-basierten Frontend Client eignet.
+
+\begin{table}[H]
+  \footnotesize
+  \begin{tabularx}{\textwidth}{| l | l | X |}
+    \hline
+    \textbf{Verb} & \textbf{Pfad} & \textbf{Beschreibung} \\ \hline
+    GET & {\scriptsize \texttt{/projects}} & Auflisten aller Projekte \\ \hline
+    POST & {\scriptsize \texttt{/projects}} & Erstellen eines neuen Projekts \\ \hline
+    GET & {\scriptsize \texttt{/projects/:project\_id}} & Auslesen eines Projekts anhand seiner ID \\ \hline
+    PUT & {\scriptsize \texttt{/projects/:project\_id}} & Aktualisieren eines Projekts anhand seiner ID \\ \hline
+    DELETE & {\scriptsize \texttt{/projects/:project\_id}} & Löschen eines Projekts anhand seiner ID \\ \hline
+    GET & {\scriptsize \texttt{/projects/:project\_id/pipelines}} & Auflisten aller Pipelines in einem Projekt \\ \hline
+    POST & {\scriptsize \texttt{/projects/:project\_id/pipelines}} & Erstellen einer neuen Pipeline in einem Projekt \\ \hline
+    GET & {\scriptsize \texttt{/projects/:project\_id/builds}} & Auflisten der letzten Builds eines Projekts anhand seiner ID \\ \hline
+    GET & {\scriptsize \texttt{/pipelines/:pipeline\_id}} & Auslesen einer Pipeline anhand ihrer ID \\ \hline
+    PUT & {\scriptsize \texttt{/pipelines/:pipeline\_id}} & Aktualisieren einer Pipeline anhand ihrer ID \\ \hline
+    DELETE & {\scriptsize \texttt{/pipelines/:pipeline\_id}} & Löschen einer Pipeline anhand ihrer ID \\ \hline
+    GET & {\scriptsize \texttt{/pipelines/:pipeline\_id/builds}} & Auflisten der letzten Builds einer Pipeline anhand ihrer ID \\ \hline
+    GET & {\scriptsize \texttt{/builds/:build\_id}} & Auslesen eines Builds anhand seiner ID \\
+    \hline\hline
+    POST & {\scriptsize \texttt{/webhooks/receive}} & Endpunkt für Git Webhooks mit verschiedenen Aktionen, bspw. Erstellen eines neuen Builds\footnote{Diese Route entspricht nicht einer typischen RESTful Route, wird allerdings für das Empfangen von Webhooks auf diese benötigt} \\
+    \hline
+  \end{tabularx}
+  \caption{RESTful API Routen}
+  \label{tab:rest-routes}
+\end{table}
+
+\subsection{RESTful API in Phoenix}
+
+Die Implementierung der RESTful API besteht in Phoenix aus:
+
+\begin{itemize}
+  \item Konfiguration der Routen
+  \item Erstellen eines Controllers mit zu den Routen passenden Methoden
+  \item Erstellen eines Views zur Ausgabe
+\end{itemize}

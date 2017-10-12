@@ -11,6 +11,7 @@
 \usepackage{dirtree}
 \usepackage{listings}
 \usepackage{inconsolata}
+\usepackage{tabularx}
 \usepackage[capposition=top]{floatrow}
 
 
@@ -24,10 +25,6 @@
 \usepackage[ngerman]{babel}
 \usepackage[printonlyused]{acronym}
 
-
-\newlist{tocpreview}{enumerate}{2}
-\setlist[tocpreview]{label*=\arabic*.}
-
 \setlength{\parskip}\bigskipamount
 \setlength{\parindent}{0pt}
 
@@ -40,6 +37,8 @@
 \renewcommand*\dictumauthorformat[1]{\vspace{0.5em}--- #1\vspace{1em}}
 \renewcommand*\dictumrule{}
 
+\renewcaptionname{ngerman}{\figurename}{Abbildung}
+\renewcaptionname{ngerman}{\tablename}{Tabelle}
 
 \newcommand{\draft}[1]{\color{red}#1}
 
