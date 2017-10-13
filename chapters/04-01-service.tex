@@ -143,7 +143,7 @@ In Zeilen 24 bis 33 des Controllers (Quelltext \ref{lst:pipeline-controller}) is
 
 Beachtenswert sind auch die Funktionsaufrufe, deren Funktionsname mit einem Ausrufezeichen enden. Solche Funktionen können unter Umständen einen Fehler werfen. In Zeile 12 (Quelltext \ref{lst:pipeline-controller}) wird die Funktion \texttt{Projects\allowbreak.get!()} aufgerufen, um ein Projekt anhand seiner ID abzufragen. Sollte kein Projekt mit dieser ID gefunden werden, wirft diese Funktion einen Fehler. Phoenix kann diesen Fehler korrekt interpretieren und antwortet automatisch mit einer entsprechenden Fehlermeldung. Auf diese Weise können auch eigene Fehler implementiert werden.\footnote{vgl. https://hexdocs.pm/phoenix/errors.html}
 
-Die Antwort wird über \texttt{render()} gesendet, die einen zugehörigen View aufruft.
+Die Antwort wird über die Funktion \texttt{render()} gesendet, die einen zugehörigen View aufruft.
 
 \subsubsection{Erstellen eines Views}
 
