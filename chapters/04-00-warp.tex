@@ -71,6 +71,6 @@ Der in Abschnitt \ref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei
 
 Somit muss in der Pipeline konfiguriert werden, welcher Git Reference sie zugeordnet ist. Im gerade beschriebenen Szenario sollte eine Pipeline für \emph{alle} Feature Branches ausgeführt werden. Feature Branches besitzen üblicherweise das Präfix \texttt{feature/}. Beispiele hierfür sind \texttt{feature/worker\-refactor} oder \texttt{feature/queue\-implementation}. Es wäre jedoch unpraktisch, wenn für jeden neuen Feature Branch eine weitere, identische Pipeline angelegt werden muss, bei der sich nur die Git Reference unterscheidet.
 
-Als universelle Lösung für dieses Problem wird ein regulärer Ausdruck als Zuordnung zur Git Reference verwendet. Ein zum Szenario passender Ausdrück wäre \texttt{feature/*\$}. Über ihn können alle Feature Branches der gleichen Pipeline zugeordnet werden.
+Als universelle Lösung für dieses Problem wird ein regulärer Ausdruck als Zuordnung zur Git Reference verwendet. Ein zum Szenario passender Ausdrück wäre \texttt{feature/.*\$}. Über ihn können alle Feature Branches der gleichen Pipeline zugeordnet werden.
 
 In der Datenstruktur (Abbildung \ref{fig:uml}) entspricht dem Feld \emph{git\_ref\_auslöser}.

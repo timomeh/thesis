@@ -61,12 +61,100 @@ Für den Service wurden die in Tabelle \ref{tab:rest-routes} definierten Endpunk
   \label{tab:rest-routes}
 \end{table}
 
+\subsection{Die ``JSON API'' Spezifikation}
+\label{subsec:jsonapi}
+
+Zum Entwurf einer API im JSON Datenformat gibt es u.a. die Spezifikation ``JSON API''. Diese Spezifikation beinhaltet viele Konventionen zu den Daten, die zur API bzw. von der API gesendet werden.
+
+Durch das Befolgen dieser Spezifikation lässt sich ein Level Three Service nach Richardsons Maturity Model implementieren (vgl. \citep[20]{Webber2010}): Durch eingebettete Links zu anderen Ressourcen wird die Bedingung des \emph{Hypermedia as the Engine of Application State (HATEOAS)} erfüllt.
+
+Es ist jedoch sehr aufwändig die gesamte JSON API Spezifikation zu implementieren. Daher wurde sich zur Implementierung auf die Top Level Struktur\footnote{vgl. http://jsonapi.org/format/\#document-top-level} beschränkt. Diese besitzt drei Teile:
+
+\begin{itemize}
+  \item \texttt{data} beinhaltet alle Daten der Ressource.
+  \item \texttt{error} beinhaltet alle Fehler, die durch die Anfrage entstanden sind.
+  \item \texttt{meta} beinhaltet optionale Informationen zur Anfrage.
+\end{itemize}
+
+\lstinputlisting
+  [caption={Vereinfachte Struktur der JSON API Ausgabe},
+  label={lst:jsonapi-simple-example}]
+  {snippets/jsonapi-example.json}
+
 \subsection{RESTful API in Phoenix}
 
 Die Implementierung der RESTful API besteht in Phoenix aus:
 
-\begin{itemize}
+\begin{enumerate}
   \item Konfiguration der Routen
   \item Erstellen eines Controllers mit zu den Routen passenden Methoden
   \item Erstellen eines Views zur Ausgabe
+\end{enumerate}
+
+Im Folgenden wird dieser Prozess anhand der Ressource für Pipelines erklärt.
+
+\subsubsection{Konfiguration der Routen}
+
+Zur Konfiguration der Routen stellt Phoenix die Datei \texttt{router.ex} bereit. Darin können Routen über anhand einer HTTP Methode, einem Pfad, einem Modul und der darin enthaltenen Funktion definiert werden.
+
+\lstinputlisting
+  [caption={Phoenix Router mit HTTP Methoden},
+  label={lst:router-http-verbs},
+  language=elixir]
+  {snippets/pipeline-routes-long.ex}
+
+Phoenix besitzt ebenfalls die Funktion \texttt{resource()}\footnote{In Elixir können Klammern von Funktionen auch ausgelassen werden.} anstatt der HTTP Methode, welche alle Routen für eine REST Ressource erstellt. Diese Funktion lässt sich konfigurieren, um nur bestimmte Routen für eine Ressource zu erstellen oder auch um weitere Routen in einer Ressource zu erstellen.
+
+Die Definitionen aus Quelltext \ref{lst:router-http-verbs} lassen sich damit folgendermaßen umstrukturieren:
+
+\lstinputlisting
+  [caption={Phoenix Router mit REST Ressourcen},
+  label={lst:router-resources},
+  language=elixir]
+  {snippets/pipeline-routes.ex}
+
+Die Ressource für Projekte besitzt in Quelltext \ref{lst:router-resources} durch \texttt{only: []} keine eigenen Routen und erscheint daher überflüssig. Dies soll jedoch nur als Beispiel für verschachtelte Ressourcen dienen. Im finalen Router besitzt die Projekt-Ressource selbstverständlich auch eigene Routen.
+
+\subsubsection{Erstellen eines Controllers}
+
+Ein Controller ist ein Modul mit den im Router definierten Funktionen (vgl. Quelltext \ref{lst:router-http-verbs} und \ref{lst:router-resources}). Demnach werden folgende Funktionen für den \texttt{PipelineController} benötigt:
+
+\begin{itemize}
+  \item \texttt{index} zur Auflistung der Pipelines.
+  \item \texttt{create} zum Erstellen einer Pipeline.
+  \item \texttt{show} zur Ausgabe einer Pipeline.
+  \item \texttt{update} zum Bearbeiten einer Pipeline.
+  \item \texttt{delete} zum Löschen einer Pipeline.
 \end{itemize}
+
+In den Funktionen eines Controllers werden meist Datenbankabfragen und -operationen durchgeführt. In einer Funktion kann auch direkt auf die Datenbank zugegriffen werden, jedoch nutzt Phoenix das Entwurfsmuster der ``Contexts''.
+
+Bei Contexts handelt es sich um kein ausgefallenes Entwurfsmuster. Es beschreibt nur, dass zusammengehörigen Funktionen in einem Modul gruppiert werden sollen. Datenbankabfragen und -operationen für eine Ressource sind zusammengehörige Funktionen, und werden daher in einem Context zusammengefasst. In Quelltext \ref{lst:pipeline-controller} werden zwei Contexts genutzt: \texttt{Warp.Pipelines} und \texttt{Warp.Projects}.
+
+\lstinputlisting
+  [caption={Phoenix Controller für die Pipeline Ressource},
+  label={lst:pipeline-controller},
+  language=elixir]
+  {snippets/pipeline-controller.ex}
+
+Üblicherweise besteht eine Funktion eines Controllers zuerst aus Datenbankabfragen und -operationen und danach aus einer darauf bezogenen Antwort.
+
+In Zeilen 24 bis 33 des Controllers (Quelltext \ref{lst:pipeline-controller}) ist zu sehen, wie je nach Erfolg oder Misserfolg der Funktion \texttt{Pipelines.create()} unterschiedliche Antworten ausgegeben werden.
+
+Beachtenswert sind auch die Funktionsaufrufe, deren Funktionsname mit einem Ausrufezeichen enden. Solche Funktionen können unter Umständen einen Fehler werfen. In Zeile 12 (Quelltext \ref{lst:pipeline-controller}) wird die Funktion \texttt{Projects\allowbreak.get!()} aufgerufen, um ein Projekt anhand seiner ID abzufragen. Sollte kein Projekt mit dieser ID gefunden werden, wirft diese Funktion einen Fehler. Phoenix kann diesen Fehler korrekt interpretieren und antwortet automatisch mit einer entsprechenden Fehlermeldung. Auf diese Weise können auch eigene Fehler implementiert werden.\footnote{vgl. https://hexdocs.pm/phoenix/errors.html}
+
+Die Antwort wird über \texttt{render()} gesendet, die einen zugehörigen View aufruft.
+
+\subsubsection{Erstellen eines Views}
+
+Views sind in Phoenix dazu zuständig, eine Antwort in einem beliebigen Format wie HTML, XML oder JSON auszugeben. Wir nutzen letzteres Format, JSON, zur Implementierung einer API im JSON-Format.
+
+Phoenix transformiert einen Elixir-Hash als Ausgabe im View automatisch zu einem JSON-Objekt. Im View wird folglich nur ein Hash zurückgegeben.
+
+\lstinputlisting
+  [caption={Phoenix View für die Pipeline Ressource},
+  label={lst:pipeline-view},
+  language=elixir]
+  {snippets/pipeline-view.ex}
+
+Um eine einzige Ressource oder eine Liste von Ressourcen zurückzugeben, stellt Phoenix die Funktionen \texttt{render\_one} und \texttt{render\_many} bereit. In Zeile 5 und 9 (Quelltext \ref{lst:pipeline-view}) ist ebenso ersichtlich, dass die Daten der Ressource in dem JSON API Top Level Teil \texttt{data} ausgegeben werden (vgl. Kapitel \ref{subsec:jsonapi}).

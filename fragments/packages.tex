@@ -30,6 +30,11 @@
 
 \bibliographystyle{natdin}
 
+\lstset{aboveskip=\bigskipamount,belowskip=\medskipamount}
+
+\renewcommand{\lstlistlistingname}{Quelltexte}
+\renewcommand{\lstlistingname}{Quelltext}
+
 % Configs for dictum used in chapterpreamble
 \setkomafont{dictumtext}{\itshape}
 \setkomafont{dictumauthor}{\normalfont}
@@ -61,10 +66,9 @@
   morekeywords = [3]{@moduledoc,@doc},
 	sensitive=true,
 	morecomment=[l]{\#},
-	morecomment=[l]{@doc},
   morestring=[b]",
   morestring=[b]',
-	morecomment=[s]{"""}{"""},
+	morecomment=[s]{@doc\ \"""}{"""},
   keywordstyle=\color{listingred},
   keywordstyle=[2]\color{listingred},
   keywordstyle=[3]\color{listinggrey},
