@@ -1,0 +1,29 @@
+pipelines:
+  build_deploy_staging:
+    stages:
+      - title: CI Build
+        steps_parallel:
+          - title: CI Build for Service
+            steps_serial:
+              - run: mix deps.get
+              - run: mix test
+          - title: CI Build for Client
+            steps_serial:
+              - run: npm install
+              - run: npm test
+
+      - title: Deploy
+        steps_parallel:
+          - title: Sync Assets to AWS S3 Bucket
+            run: aws s3 sync ./assets s3://mybucket
+          - title: Copy to Server
+            run: rsync -a . user@remote:/etc/my-project
+
+      - title: Run DB Migrations
+        steps_serial:
+          - run: ssh user@remote "mix ecto.migrate"
+
+      - title: Send Notifications
+        steps_parallel:
+          - run: ./scripts/notify_slack
+          - run: ./scripts/notify_mail

@@ -160,6 +160,7 @@ Phoenix transformiert einen Elixir-Hash als Ausgabe im View automatisch zu einem
 Um eine einzige Ressource oder eine Liste von Ressourcen zurückzugeben, stellt Phoenix die Funktionen \texttt{render\_one} und \texttt{render\_many} bereit. In Zeile 5 und 9 (Quelltext \ref{lst:pipeline-view}) ist ebenso ersichtlich, dass die Daten der Ressource in dem JSON API Top Level Teil \texttt{data} ausgegeben werden (vgl. Kapitel \ref{subsec:jsonapi}).
 
 \subsubsection{Nutzung der angelegten API Routen}
+\label{subsec:api-usage}
 
 Im Folgenden werden die angelegten API Routen zur Verifizierung der Funktionalität und als Beispiel zur Nutzung aufgerufen. Dazu wird das \ac{CLI} \texttt{curl} genutzt. Im Vorfeld wurde ein Projekt mit der ID 1 angelegt.
 
@@ -200,4 +201,59 @@ Zuletzt kann die Pipeline gelöscht werden. Als Bestätigung wird zusätzlich ei
   [caption={API Beispiel: Löschen einer Pipeline}]
   {snippets/api-example-delete-pipeline.txt}
 
+\subsection{Konfiguration einer Pipeline}
+
+In den Beispielen aus Sektion \ref{subsec:api-usage} wurden bisher nur direkte Attribute einer Pipeline angelegt. Die Abschnitte und Schritte einer Pipeline (siehe Sektion \ref{subsec:uml}) wurden darüber allerdings nicht bewusst angelegt. Sie sollen nämlich aus einer Konfigurationsdatei ausgelesen werden.
+
+Das Anlegen komplexer Pipelines mit mehreren Stages, Abschnitten und verschachtelten Abschnitten gestaltet sich über eine UI schwierig und hat schnell das Potential, lästig zu werden. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt auch unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
+
+Es wurde festgelegt, dass die Datei `.warp.yml` im Dokumentenstamm des Projekts vorhanden sein muss. Aus ihr wird der Aufbau der Pipeline ausgelesen und vor dem Starten des Build-Prozesses alle Abschnitte und Schritte in die Datenbank eingetragen.
+
+In der Konfigurationsdatei können sich Konfigurationen für mehrere Pipelines befinden. Die zugehörige Pipeline wird über einen Identifikator bestimmt. (Vgl. \texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, vgl. Sektion \ref{subsec:api-usage})
+
+Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Beispielsweise besitzt JSON, was zur API-Kommunikation genutzt wird, im Gegensatz zu YAML keine Kommentare.
+
+Quelltext \ref{lst:example-config} zeigt eine mögliche Konfiguration. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Abschnitte, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Abschnitte ineinander verschachteln lassen.
+
+\lstinputlisting
+  [caption={Konfiguration einer Pipeline im YAML Format},
+  label={lst:example-config}]
+  {snippets/config-example-yml.yml}
+
+Die Konfigurationsdatei enthält noch andere Besonderheiten, wie bspw. ein \texttt{include} Kennwort, mit dem Stages, Abschnitte und Schritte zwischen in mehreren Pipelines genutzt werden können. Auf weitere Besonderheiten und Implementierungen hierzu wird nicht weiter eingegangen.
+
 \subsection{Ablauf eines Build-Prozesses}
+
+Ein kompletter Build-Prozesses läuft in den folgenden Schritten ab, nachdem ein Git Webhook empfangen wurde:
+
+\begin{description}
+  \item[Schritt 1:] Die Anfrage auf Starten des Build-Prozesses wird in eine Warteschlage pro Pipeline gespeichert. Build-Prozesse der gleichen Pipeline sollen nicht gleichzeitig laufen.
+  \item[Schritt 2:] Abarbeiten der Pipeline-Warteschlange.
+  \item[Schritt 3:] Erstellen eines temporären Ordners, in dem der Build-Prozess ausgeführt wird.
+  \item[Schritt 4:] \texttt{git clone} des Repositories in den temporären Ordner.
+  \item[Schritt 5:] \texttt{git checkout} des Repositories an die im Webhook übertragene Stelle.
+  \item[Schritt 6:] Auslesen der Konfigurationsdatei.
+  \item[Schritt 7:] Abspeichern der Stages, Abschnitte und Schritte.
+  \item[Schritt 8:] Ausführen des eigentlichen Build-Prozesses (\textbf{Build Worker}).
+  \item[Schritt 9:] Darin wird die erste Stage ausgeführt (\textbf{Stage Worker}).
+  \item[Schritt 10:] Darin werden Abschnitte oder Schritte ausgeführt, parallel oder seriell (\textbf{Group Worker} bzw. \textbf{Step Worker}).
+  \item[Schritt 11:] Falls vorhanden, werden darin weitere verschachtelte Abschnitten oder Schritte ausgeführt (zurück zu Schritt 10).
+  \item[Schritt 12:] Ausführen der nächsten Stage (zurück zu Schritt 9).
+  \item[Schritt 13:] Wurden alle Stages ausgeführt, ist der Build Worker beendet.
+  \item[Schritt 14:] Löschen des temporären Ordners.
+\end{description}
+
+Das Ausführen des eigentlichen Build-Prozesses (Schritte 8 bis 13) und dessen Abhängigkeiten zu anderen Workern lässt sich als Prozess grafisch verständlicher in einem vereinfachten Ablaufdiagramm (Abbildung \ref{fig:ablauf-build-prozess}) darstellen.
+
+\begin{figure}[h]
+  \caption{Vereinfachtes Ablaufdiagramm des Build-Prozesses}
+  \label{fig:ablauf-build-prozess}
+  \centering
+    \includegraphics[width=\textwidth]{assets/worker_diagram}
+\end{figure}
+
+In Abbildung \ref{fig:ablauf-build-prozess} ist zu sehen, wie von links nach rechts der Ablauf des Build-Prozesses geleitet wird, bis ganz rechts jeweils ein \emph{Step Worker} den eigentlichen Befehl ausführt.
+
+Verschachtelte Worker melden ihrem übergeordneten Worker, wenn sie ihre Arbeit beendet haben. Der übergeordnete Worker kann nun weitere Worker starten, oder selbst seinem übergeordneten Worker melden, dass er beendet ist. Die Abfolge findet also rein über Kommunikation zwischen den einzelnen Workern statt.
+
+\subsection{Implementierung der Worker des Build-Prozesses}
