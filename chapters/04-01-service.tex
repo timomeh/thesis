@@ -158,3 +158,46 @@ Phoenix transformiert einen Elixir-Hash als Ausgabe im View automatisch zu einem
   {snippets/pipeline-view.ex}
 
 Um eine einzige Ressource oder eine Liste von Ressourcen zurückzugeben, stellt Phoenix die Funktionen \texttt{render\_one} und \texttt{render\_many} bereit. In Zeile 5 und 9 (Quelltext \ref{lst:pipeline-view}) ist ebenso ersichtlich, dass die Daten der Ressource in dem JSON API Top Level Teil \texttt{data} ausgegeben werden (vgl. Kapitel \ref{subsec:jsonapi}).
+
+\subsubsection{Nutzung der angelegten API Routen}
+
+Im Folgenden werden die angelegten API Routen zur Verifizierung der Funktionalität und als Beispiel zur Nutzung aufgerufen. Dazu wird das \ac{CLI} \texttt{curl} genutzt. Im Vorfeld wurde ein Projekt mit der ID 1 angelegt.
+
+Da noch keine Pipelines angelegt wurden, wird bei der Auflistung der Pipelines eine leere Liste zurückgegeben.
+
+\lstinputlisting
+  [caption={API Beispiel: Auflistung aller Pipelines ohne angelegte Pipelines}]
+  {snippets/api-example-get-pipelines.txt}
+
+Um weitere Operationen auf einer Pipeline ausführen zu können, wird zunächst eine Pipeline angelegt.
+
+\lstinputlisting
+  [caption={API Beispiel: Anlegen einer Pipeline}]
+  {snippets/api-example-create-pipeline.txt}
+
+Zur Verifikation kann nochmals die Auflistung aller Pipelines aufgerufen werden. Als Ausgabe erhalten wir nun eine Liste mit einer Entität.
+
+\lstinputlisting
+  [caption={API Beispiel: Auflistung aller Pipelines mit angelegter Pipeline}]
+  {snippets/api-example-get-pipelines-again.txt}
+
+Die Attribute der Pipeline lassen sich alle zusammen oder einzeln bearbeiten. Um genau zu sein handelt es sich beim Aktualisieren einzelner Attribute um eine \texttt{PATCH} Anfrage. Dies wurde zur Vereinfachung und einfacheren Handhabung nicht berücksichtigt und unter \texttt{PUT} zusammengefasst.
+
+\lstinputlisting
+  [caption={API Beispiel: Aktualisierung einer Pipeline}]
+  {snippets/api-example-update-pipeline.txt}
+
+Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spezifikation definiert (siehe Sektion \ref{subsec:jsonapi}) – eine passende Fehlermeldung ausgegeben. In Beispiel \ref{lst:api-example-update-error} wird zur Erzeugung eines Fehlers der Titel der Pipeline auf eine Nummer gesetzt.
+
+\lstinputlisting
+  [caption={API Beispiel: Ungültige Aktualisierung einer Pipeline},
+  label={lst:api-example-update-error}]
+  {snippets/api-example-update-pipeline-error.txt}
+
+Zuletzt kann die Pipeline gelöscht werden. Als Bestätigung wird zusätzlich eine Nachricht ausgegeben.
+
+\lstinputlisting
+  [caption={API Beispiel: Löschen einer Pipeline}]
+  {snippets/api-example-delete-pipeline.txt}
+
+\subsection{Ablauf eines Build-Prozesses}

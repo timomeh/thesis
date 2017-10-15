@@ -1,0 +1,15 @@
+$ curl -i \
+  -X PUT \
+  -d '{"data": {"title": "Build and Deploy to Staging"}}' \
+  -H 'Content-Type: application/json' \
+  http://localhost:4000/api/pipelines/1
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+  "data": {
+    "id": 1,
+    "title": "Build and Deploy to Staging",
+    // ...
+  }
+}

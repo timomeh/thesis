@@ -1,0 +1,16 @@
+$ curl -i \
+  -X PUT \
+  -d '{"data": {"title": 123}}' \
+  -H 'Content-Type: application/json' \
+  http://localhost:4000/api/pipelines/1
+HTTP/1.1 400 Bad Request
+Content-Type: application/json; charset=utf-8
+
+{
+  "errors": [
+    {
+      "title": "Attribute has wrong type",
+      "detail": "Attribute `title` is invalid."
+    }
+  ]
+}

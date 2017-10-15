@@ -30,7 +30,7 @@ Die Webanwendung ist im Client-Service-Modell umgesetzt. Im Folgenden wird die g
   \caption{Architektur der Anwendung}
   \label{fig:architektur}
   \centering
-    \includegraphics[width=\textwidth]{assets/architektur}
+    \includegraphics[width=\textwidth]{assets/systemarchitektur}
 \end{figure}
 
 \subsection{Übersicht über die Anwendung}
@@ -63,7 +63,7 @@ Ein \emph{Schritt} ist die kleinste Einheit des Build-Prozesses. Er besitzt nebe
     \includegraphics[width=\textwidth]{assets/uml}
 \end{figure}
 
-\subsection{Verhalten einer Pipeline}
+\subsection{Zuordnung einer Pipeline zu einem Branch}
 
 In der Praxis ist es sinnvoll für verschiedene Git Branches auch unterschiedliche Build Prozesse auszuführen. Folgendes Szenario zeigt einen dazu passenden Anwendungsfall: Für alle Feature Branches wird nur ein \ac{CI} Build durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, solche Branches auf eine Serverumgebung zu deployen. Wurde ein Feature fertiggestellt, wird der Feature Branch in den Branch \texttt{master} gemerged. Bei Änderungen an diesem Branch wird ein Build Prozess durchgeführt, der zudem auch ein Deployment auf eine Staging-Umgebung beinhaltet. Ein weiterer Branch \texttt{production} ist mit einem Build Prozess verbunden, der ein Deployment auf eine Produktions-Umgebung durchführt.
 

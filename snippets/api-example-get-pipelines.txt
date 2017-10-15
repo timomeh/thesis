@@ -1,0 +1,7 @@
+$ curl -i http://localhost:4000/api/projects/1/pipelines
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+  "data": []
+}

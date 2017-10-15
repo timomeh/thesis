@@ -1,0 +1,17 @@
+$ curl -i \
+  -X POST \
+  -d '{"data": {"title": "Build & Deploy to Staging", "ref_match": "staging$", "human_id": "build_deploy_staging"}}' \
+  -H 'Content-Type: application/json' \
+  http://localhost:4000/api/projects/1/pipelines
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+
+{
+  "data": {
+    "id": 1,
+    "title": "Build & Deploy to Staging",
+    "ref_match": "staging$",
+    "project_id": 1,
+    // ...
+  }
+}
