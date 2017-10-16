@@ -33,7 +33,7 @@ Alle Interaktionen bestehen grundlegend aus einer Ressource, einem Identifikator
 
 In Richardsons Maturity Model entspricht dies einem Level Two Service (vgl. \citep[20]{Webber2010}). Dabei werden auch HTTP Statuscodes genutzt, um dem Client einen standardisierten Status der Anfrage zu übermitteln.
 
-Für den Service wurden die in Tabelle \ref{tab:rest-routes} definierten Endpunkte für eine RESTful API ausgearbeitet. Als Datenformat soll JSON genutzt werden, was sich für die Verwendung in einem JavaScript-basierten Frontend Client eignet.
+Für den Service wurden die in Tabelle \ref{tab:rest-routes} definierten Endpunkte für eine RESTful API ausgearbeitet. Als Datenformat wurde JSON gewählt. Dies eignet sich besonders für die Verwendung in einem JavaScript-basierten Frontend Client.
 
 \begin{table}[H]
   \footnotesize
@@ -66,9 +66,9 @@ Für den Service wurden die in Tabelle \ref{tab:rest-routes} definierten Endpunk
 
 Zum Entwurf einer API im JSON Datenformat gibt es u.a. die Spezifikation ``JSON API''. Diese Spezifikation beinhaltet viele Konventionen zu den Daten, die zur API bzw. von der API gesendet werden.
 
-Durch das Befolgen dieser Spezifikation lässt sich ein Level Three Service nach Richardsons Maturity Model implementieren (vgl. \citep[20]{Webber2010}): Durch eingebettete Links zu anderen Ressourcen wird die Bedingung des \emph{Hypermedia as the Engine of Application State (HATEOAS)} erfüllt.
+Durch das Befolgen dieser Spezifikation lässt sich ein Level Three Service nach Richardsons Maturity Model implementieren (vgl. \citep[20]{Webber2010}): eingebettete Links zu anderen Ressourcen erfüllen die Bedingung des \emph{Hypermedia as the Engine of Application State (HATEOAS)}.
 
-Es ist jedoch sehr aufwändig die gesamte JSON API Spezifikation zu implementieren. Daher wurde sich zur Implementierung auf die Top Level Struktur\footnote{vgl. http://jsonapi.org/format/\#document-top-level} beschränkt. Diese besitzt drei Teile:
+Es ist jedoch sehr aufwändig die gesamte JSON API Spezifikation zu befolgen. Daher wurde sich zur Implementierung vorerst auf die Top Level Struktur\footnote{vgl. http://jsonapi.org/format/\#document-top-level} beschränkt. Diese besitzt drei Teile:
 
 \begin{itemize}
   \item \texttt{data} beinhaltet alle Daten der Ressource.
@@ -81,169 +81,95 @@ Es ist jedoch sehr aufwändig die gesamte JSON API Spezifikation zu implementier
   label={lst:jsonapi-simple-example}]
   {snippets/jsonapi-example.json}
 
-\subsection{RESTful API in Phoenix}
+\subsection{Nutzung der API}
 
-Die Implementierung der RESTful API besteht in Phoenix aus:
-
-\begin{enumerate}
-  \item Konfiguration der Routen
-  \item Erstellen eines Controllers mit zu den Routen passenden Methoden
-  \item Erstellen eines Views zur Ausgabe
-\end{enumerate}
-
-Im Folgenden wird dieser Prozess anhand der Ressource für Pipelines erklärt.
-
-\subsubsection{Konfiguration der Routen}
-
-Zur Konfiguration der Routen stellt Phoenix die Datei \texttt{router.ex} bereit. Darin können Routen über anhand einer HTTP Methode, einem Pfad, einem Modul und der darin enthaltenen Funktion definiert werden.
-
-\lstinputlisting
-  [caption={Phoenix Router mit HTTP Methoden},
-  label={lst:router-http-verbs},
-  language=elixir]
-  {snippets/pipeline-routes-long.ex}
-
-Phoenix besitzt ebenfalls die Funktion \texttt{resource()}\footnote{In Elixir können Klammern von Funktionen auch ausgelassen werden.} anstatt der HTTP Methode, welche alle Routen für eine REST Ressource erstellt. Diese Funktion lässt sich konfigurieren, um nur bestimmte Routen für eine Ressource zu erstellen oder auch um weitere Routen in einer Ressource zu erstellen.
-
-Die Definitionen aus Quelltext \ref{lst:router-http-verbs} lassen sich damit folgendermaßen umstrukturieren:
-
-\lstinputlisting
-  [caption={Phoenix Router mit REST Ressourcen},
-  label={lst:router-resources},
-  language=elixir]
-  {snippets/pipeline-routes.ex}
-
-Die Ressource für Projekte besitzt in Quelltext \ref{lst:router-resources} durch \texttt{only: []} keine eigenen Routen und erscheint daher überflüssig. Dies soll jedoch nur als Beispiel für verschachtelte Ressourcen dienen. Im finalen Router besitzt die Projekt-Ressource selbstverständlich auch eigene Routen.
-
-\subsubsection{Erstellen eines Controllers}
-
-Ein Controller ist ein Modul mit den im Router definierten Funktionen (vgl. Quelltext \ref{lst:router-http-verbs} und \ref{lst:router-resources}). Demnach werden folgende Funktionen für den \texttt{PipelineController} benötigt:
-
-\begin{itemize}
-  \item \texttt{index} zur Auflistung der Pipelines.
-  \item \texttt{create} zum Erstellen einer Pipeline.
-  \item \texttt{show} zur Ausgabe einer Pipeline.
-  \item \texttt{update} zum Bearbeiten einer Pipeline.
-  \item \texttt{delete} zum Löschen einer Pipeline.
-\end{itemize}
-
-In den Funktionen eines Controllers werden meist Datenbankabfragen und -operationen durchgeführt. In einer Funktion kann auch direkt auf die Datenbank zugegriffen werden, jedoch nutzt Phoenix das Entwurfsmuster der ``Contexts''.
-
-Bei Contexts handelt es sich um kein ausgefallenes Entwurfsmuster. Es beschreibt nur, dass zusammengehörigen Funktionen in einem Modul gruppiert werden sollen. Datenbankabfragen und -operationen für eine Ressource sind zusammengehörige Funktionen, und werden daher in einem Context zusammengefasst. In Quelltext \ref{lst:pipeline-controller} werden zwei Contexts genutzt: \texttt{Warp.Pipelines} und \texttt{Warp.Projects}.
-
-\lstinputlisting
-  [caption={Phoenix Controller für die Pipeline Ressource},
-  label={lst:pipeline-controller},
-  language=elixir]
-  {snippets/pipeline-controller.ex}
-
-Üblicherweise besteht eine Funktion eines Controllers zuerst aus Datenbankabfragen und -operationen und danach aus einer darauf bezogenen Antwort.
-
-In Zeilen 24 bis 33 des Controllers (Quelltext \ref{lst:pipeline-controller}) ist zu sehen, wie je nach Erfolg oder Misserfolg der Funktion \texttt{Pipelines.create()} unterschiedliche Antworten ausgegeben werden.
-
-Beachtenswert sind auch die Funktionsaufrufe, deren Funktionsname mit einem Ausrufezeichen enden. Solche Funktionen können unter Umständen einen Fehler werfen. In Zeile 12 (Quelltext \ref{lst:pipeline-controller}) wird die Funktion \texttt{Projects\allowbreak.get!()} aufgerufen, um ein Projekt anhand seiner ID abzufragen. Sollte kein Projekt mit dieser ID gefunden werden, wirft diese Funktion einen Fehler. Phoenix kann diesen Fehler korrekt interpretieren und antwortet automatisch mit einer entsprechenden Fehlermeldung. Auf diese Weise können auch eigene Fehler implementiert werden.\footnote{vgl. https://hexdocs.pm/phoenix/errors.html}
-
-Die Antwort wird über die Funktion \texttt{render()} gesendet, die einen zugehörigen View aufruft.
-
-\subsubsection{Erstellen eines Views}
-
-Views sind in Phoenix dazu zuständig, eine Antwort in einem beliebigen Format wie HTML, XML oder JSON auszugeben. Wir nutzen letzteres Format, JSON, zur Implementierung einer API im JSON-Format.
-
-Phoenix transformiert einen Elixir-Hash als Ausgabe im View automatisch zu einem JSON-Objekt. Im View wird folglich nur ein Hash zurückgegeben.
-
-\lstinputlisting
-  [caption={Phoenix View für die Pipeline Ressource},
-  label={lst:pipeline-view},
-  language=elixir]
-  {snippets/pipeline-view.ex}
-
-Um eine einzige Ressource oder eine Liste von Ressourcen zurückzugeben, stellt Phoenix die Funktionen \texttt{render\_one} und \texttt{render\_many} bereit. In Zeile 5 und 9 (Quelltext \ref{lst:pipeline-view}) ist ebenso ersichtlich, dass die Daten der Ressource in dem JSON API Top Level Teil \texttt{data} ausgegeben werden (vgl. Kapitel \ref{subsec:jsonapi}).
-
-\subsubsection{Nutzung der angelegten API Routen}
-\label{subsec:api-usage}
-
-Im Folgenden werden die angelegten API Routen zur Verifizierung der Funktionalität und als Beispiel zur Nutzung aufgerufen. Dazu wird das \ac{CLI} \texttt{curl} genutzt. Im Vorfeld wurde ein Projekt mit der ID 1 angelegt.
-
-Da noch keine Pipelines angelegt wurden, wird bei der Auflistung der Pipelines eine leere Liste zurückgegeben.
-
-\lstinputlisting
-  [caption={API Beispiel: Auflistung aller Pipelines ohne angelegte Pipelines}]
-  {snippets/api-example-get-pipelines.txt}
-
-Um weitere Operationen auf einer Pipeline ausführen zu können, wird zunächst eine Pipeline angelegt.
-
-\lstinputlisting
-  [caption={API Beispiel: Anlegen einer Pipeline}]
-  {snippets/api-example-create-pipeline.txt}
-
-Zur Verifikation kann nochmals die Auflistung aller Pipelines aufgerufen werden. Als Ausgabe erhalten wir nun eine Liste mit einer Entität.
+Auf die Details der Implementierung wird nicht genauer eingegangen. Folgende Beispiele verdeutlichen jedoch die Nutzung der API mit dem \ac{CLI} \texttt{curl}. In einem Browser-Client kann hierfür auch auf ähnlich Weise die fetch-API genutzt werden.
 
 \lstinputlisting
   [caption={API Beispiel: Auflistung aller Pipelines mit angelegter Pipeline}]
   {snippets/api-example-get-pipelines-again.txt}
 
-Die Attribute der Pipeline lassen sich alle zusammen oder einzeln bearbeiten. Um genau zu sein handelt es sich beim Aktualisieren einzelner Attribute um eine \texttt{PATCH} Anfrage. Dies wurde zur Vereinfachung und einfacheren Handhabung nicht berücksichtigt und unter \texttt{PUT} zusammengefasst.
+\lstinputlisting
+  [caption={API Beispiel: Anlegen einer Pipeline}]
+  {snippets/api-example-create-pipeline.txt}
 
 \lstinputlisting
-  [caption={API Beispiel: Aktualisierung einer Pipeline}]
-  {snippets/api-example-update-pipeline.txt}
+  [caption={API Beispiel: Löschen einer Pipeline}]
+  {snippets/api-example-delete-pipeline.txt}
 
-Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spezifikation definiert (siehe Sektion \ref{subsec:jsonapi}) – eine passende Fehlermeldung ausgegeben. In Beispiel \ref{lst:api-example-update-error} wird zur Erzeugung eines Fehlers der Titel der Pipeline auf eine Nummer gesetzt.
+Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spezifikation definiert (siehe Sektion \ref{subsec:jsonapi}) – eine passende Fehlermeldung ausgegeben. In Beispiel \ref{lst:api-example-update-error} wird zur Erzeugung eines Fehlers der Titel der Pipeline auf eine Nummer aktualisiert.
 
 \lstinputlisting
   [caption={API Beispiel: Ungültige Aktualisierung einer Pipeline},
   label={lst:api-example-update-error}]
   {snippets/api-example-update-pipeline-error.txt}
 
-Zuletzt kann die Pipeline gelöscht werden. Als Bestätigung wird zusätzlich eine Nachricht ausgegeben.
-
-\lstinputlisting
-  [caption={API Beispiel: Löschen einer Pipeline}]
-  {snippets/api-example-delete-pipeline.txt}
 
 \subsection{Konfiguration einer Pipeline}
 
-In den Beispielen aus Sektion \ref{subsec:api-usage} wurden bisher nur direkte Attribute einer Pipeline angelegt. Die Abschnitte und Schritte einer Pipeline (siehe Sektion \ref{subsec:uml}) wurden darüber allerdings nicht bewusst angelegt. Sie sollen nämlich aus einer Konfigurationsdatei ausgelesen werden.
+Über die API werden nur die Attribute der Pipeline angelegt, nicht jedoch die Stages, Gruppen und Schritte der Pipeline (siehe Sektion \ref{subsec:uml}). Dies wurde bewusst nicht über die API implementiert. Die Stages, Gruppen und Schritte sollen nämlich aus einer Konfigurationsdatei ausgelesen werden.
 
-Das Anlegen komplexer Pipelines mit mehreren Stages, Abschnitten und verschachtelten Abschnitten gestaltet sich über eine UI schwierig und hat schnell das Potential, lästig zu werden. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt auch unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
+Das Anlegen komplexer Pipelines mit mehreren Stages, Abschnitten und verschachtelten Gruppen gestaltet sich über eine UI schwierig. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt auch unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
 
-Es wurde festgelegt, dass die Datei `.warp.yml` im Dokumentenstamm des Projekts vorhanden sein muss. Aus ihr wird der Aufbau der Pipeline ausgelesen und vor dem Starten des Build-Prozesses alle Abschnitte und Schritte in die Datenbank eingetragen.
+Eine Datei namens `.warp.yml` im Dokumentenstamm des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses als Entitäten gespeichert.
 
-In der Konfigurationsdatei können sich Konfigurationen für mehrere Pipelines befinden. Die zugehörige Pipeline wird über einen Identifikator bestimmt. (Vgl. \texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, vgl. Sektion \ref{subsec:api-usage})
+Die Zugehörigkeit zwischen Pipeline in der Datenbank und in der Konfigurationsdatei wird über einen Identifikator bestimmt. (Vgl. \texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, vgl. Sektion \ref{subsec:api-usage})
 
-Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Beispielsweise besitzt JSON, was zur API-Kommunikation genutzt wird, im Gegensatz zu YAML keine Kommentare.
+Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Im Gegensatz zu JSON, was zur API-Kommunikation genutzt wird, besitzt YAML beispielweise Kommentare.
 
-Quelltext \ref{lst:example-config} zeigt eine mögliche Konfiguration. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Abschnitte, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Abschnitte ineinander verschachteln lassen.
+Quelltext \ref{lst:example-config} zeigt eine mögliche Konfiguration. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Gruppen, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Abschnitte ineinander verschachteln lassen.
 
 \lstinputlisting
   [caption={Konfiguration einer Pipeline im YAML Format},
   label={lst:example-config}]
   {snippets/config-example-yml.yml}
 
-Die Konfigurationsdatei enthält noch andere Besonderheiten, wie bspw. ein \texttt{include} Kennwort, mit dem Stages, Abschnitte und Schritte zwischen in mehreren Pipelines genutzt werden können. Auf weitere Besonderheiten und Implementierungen hierzu wird nicht weiter eingegangen.
+Die Konfigurationsdatei enthält noch andere Besonderheiten, wie u.a. ein \texttt{include} Befehl, mit dem Stages, Gruppen und Schritte zwischen in mehreren Pipelines genutzt werden können. Auf weitere Besonderheiten und Implementierungen hierzu wird nicht eingegangen.
+
+\subsubsection{Zuordnung einer Pipeline zu einem Branch}
+\label{subsec:git-reference}
+
+In der Praxis ist es sinnvoll für verschiedene Git Branches auch unterschiedliche Build Prozesse auszuführen. Folgendes Szenario zeigt einen dazu passenden Anwendungsfall:
+
+Für alle Feature Branches eines Projekts wird nur ein \ac{CI} Build durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, solche Branches auf eine Serverumgebung zu deployen. Wurde ein Feature fertiggestellt, wird der Feature Branch in den Branch \texttt{master} gemerged. Bei Änderungen an diesem Branch wird ein Build Prozess durchgeführt, der zudem auch ein Deployment auf eine Staging-Umgebung beinhaltet. Ein weiterer Branch \texttt{production} ist mit einem Build Prozess verbunden, der ein Deployment auf eine Produktions-Umgebung durchführt.
+
+Der in Abschnitt \ref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei jedem Push in das Remote Repository ausgeführt. Aus ihm müssen wir auslesen, welche Pipeline dem Push zugeordnet ist. Dies kann über die Git Reference gelöst werden, aus der man den Namen des zugehörigen Branches und sogar auch den Namen eines Git Tags auslesen kann.
+
+Somit wird in der Pipeline konfiguriert, welcher Git Reference sie zugeordnet ist. Im gerade beschriebenen Szenario sollte eine Pipeline für \emph{alle} Feature Branches ausgeführt werden. Feature Branches besitzen üblicherweise das Präfix \texttt{feature/} (z.B. \texttt{feature/worker\allowbreak -refactor} oder \texttt{feature/queue\allowbreak -implementation}). Es wäre jedoch unpraktisch, wenn für jeden neuen Feature Branch eine weitere, identische Pipeline angelegt werden muss, bei der sich nur die Git Reference unterscheidet.
+
+Als universelle Lösung für dieses Problem wird ein regulärer Ausdruck als Zuordnung zur Git Reference verwendet. Ein zum Szenario passender Ausdrück wäre \texttt{feature/.*\$}. Über ihn können alle Feature Branches der gleichen Pipeline zugeordnet werden.
+
+In der Datenstruktur (Abbildung \ref{fig:uml}) entspricht dem Feld \emph{git\_ref\_auslöser}.
+
+\subsubsection{Speichern von Konfigurationen in der Datenbank und der Konfigurationsdatei}
+
+Ursprünglich wurde nicht geplant, dass eine Pipeline über die API angelegt werden muss. Alle Konfigurationen sollten über die Konfigurationsdatei ausgelesen werden.
+
+In der Praxis hat sich dies als problematisch erwiesen. Bei jedem Webhook hätte ein Build-Prozess initialisiert werden müssen, um in der Konfigurationsdatei nach einer passenden Git Reference (siehe Abschnitt \ref{subsec:git-reference}) zu suchen. Wenn keine passende Git Reference gefunden wird, müsste der Build-Prozess sofort abgebrochen werden.
+
+Da dies einen großen Overhead erzeugt, wurden bestimmte Attribute der Pipeline, vor allem der Reguläre Ausdruck der Git Reference, in die Datenbank ausgelagert. Bei einem einkommenden Webhook kann dadurch direkt in der Datenbank nach einer zugehörigen Pipeline gesucht werden. Wenn keine gefunden wird, muss auch kein Build-Prozess initialisiert werden.
 
 \subsection{Ablauf eines Build-Prozesses}
+\label{subsec:ablauf-build}
 
-Ein kompletter Build-Prozesses läuft in den folgenden Schritten ab, nachdem ein Git Webhook empfangen wurde:
+Die Ausführung eines Build-Prozesses wird anfangs in einer Warteschlange pro Pipeline zwischengespeichert. Build-Prozesse einer Pipeline sollen nicht simultan ausgeführt werden.
+
+Für jeden Eintrag in der Warteschlange werden folgende Schritte ausgeführt:
 
 \begin{description}
-  \item[Schritt 1:] Die Anfrage auf Starten des Build-Prozesses wird in eine Warteschlage pro Pipeline gespeichert. Build-Prozesse der gleichen Pipeline sollen nicht gleichzeitig laufen.
-  \item[Schritt 2:] Abarbeiten der Pipeline-Warteschlange.
-  \item[Schritt 3:] Erstellen eines temporären Ordners, in dem der Build-Prozess ausgeführt wird.
-  \item[Schritt 4:] \texttt{git clone} des Repositories in den temporären Ordner.
-  \item[Schritt 5:] \texttt{git checkout} des Repositories an die im Webhook übertragene Stelle.
-  \item[Schritt 6:] Auslesen der Konfigurationsdatei.
-  \item[Schritt 7:] Abspeichern der Stages, Abschnitte und Schritte.
-  \item[Schritt 8:] Ausführen des eigentlichen Build-Prozesses (\textbf{Build Worker}).
-  \item[Schritt 9:] Darin wird die erste Stage ausgeführt (\textbf{Stage Worker}).
-  \item[Schritt 10:] Darin werden Abschnitte oder Schritte ausgeführt, parallel oder seriell (\textbf{Group Worker} bzw. \textbf{Step Worker}).
-  \item[Schritt 11:] Falls vorhanden, werden darin weitere verschachtelte Abschnitten oder Schritte ausgeführt (zurück zu Schritt 10).
-  \item[Schritt 12:] Ausführen der nächsten Stage (zurück zu Schritt 9).
-  \item[Schritt 13:] Wurden alle Stages ausgeführt, ist der Build Worker beendet.
-  \item[Schritt 14:] Löschen des temporären Ordners.
+  \item[Schritt 1:] Erstellen einer temporären Umgebung, in dem der Build-Prozess ausgeführt wird. In diesem Fall ein Ordner, in dem die Ausführung stattfindet.
+  \item[Schritt 2:] \texttt{git clone} des Repositories in der temporäre Umgebung.
+  \item[Schritt 3:] \texttt{git checkout} des Repositories an den im Webhook übertragenen Commit SHA.
+  \item[Schritt 4:] Auslesen der Konfigurationsdatei und speichern der Stages, Gruppen und Schritte des Build-Prozesses in der Datenbank.
+  \item[Schritt 5:] Starten des \textbf{Build Workers}.
+  \item[Schritt 6:] Darin werden nacheinander die Stages aufgerufen. Eine Stage ist ein \textbf{serieller Group Worker}.
+  \item[Schritt 7:] In jeder Stage werden weitere Gruppen oder Schritte ausgeführt, parallel oder seriell (\textbf{Group Worker} bzw. \textbf{Step Worker}).
+  \item[Schritt 8:] Falls vorhanden werden rekursiv weitere Gruppen oder Schritte ausgeführt.
+  \item[Schritt 9:] Wurden alle Stages ausgeführt, wird der Build Worker beendet.
+  \item[Schritt 10:] Löschen der temporären Umgebung.
 \end{description}
 
-Das Ausführen des eigentlichen Build-Prozesses (Schritte 8 bis 13) und dessen Abhängigkeiten zu anderen Workern lässt sich als Prozess grafisch verständlicher in einem vereinfachten Ablaufdiagramm (Abbildung \ref{fig:ablauf-build-prozess}) darstellen.
+Das Ausführen des eigentlichen Build-Prozesses (Schritte 5 bis 9) und dessen Abhängigkeiten zu anderen Workern lässt sich als Prozess grafisch verständlicher in einem vereinfachten Ablaufdiagramm (Abbildung \ref{fig:ablauf-build-prozess}) darstellen.
 
 \begin{figure}[h]
   \caption{Vereinfachtes Ablaufdiagramm des Build-Prozesses}
@@ -254,6 +180,140 @@ Das Ausführen des eigentlichen Build-Prozesses (Schritte 8 bis 13) und dessen A
 
 In Abbildung \ref{fig:ablauf-build-prozess} ist zu sehen, wie von links nach rechts der Ablauf des Build-Prozesses geleitet wird, bis ganz rechts jeweils ein \emph{Step Worker} den eigentlichen Befehl ausführt.
 
-Verschachtelte Worker melden ihrem übergeordneten Worker, wenn sie ihre Arbeit beendet haben. Der übergeordnete Worker kann nun weitere Worker starten, oder selbst seinem übergeordneten Worker melden, dass er beendet ist. Die Abfolge findet also rein über Kommunikation zwischen den einzelnen Workern statt.
+Verschachtelte Worker melden ihrem übergeordneten Worker, wenn sie ihre Arbeit beendet haben. Der übergeordnete Worker kann darauf weitere Worker starten, oder selbst seinem übergeordneten Worker melden, dass er beendet ist. Die Abfolge findet also rein über Kommunikation zwischen den einzelnen Workern statt.
 
-\subsection{Implementierung der Worker des Build-Prozesses}
+Auch wenn bei einem Schritt ein Fehler auftritt, wird dem übergeordneten Worker der Fehler gemeldet. Dieser beendet nun möglicherweise aktive Kinder und meldet den Fehler seinem übergeordneten Worker. Somit werden Fehler im Schneeballprinzip im gesamten Prozess bekannt gegeben und der gesamte Prozess geleitet abgebrochen.
+
+Alle Worker übermitteln über einen Websocket die aktualisierten Daten der jeweiligen Entität, damit die Änderungen auch direkt Client angezeigt werden können.
+
+\subsection{Grundlagen der Worker des Build-Prozesses}
+
+Ein \textbf{Worker} ist ein Konzept in der Software-Programmierung, bei dem eine Aufgabe einem nebenläufigen Prozess zugeteilt wird. Hat ein Worker seine Arbeit beendet, ruft er einen Callback auf, um nächste Schritte auszuführen.
+
+Erlang (und somit auch Elixir) besitzt die Möglichkeit nebenläufige Prozesse zu starten. Diese sind keine Betriebssystem-Prozesse, sondern eigene Prozesse der Erlang VM. Durch die ressourcensparende Natur dieser Prozesse erlaubt es Erlang, eine Vielzahl von Prozessen in einer Anwendung zu verwalten. \citep[133]{Armstrong2007}
+
+Prozesse kommunizieren untereinander mit Nachrichten und können besitzen einen Speicher bzw. Zustand (State). Diese Eigenschaften eignen sich sehr gut zur Implementierung der in Sektion \ref{subsec:ablauf-build} beschriebenen Worker.
+
+\subsubsection{Aufteilung der Worker}
+\label{subsec:aufteilung-der-worker}
+
+Die Worker für den Build-Prozess wurden, getrennt nach ihrer Aufgabe, in verschiedene Module aufgeteilt:
+
+\begin{description}
+  \item [PipelineQueue] Eine Queue für Build-Prozesse jeder Pipeline.
+  \item [InitWorker] Initialisiert den Build-Prozess von der Erstellung des temporären Ordners, über \texttt{git clone} und \texttt{git checkout} bis hin zum Abspeichern der Stages, Abschnitte und Schritte aus der Konfigurationsdatei.
+  \item [BuildWorker] Verwaltet die Build-Entität und startet die darin befindlichen Stages.
+  \item [GroupWorker] Verwaltet die Stage- \emph{oder} Abschnitt-Entität und startet die darin befindlichen Abschnitte oder Schritte. Stage und Abschnitt unterscheiden sich nur darin, dass Stages immer seriell ausgeführt werden, weshalb diese in einem Modul zusammengefasst werden können.
+  \item [StepWorker] Verwaltet die Schritt-Entität und führt ihren Befehl aus.
+\end{description}
+
+\subsubsection{Nutzung von GenServer}
+
+Ein \emph{GenServer} ist ein Prozess, der spezielle Funktionen bereitstellt, um State im Prozess zu speichern und die Kommunikation zwischen Prozessen zu erleichtern.
+
+Mittels \texttt{call/3} und \texttt{cast/2} lassen sich Nachrichten an einen GenServer senden, worauf der GenServer eine Funktion ausführen kann.
+
+\texttt{call} ist eine synchrone Nachricht: nach Aufruf der Funktion wird auf eine Antwort gewartet. Im Gegensatz dazu ist \texttt{cast} eine asynchrone Nachricht, die keine Antwort erwartet.
+
+Der GenServer nimmt diese Nachrichten über die Callbacks \texttt{handle\_\allowbreak call/3} und \texttt{handle\_\allowbreak cast/2} an.
+
+\subsection{Implementierung eines Workers}
+
+In diesem Abschnitt wird die Implementierung eines Workers mittels GenServer anhand des Build-Workers verdeutlicht. Er ist für die Build-Entität verantwortlich, startet Stages und reagiert auf Callbacks der Stage.
+
+Ein GenServer kann mit \texttt{start/3} oder \texttt{start\_link/3} gestartet werden. Letzteres startet den GenServer unter einem \emph{Supervision Tree}. Der GenServer wird automatisch beendet, wenn der aufrufende Prozess beendet wurde. Da der Build-Prozess eigenständig ausgeführt werden soll, wird \texttt{start} verwendet.
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Initialisierung},
+  language=elixir,
+  firstline=1,
+  lastline=12]
+  {snippets/build-worker.ex}
+
+Der Name \texttt{start} ist irreführend: es wird noch nicht der Build-Prozess gestartet, sondern vorerst der Build-Worker initialisiert.
+
+Als State wird im Build-Worker die Datenbank-Entität des Builds, welche auch alle verschachtelten Entitäten besitzt, und der Index der aktiven Stage gespeichert. Außerdem wird die ID des Projekts gespeichert. Sie wird dazu benötigt, um Nachrichten über Websockets zu senden. Diese Nachrichten werden in einen Kanal gesendet, der über die Projekt-ID identifiziert wird.
+
+Der Befehl \texttt{Process.flag(:trap\_exit,\allowbreak\ true)} sorgt dafür, dass vor Beenden des GenServers die Funktion \texttt{terminate/2} aufgerufen wird. Diese wird am Ende des BuildWorkers noch benötigt.
+
+Als Hilfsmittel stellt Build-Worker eine Funktion bereit, um den Build-Prozess zu starten. Zum Starten wird die Nachricht \texttt{:run} an den Build-Worker übermittelt.
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Client-Funktionen},
+  language=elixir,
+  firstline=14,
+  lastline=16]
+  {snippets/build-worker.ex}
+
+Mittels der beiden Funktionen \texttt{start/2} und \texttt{run/1} kann schon der Build-Worker initialisiert und gestartet werden.
+
+\lstinputlisting
+  [caption={Beispiel zum Initialiseren und Starten des BuildWorkers},
+  language=elixir]
+  {snippets/build-worker-start.ex}
+
+Der GenServer muss nun auf die Nachricht \texttt{:run} reagieren. Da es sich um einen \texttt{cast/2} handelt, wird keine Antwort darauf gesendet. In diesem Callback wird die nächste Stage ausgeführt. Ist noch keine Stage aktiv, wird die erste Stage ausgeführt.
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Empfangen einer cast-Nachricht zum Starten des Build-Workers},
+  language=elixir,
+  firstline=18,
+  lastline=30]
+  {snippets/build-worker.ex}
+
+Die Funktion \texttt{run\_\allowbreak next\_\allowbreak stage/1} erhöht den Index der aktiven Stage und führt die entsprechende Stage als GroupWorker aus (vgl. Abschnitt \ref{subsec:aufteilung-der-worker}):
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Starten eines GroupWorkers für eine Stage},
+  language=elixir,
+  firstline=32,
+  lastline=45]
+  {snippets/build-worker.ex}
+
+An dieser Stelle der Ausführung läuft ein ausgegliederter Prozess, der eine Stage abarbeitet. Wir können diesen Prozess als Blackbox betrachten: was genau in ihm passiert, ist für den BuildWorker irrelevant. Wird der GroupWorker beendet, empfängt der BuildWorker eine entsprechende Nachricht.
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Nachricht über erfolgreiches Beenden des GroupWorkers},
+  language=elixir,
+  firstline=47,
+  lastline=63]
+  {snippets/build-worker.ex}
+
+Wenn es weitere Stages gibt, wird dort die nächste Stage aufgerufen. Wurde die letzte Stage des Builds beendet, wird auch der BuildWorker beendet.
+
+Sollte der GroupWorker mit einem Fehler beendet werden, beispielsweise weil ein Schritt nicht erfolgreich war, werden wir hierüber auch benachrichtigt. Der BuildWorker reagiert in diesem Fall darauf, dass er sich ebenfalls mit einem Fehler beendet.
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Nachricht über fehlerhaftes Beenden des GroupWorkers},
+  language=elixir,
+  firstline=65,
+  lastline=68]
+  {snippets/build-worker.ex}
+
+Wie oben erwähnt, wird direkt vor dem Beenden des GenServers die Funktion \texttt{terminate/2} aufgerufen. Hier wird u.a. der Status des Builds in der Datenbank aktualisiert.
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Terminieren},
+  language=elixir,
+  firstline=70,
+  lastline=87]
+  {snippets/build-worker.ex}
+
+An einigen Stellen des Workers wird die Funktion \texttt{broadcast/2} aufgerufen. Sie sendet über Phoenix' PubSub Modul eine Nachricht über einen Websocket.
+
+\lstinputlisting
+  [caption={BuildWorker.ex: Senden einer Nachricht über einen Websocket},
+  language=elixir,
+  firstline=89,
+  lastline=99]
+  {snippets/build-worker.ex}
+
+Die Funktion \texttt{log/2} dient zum Logging und Debugging. Auf sie wird nicht weiter eingegangen.
+
+Die Implementierung der anderen Worker gestaltet sich ähnlich. Selbstverständlich unterscheiden sich einige Stellen und werden komplexer, beispielsweise das serielle oder parallele Ausführen von Schritten in einer Gruppe. Der Ablauf des BuildWorkers und die Kommunikation zum GroupWorker ist jedoch übertragbar auf andere Worker.
+
+\subsection{Isolation der Build-Steps}
+
+In der aktuellen Implementation wird der Build-Prozess in einem temporären Ordner ausgeführt. Die Befehle werden in einer Shell der Maschine ausgeführt, auf der der Service ausgeführt wird.
+
+Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Build Steps) sollten isoliert voneinander, bestenfalls in Instanzen einer virtuellen Maschine (z.B. Docker) ausgeführt werden. Eine solche Implementation sprengt den Umsatz dieser Arbeit, daher wurde ein sehr simpler Ansatz verwendet. 

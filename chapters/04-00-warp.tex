@@ -63,15 +63,3 @@ Ein \emph{Schritt} ist die kleinste Einheit des Build-Prozesses. Er besitzt nebe
   \centering
     \includegraphics[width=\textwidth]{assets/uml}
 \end{figure}
-
-\subsection{Zuordnung einer Pipeline zu einem Branch}
-
-In der Praxis ist es sinnvoll für verschiedene Git Branches auch unterschiedliche Build Prozesse auszuführen. Folgendes Szenario zeigt einen dazu passenden Anwendungsfall: Für alle Feature Branches wird nur ein \ac{CI} Build durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, solche Branches auf eine Serverumgebung zu deployen. Wurde ein Feature fertiggestellt, wird der Feature Branch in den Branch \texttt{master} gemerged. Bei Änderungen an diesem Branch wird ein Build Prozess durchgeführt, der zudem auch ein Deployment auf eine Staging-Umgebung beinhaltet. Ein weiterer Branch \texttt{production} ist mit einem Build Prozess verbunden, der ein Deployment auf eine Produktions-Umgebung durchführt.
-
-Der in Abschnitt \ref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei jedem Push in das Remote Repository ausgeführt. Aus ihm müssen wir auslesen, welche Pipeline dem Push zugeordnet ist. Dies kann über die Git Reference gelöst werden, aus der man den Namen des zugehörigen Branches und sogar auch den Namen eines Git Tags auslesen kann.
-
-Somit muss in der Pipeline konfiguriert werden, welcher Git Reference sie zugeordnet ist. Im gerade beschriebenen Szenario sollte eine Pipeline für \emph{alle} Feature Branches ausgeführt werden. Feature Branches besitzen üblicherweise das Präfix \texttt{feature/}. Beispiele hierfür sind \texttt{feature/worker\-refactor} oder \texttt{feature/queue\-implementation}. Es wäre jedoch unpraktisch, wenn für jeden neuen Feature Branch eine weitere, identische Pipeline angelegt werden muss, bei der sich nur die Git Reference unterscheidet.
-
-Als universelle Lösung für dieses Problem wird ein regulärer Ausdruck als Zuordnung zur Git Reference verwendet. Ein zum Szenario passender Ausdrück wäre \texttt{feature/.*\$}. Über ihn können alle Feature Branches der gleichen Pipeline zugeordnet werden.
-
-In der Datenstruktur (Abbildung \ref{fig:uml}) entspricht dem Feld \emph{git\_ref\_auslöser}.
