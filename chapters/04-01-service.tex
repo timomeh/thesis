@@ -61,7 +61,7 @@ Für den Service wurden die in Tabelle \ref{tab:rest-routes} definierten Endpunk
   \label{tab:rest-routes}
 \end{table}
 
-\subsection{Die ``JSON API'' Spezifikation}
+\subsubsection{Die ``JSON API'' Spezifikation}
 \label{subsec:jsonapi}
 
 Zum Entwurf einer API im JSON Datenformat gibt es u.a. die Spezifikation ``JSON API''. Diese Spezifikation beinhaltet viele Konventionen zu den Daten, die zur API bzw. von der API gesendet werden.
@@ -81,7 +81,7 @@ Es ist jedoch sehr aufwändig die gesamte JSON API Spezifikation zu befolgen. Da
   label={lst:jsonapi-simple-example}]
   {snippets/jsonapi-example.json}
 
-\subsection{Nutzung der API}
+\subsubsection{Nutzung der API}
 
 Auf die Details der Implementierung wird nicht genauer eingegangen. Folgende Beispiele verdeutlichen jedoch die Nutzung der API mit dem \ac{CLI} \texttt{curl}. In einem Browser-Client kann hierfür auch auf ähnlich Weise die fetch-API genutzt werden.
 
@@ -316,4 +316,4 @@ Die Implementierung der anderen Worker gestaltet sich ähnlich. Selbstverständl
 
 In der aktuellen Implementation wird der Build-Prozess in einem temporären Ordner ausgeführt. Die Befehle werden in einer Shell der Maschine ausgeführt, auf der der Service ausgeführt wird.
 
-Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Build Steps) sollten isoliert voneinander, bestenfalls in Instanzen einer virtuellen Maschine (z.B. Docker) ausgeführt werden. Eine solche Implementation sprengt den Umsatz dieser Arbeit, daher wurde ein sehr simpler Ansatz verwendet. 
+Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Build Steps) sollten isoliert voneinander, bestenfalls in Instanzen einer virtuellen Maschine (z.B. Docker) ausgeführt werden. Eine solche Implementation sprengt den Umsatz dieser Arbeit, daher wurde ein sehr simpler Ansatz verwendet.
