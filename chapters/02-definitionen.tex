@@ -30,7 +30,14 @@ Im Gegensatz dazu steht die \emph{manuelle Durchführung} eines Prozesses. Im Ko
 
 Dies bedeutet jedoch nicht, dass ein automatisierter Prozess für den Nutzer gänzlich unsichtbar ist. Um auf Erfolg oder Fehlschlag des Automatismus reagieren zu können, muss der Prozess seinen Status an den Nutzer zurück melden. Vorteilhaft sind auch Informationen während des Prozessablaufs, beispielsweise um dessen Fortschritt zu verfolgen. \citep[10f]{Duvall2007}
 
+\subsection{Definition: Webanwendung}
+
+Eine Webanwendung wird auf einem entfernten Server ausgeführt und vom Nutzer mit einen Browser über \ac{HTTP} aufgerufen. Durch die Aufteilung auf Server und Browser spricht man daher vom Client-Server-Modell.
+
+Moderne Webanwendungen werden immer öfter als verteilte Systeme programmiert. Hierbei wird der Server über ein \ac{API} angesprochen – zu deutsch vereinfacht \emph{Schnittstelle} –, zu welcher der Client dynamisch mittels JavaScript eine grafische Repräsentation ausgibt. Eine solche Serveranwendung wird auch Service genannt. \citep[Kapitel 5.1.3]{Fielding} beschreibt dies als Client-Stateless-Server-Modell.
+
 \subsection{Begriffserklärung: DevOps}
+\label{subsec:devops}
 
 Auch wenn der Begriff DevOps nicht viel Verwendung in dieser Arbeit finden wird\footnote{Der Begriff DevOps beschreibt ein weitgreifendes Konzept mit mehreren Aspekten. Daher wird in dieser Arbeit die Verwendung spezifischerer Begriffe bevorzugt.}, so sollte er auch nicht verschwiegen werden, da er stark mit der Thematik in Verbindung steht.
 
@@ -40,20 +47,14 @@ Im weiteren Sinne ist DevOps die Weiterführung agiler Entwicklungsmethoden auf 
 
 Demnach ist ein Aspekt von DevOps die Verwendung automatisierter Prozesse zum schnellen und zuverlässigen Deployment von Anwendungen.
 
-\subsection{Definition: Webanwendung}
+\subsection{Definition und Eingrenzung: Build}
+\label{subsec:build}
 
-\marginnote{Notiz: Bin mir unsicher, ob ich so einen Begriff wie ``Webanwendung'' definieren mag/soll.}[1em]
+\citet[27]{Duvall2007} definiert den Begriff Build als ``a set of activities performed to generate, test, inspect and deploy software''. \emph{Build} wird hierbei als Prozess definiert, welcher in Kapitel \ref{sec:deployment-pipeline} als \emph{Deployment-Pipeline} näher beleuchtet wird.
 
-Eine Anwendung, die auf einem entfernten Webserver ausgeführt wird und vom Nutzer über eine Schnittstelle, meist \ac{HTTP}, mittels eines Webbrowsers aufgerufen wird. Eine Webanwendung wird dazu passend in zwei Teile aufgeteilt: die Programmlogik als Server und die Darstellung im Webbrowser als Client.
+Ein Build kann auch als Ergebnis des Building-Vorgangs interpretiert werden, bei dem eine Software als kompilierte Binärdatei oder – abhängig von der Programmiersprache – auch als Quellcode inklusive generierter Artefakte erstellt wird. Ein solcher Build stellt die fertige Anwendung dar und wird mit einer eindeutigen Versionsnummer versehen.
 
-Moderne Webanwendungen werden immer öfter als verteilte Systeme programmiert. Hierbei wird der Server über ein \ac{API} angesprochen – zu deutsch vereinfacht \emph{Schnittstelle} –, zu welcher der Client dynamisch mittels JavaScript eine grafische Repräsentation ausgibt.
-
-
-\subsection{Definition und Eingrenzung: Build} \label{ssec02:build}
-
-\citet[27]{Duvall2007} definiert den Begriff Build als ``a set of activities performed to generate, test, inspect and deploy software''. \emph{Build} wird hierbei als Prozess definiert, welcher in Kapitel \ref{sec02:deployment-pipeline} als \emph{Deployment-Pipeline} näher beleuchtet wird.
-
-Ein Build kann auch als Ergebnis des Building-Vorgangs interpretiert werden, bei dem eine Software als kompilierte Binärdatei oder – abhängig von der Programmiersprache – auch als Quellcode inklusive generierter Artefakte erstellt wird. Ein solcher Build stellt die fertige Anwendung dar und wird meist mit einer eindeutigen Versionsnummer versehen, um ihn von früheren oder späteren Builds zu unterscheiden.
+Um im weiteren Verlauf der Arbeit Verwechselungen beider Interpretationen zu vermeiden, wird der Begriff \emph{Build-Prozess} verwendet.
 
 \subsection{Erklärung und Beispiele: Testing}
 
@@ -63,8 +64,9 @@ Eine weitere Art von Test ist der \emph{Akzeptanztest} (engl. acceptance test), 
 
 Der \emph{Rauchtest} (engl. smoke test) ist ein sehr einfach umzusetzender Test, bei dem die Software gestartet wird und danach überprüft wird, ob sie noch läuft oder abgestürzt ist. Bei Webanwendungen kann hierfür die Startseite aufgerufen werden und nach einer Zeichenkette gesucht werden, die dort auftauchen sollte.
 
-Letztlich handelt es sich bei einem Build, wie in Kapitel \ref{ssec02:build} definiert, indirekt ebenfalls um einen Test. Ein Build kann fehlschlagen, was z.B. auf Syntaxfehler oder Abweichungen in der Systemumgebung hinweisen kann. Ein erfolgreicher Build gibt die Sicherheit, dass in diesen Aspekten keine Fehler vorhanden sind.
+Letztlich handelt es sich bei einem Build, wie in Kapitel \ref{subsec:build} definiert, indirekt ebenfalls um einen Test. Ein Build kann fehlschlagen, was z.B. auf Syntaxfehler oder Abweichungen in der Systemumgebung hinweisen kann. Ein erfolgreicher Build gibt die Sicherheit, dass in diesen Aspekten keine Fehler vorhanden sind.
 
+{\draft NEEDS MORE CITES?}
 
 \section{Strukturierte Arbeitsabläufe mit automatisierten Deployments}
 
@@ -78,16 +80,23 @@ Neue oder geänderte Funktionalitäten einer Software können nur selten innerha
 
 Nun besteht die Gefahr, dass die Integration der Änderungen in die mittlerweile veränderte Anwendung weiteren Aufwand mit sich bringt. Dieses Szenario soll durch \emph{Continuous Integration} verhindert werden.
 
-\ac{CI} bedeutet die ununterbrochene Integration von Änderungen in die Anwendung. Ein Entwickler soll mindestens einmal am Tag seine Änderungen in den Hauptentwicklungszweig (Trunk) integrieren. Bei jeder Integration muss die Anwendung stabil bleiben, alle Tests müssen erfolgreich sein und die Anwendung muss buildbar sein. Sollte eine Integration fehlschlagen, muss sie entweder mit höchster Priorität innerhalb weniger Minuten behoben werden oder rückgängig gemacht werden.
+\ac{CI} bedeutet die ununterbrochene Integration von Änderungen in die Anwendung. Ein Entwickler soll dabei mindestens einmal am Tag seine Änderungen in den Hauptentwicklungszweig (Trunk) integrieren. Bei jeder Integration muss die Anwendung stabil bleiben, alle Tests müssen erfolgreich sein und die Anwendung muss buildbar sein. Sollte eine Integration fehlschlagen, muss sie mit höchster Priorität behoben werden.
 
 Das Ergebnis von \ac{CI} ist ein Trunk, der zu jedem Zeitpunkt stabil ist und die neusten Änderungen der Software beinhaltet. Um \ac{CI} erfolgreich betreiben zu können und um den Aufwand für den Entwickler zu reduzieren, sollte das stetige Testen neuer Integrationen von einem Automatismus übernommen werden.
 
+Am Begriff \emph{Trunk} ist zu erkennen, dass diese Definition aus früheren Zeiten der Versionskontrolle mit Subversion (SVN) stammt. Das Arbeiten in Branches über längere Zeit ist mit heutigen Tools wie Git weitaus einfacher. Ein Entwickler muss nicht mehr den Aufwand betreiben und seinen Fortschritt täglich in den Hauptbranch (standardmäßig ``master'' genannt) integrieren.
+
+Das Gegenteil lässt sich nämlich mit gleichem Ergebnis weitaus einfacher umsetzen: Täglich soll der master-Branch in den Branch des Entwicklers integriert werden. Dadurch besteht die Sicherheit, dass der eigene Branch integrierbar bleibt und somit die Änderungen jederzeit problemlos in den master-Branch übernommen werden können.
+
+{\draft NEEDS MORE CITES! CD/CI BOOK!}
 
 \subsection{Continuous Delivery}
 
-Continuous Delivery ist die Weiterführung von Continuous Integration. Da der Trunk jederzeit durch einen Automatismus getestet wird, ist es danach auch möglich, den Transfer und die Ausführung der Anwendung, inklusive aller damit verbundenen Schritte, auf eine beliebige Zielumgebung automatisiert durchzuführen.
+Continuous Delivery ist die Weiterführung von Continuous Integration. Da der Hauptbranch jederzeit durch einen Automatismus getestet wird, ist es nach den Tests auch möglich, den Transfer und die Ausführung der Anwendung, inklusive aller damit verbundenen Schritte, auf eine beliebige Zielumgebung automatisiert durchzuführen.
 
-Nach der Integration muss nicht zwangsläufig ein automatisiertes Deployment erfolgen. Es soll nur möglich sein, die Anwendung ohne weiteren Aufwand automatisiert zu deployen. Dadurch kann beispielsweise ein Tester eigenständig eine bestimmte Version der Anwendung auf eine Testumgebung aufspielen, genauso wie auch ein neuer Release auf einem Produktionsserver ohne Aufwand aufgespielt werden kann.
+Das bedeutet nicht, dass nach der Integration zwangsläufig ein Deployment erfolgen muss. Es soll nur möglich sein, die Anwendung ohne weiteren Aufwand automatisiert zu deployen. Dadurch kann beispielsweise ein Tester eigenständig eine bestimmte Version der Anwendung auf eine Testumgebung aufspielen, genauso wie auch ein neuer Release auf einem Produktionsserver ohne Aufwand aufgespielt werden kann.
+
+Eine große Rolle spielt hierbei die Konfiguration und das automatische Erstellen der Zielumgebung (vgl. Abschnitt \ref{subsec:devops}).
 
 Das Konzept des Continuous Delivery ist eng verbunden mit der agilen Arbeitsmethode:
 
@@ -97,21 +106,14 @@ Das Konzept des Continuous Delivery ist eng verbunden mit der agilen Arbeitsmeth
 
 Da Continuous Delivery eng mit automatisiertem Deployment in Verbindung steht, werden oft beide Begriffe synonym verwendet.
 
-\begin{draft}
-
-Erweiterung von Continuous Integration. Nach automatisiertem Test/Build auch automatisiert shippen können. Egal welche Zielumgebung/Server, alles automatisch konfiguriert. Je nach Anwendungsfall kann davor auch ein Server automatisch provisioniert werden. Wann deployed wird, kann selbst entschieden werden.
-
-Siehe Agile Manifesto\footnote{http://agilemanifesto.org/principles.html}:
-
-\begin{quote}
-  Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
-\end{quote}
+{\draft NEEDS MORE CITES! CD/CI BOOK!}
 
 
 \subsection{Continuous Deployment}
 
-Erweiterung von Continuous Delivery. Deployed wird ständig.
+Continuous Deployment geht das Konzept von Continuous Delivery noch einen Schritt weiter. Hierbei werden alle integrierten Änderungen direkt auf eine Umgebung deployed.
 
+Eins der bekanntesten Beispiele für Continuous Deployment ist Amazon: Im Mai 2010 wurde bei Amazon durchschnittlich alle 11,6 Sekunden ein Deployment durchgeführt, bei denen 10000 bis maximal 30000 Server gleichzeitig ein Deployment empfangen haben.\footnote{http://assets.en.oreilly.com/1/event/60/Velocity\%20Culture\%20Presentation.pdf} Im November 2014 hat Amazon bekanntgegeben, dass sie innerhalb eines Jahres 50 Millionen Deployments\footnote{Zur Relation: Ein Jahr hat ungefähr 31,5 Millionen Sekunden. Es wurde also durchschnittlich mehr als ein Deployment pro Sekunde durchgeführt.} auf verschiedene Umgebungen durchgeführt haben.\footnote{http://www.allthingsdistributed.com/2014/11/apollo-amazon-deployment-engine.html}
 
-\section{Die Deployment-Pipeline als Prozess-Manifestation} \label{sec02:deployment-pipeline}
-\end{draft}
+\section{Die Deployment-Pipeline als Prozess-Manifestation}
+\label{sec:deployment-pipeline}
