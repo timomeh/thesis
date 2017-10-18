@@ -56,6 +56,8 @@
 \definecolor{listingsilver}{HTML}{BABBBD}
 \definecolor{listinggrey}{HTML}{6A737D}
 \definecolor{listingdarkblue}{HTML}{032F62}
+\definecolor{listingblue}{HTML}{005CC5}
+\definecolor{listingpurple}{HTML}{6F42C1}
 
 \lstdefinelanguage{elixir}{
   morekeywords = {case,catch,def,do,else,false,%
@@ -76,6 +78,27 @@
   keywordstyle=[2]\color{listingred},
   keywordstyle=[3]\color{listinggrey},
 }
+
+\lstdefinelanguage{js}{
+  morekeywords = {typeof,new,true,false,catch,function,return,null,catch,%
+    switch,var,if,in,while,do,else,case,break,class,export,import,%
+    extends,const,let,=,=>},
+  morekeywords = [2]{Component,constructor,componentWillMount,%
+    componentDidMount,render,connect,default%
+    },
+  morekeywords = [3]{this,mapStateToProps,mapDispatchToProps},
+  keywordstyle=\color{listingred},
+  keywordstyle=[2]\color{listingpurple},
+  keywordstyle=[3]\color{listingblue},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{listinggrey},
+  stringstyle=\color{listingdarkblue},
+  morestring=[b]',
+  morestring=[b]"
+}
+
 
 \lstset{ %
   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
@@ -101,3 +124,13 @@
   tabsize=2,	                   % sets default tabsize to 2 spaces
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+
+% Patch to show correct line numbering starting with firstline
+% https://tex.stackexchange.com/questions/26828/first-line-number-in-lstinputlisting-environment
+\makeatletter
+\patchcmd{\lst@GLI@}% <command>
+  {\def\lst@firstline{#1\relax}}% <search>
+  {\def\lst@firstline{#1\relax}\def\lst@firstnumber{#1\relax}}% <replace>
+  {\typeout{listings firstnumber=firstline}}% <success>
+  {\typeout{listings firstnumber not set}}% <failure>
+\makeatother
