@@ -143,3 +143,13 @@ Letztendlich wurde sich für die Visualisierung in Abbildung \ref{fig:pipeline-o
 Um nicht weitere visuelle Elemente einzuführen, wurden Designelemente der Historie (siehe Abschnitt \ref{subsec:visualisierung-build-history}) wiederverwendet.
 
 Ein Nachteil dieser Visualisierung ist, dass bei zu vielen parallelen Prozessen die einzelnen Schritte sehr schmal werden können. Eine Pipeline mit sehr vielen verschachtelten parallelen Prozessen kann allerdings auch ein Anzeichen für einen schlechten Aufbau der Pipeline sein.
+
+\subsection{React und Redux}
+
+\textbf{React} ist eine Bibliothek für JavaScript, mit der sich komponentenbasierte User Interfaces für den Browser programmieren lassen. Wie schon im Praxisprojekt \cite{Maemecke2017} ausgearbeitet, eignet sich React besonders für dynamische Webanwendungen bzw. \acp{SPA} mit komplexen Funktionalitäten.
+
+React wird von Facebook entwickelt und seit 2011 auf facebook.com verwendet. 2013 wurde React als Open-Source-Projekt veröffentlicht. Mittlerweile besitzt React eine sehr große und stetig wachsende Community, und wird auch von vielen Unternehmen und Projekten genutzt. Zu den Bekanntesten zählen u.a. Twitter, Netflix, Paypal, Reddit, Airbnb und viele mehr\footnote{Tatsächlich ist die Verwendung von React aktuell so weit verbreitet, dass eine komplette Auflistung nur der bekanntesten Unternehmen schon den Rahmen sprengen würde.}.
+
+Ein Konzept von React ist der \emph{State}. Im State werden Daten gespeichert, die zur Anzeige des aktuellen Zustands einer Komponente benötigt werden. Jede Komponente kann ihren eigenen State verwalten. Bei großen Anwendungen mit vielen Daten, die in verschiedenen Komponenten benötigt werden, wird die State-Verwaltung in voneinander getrennten Komponenten schnell schwierig. Zur Lösung dieses Problems gibt es die JavaScript-Bibliothek \textbf{Redux}.
+
+Mit Redux lässt sich ein globaler State verwalten, auf den alle Komponenten zugreifen können. Wenn eine Komponente Daten im globalen State modifiziert, werden die Änderungen direkt in allen anderen Komponenten bekannt, die auf diese Daten zugreifen.

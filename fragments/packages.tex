@@ -16,7 +16,7 @@
 \usepackage[capposition=top]{floatrow}
 
 
-\usepackage{graphicx}
+\usepackage[draft]{graphicx}
 \usepackage{enumitem}
 \usepackage{epstopdf}
 \SelectInputMappings{
@@ -35,6 +35,9 @@
 
 \renewcommand{\lstlistlistingname}{Quelltexte}
 \renewcommand{\lstlistingname}{Quelltext}
+
+\clubpenalty = 10000 % Schusterjunge
+\widowpenalty = 10000 % Hurenkind
 
 % Configs for dictum used in chapterpreamble
 \setkomafont{dictumtext}{\itshape}
