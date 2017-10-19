@@ -195,7 +195,7 @@ Wir nutzen die Lifecycle-Methode \texttt{componentWillMount()}, wie in Quelltext
 
 \texttt{dispatch()} in Zeile 4 ist eine Method aus Redux (siehe Abschnitt \ref{subsec:react-redux}). Durch sie werden Änderungen an den globalen State übermittelt. Die Methode \texttt{fetchProject()} startet eine Anfrage an die API mit der entsprechenden Projekt-ID.
 
-Im globalen State wird die Variable \texttt{project.isFetching} während der Anfrage auf \texttt{true} gesetzt. Sind die Daten angekommen, wird sie auf \texttt{false} gesetzt. Damit kann in entweder ein Ladeindikator angezeigt werden, oder die verschachtelte Komponente aufgerufen werden (siehe Quelltext \ref{lst:project-render}).
+Im globalen State wird das Feld \texttt{project.isFetching} während der Anfrage auf \texttt{true} gesetzt. Sind die Daten angekommen, wird sie auf \texttt{false} gesetzt. Damit kann in entweder ein Ladeindikator angezeigt werden, oder die verschachtelte Komponente aufgerufen werden (siehe Quelltext \ref{lst:project-render}).
 
 \lstinputlisting
   [caption={ProjectContainer.js: render-Methode},
@@ -221,3 +221,98 @@ Bei der Implementierung dafür hilft die Bibliothek react-router\footnote{https:
   {snippets/project.js}
 
 Die in Quelltext \ref{lst:project-routes} verlinkten Komponenten \texttt{BuildDetails}, \texttt{History} und \texttt{LatestBuilds} folgen jeweils wieder dem in Abschnitt \ref{subsec:implementierung-struktur} beschriebenen Aufbau. Daher benötigt die Komponente \texttt{Project} keinen API-Aufruf in einer Lifecycle-Methode. Der Aufruf wird an die zutreffende Komponenten ausgelagert.
+
+\subsection{Asynchroner Datenfluss mit Redux}
+
+Zur Implementierung des Redux Stores gibt es eine Best Practice für asynchrone Redux-Actions\footnote{siehe http://redux.js.org/docs/advanced/AsyncActions.html}. Zusammen mit der Bibliothek redux-thunk können in einem \emph{Action Creator} weitere Actions und asynchrone Funktionen aufgerufen werden.
+
+Eine Funktion wie beispielsweise \texttt{fetchProject()} aus Abschnitt \ref{subsec:implementierung-struktur} besteht aus mehreren Aufrufen:
+
+\begin{enumerate}
+ \item Hinweis \texttt{isFetching} setzen, dass Daten abgerufen werden
+ \item API asynchron aufrufen
+ \item Daten dem Store hinzufügen
+ \item Hinweis entfernen, dass Daten abgerufen werden
+\end{enumerate}
+
+Dieser Ablauf ist im Action Creator aus Quelltext \ref{lst:project-async-action} auch so implementiert. (Im Action Creator \texttt{receiveProject()} in Quelltext \ref{lst:project-action-creators} ist das Hinzufügen der Daten und Entfernen des Hinweises vereint.)
+
+\lstinputlisting
+  [caption={redux/project.js: Asynchrone Action},
+  label={lst:project-async-action},
+  firstline=35,
+  lastline=44,
+  language=js]
+  {snippets/project-store.js}
+
+Die beiden aufgerufenen Funktionen \texttt{requestProject()} und \texttt{receiveProject()} (siehe Quelltext \ref{lst:project-action-creators}) geben die Actions aus, auf die der Reducer aus Quelltext \ref{lst:project-reducer} reagiert und somit den globale State modifiziert.
+
+\lstinputlisting
+  [caption={redux/project.js: Action Creators},
+  label={lst:project-action-creators},
+  firstline=26,
+  lastline=33,
+  language=js]
+  {snippets/project-store.js}
+
+\lstinputlisting
+  [caption={redux/project.js: Redux Reducer},
+  label={lst:project-reducer},
+  firstline=1,
+  lastline=24,
+  language=js]
+  {snippets/project-store.js}
+
+Der Quelltext aus diesen Beispielen ist eine vereinfachte Version der tat\-säch\-lich\-en Implementierung. Anstatt an dieser Stelle das Projekt zu speichern, wird nur die ID gespeichert und das dazugehörige Objekt in einem anderen Reducer gespeichert, in dem auch andere Entitäten gespeichert werden.
+
+
+\subsection{Aktualisierung der Daten über einen Websocket}
+
+Während eines Build-Prozesses werden aktualisierte Daten des Builds über einen Websocket an den Client übertragen. Dadurch kann der aktuelle Stand des Prozesses in nahezu Echtzeit angezeigt werden.
+
+Wie in Abschnitt \ref{subsec:implementierung-worker} erläutert, werden diese Aktualisierungen in einem Kanal je Projekt gesendet. Die Komponente \texttt{ProjectContainer}, die in Abschnitt \ref{subsec:implementierung-struktur} beschrieben wurde, eignet sich sehr gut, um sich mit diesem Kanal zu verbinden.
+
+Die Komponente wird durch die Methoden in Quelltext \ref{lst:project-websocket} ergänzt.
+
+\lstinputlisting
+  [caption={ProjectContainer.js: Verbinden mit Websocket},
+  label={lst:project-websocket},
+  firstline=1,
+  lastline=17,
+  language=js]
+  {snippets/project-container-ws.js}
+
+Die darin aufgerufene Klasse \texttt{Socket} ist eine eigenes Modul, das auf die Socket-Implementation aus der JavaScript-Bibliothek von Phoenix zugreift.
+
+\lstinputlisting
+  [caption={socket.js: Constructor},
+  label={lst:socket-constructor},
+  firstline=1,
+  lastline=7,
+  language=js]
+  {snippets/socket.js}
+
+Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Parameter übergeben. Dadurch kann das Modul auf den Redux Store zugreifen und den globalen State modifizieren. Nachdem es sich erfolgreich mit dem Kanal verbunden hat, empfängt das Modul die aktualisierten Daten in einem \emph{Event Listener}.
+
+
+\lstinputlisting
+  [caption={socket.js: Verbinden mit dem Projekt-Kanal},
+  label={lst:socket-join},
+  firstline=9,
+  lastline=30,
+  language=js]
+  {snippets/socket.js}
+
+In den übertragenen Daten des Events (\texttt{payload}) ist zusätzlich zu der Entität auch ein Name des Events vorhanden. Anhand dieses Namens kann die entsprechende Funktion aufgerufen werden, um beispielsweise die Attribute eines Builds zu aktualisieren.
+
+Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \texttt{componentWillUnmount} der Komponente aufgerufen (siehe Quelltext \ref{lst:project-websocket} und die Verbindung zum Kanal getrennt.
+
+\lstinputlisting
+  [caption={socket.js: Trennung der Verbindung},
+  label={lst:socket-leave},
+  firstline=32,
+  lastline=43,
+  language=js]
+  {snippets/socket.js}
+
+Bei den Quelltexten handelt es sich um vereinfachte Version zur besseren Verständlichkeit. Die reale Implementation gestaltet sich etwas komplexer, besitzt allerdings den gleichen Aufbau.
