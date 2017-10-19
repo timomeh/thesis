@@ -3,7 +3,7 @@
 
 {\draft Hier etwas über komponentenbasierten Ansatz für Design \& Programmierung}
 
-\subsection{Grundlagen zum Entwurf des User Interfaces}
+\subsection{Aufbau des User Interfaces}
 \label{subsec:entwurf-user-interface}
 
 Das User Interface der Webanwendung besteht aus verschiedenen \emph{Screens}. Ein Screen lässt sich umgangssprachlich als ``Unterseite'' beschreiben. Für den Nutzer sind vor allem drei Screens wichtig:
@@ -156,7 +156,7 @@ Ein Konzept von React ist der \emph{State}. Im State werden Daten gespeichert, d
 
 Mit Redux lässt sich ein globaler State verwalten, auf den alle Komponenten zugreifen können. Wenn eine Komponente Daten im globalen State modifiziert, werden die Änderungen direkt in allen anderen Komponenten bekannt, die auf diese Daten zugreifen.
 
-\subsection{Komposition von Komponenten als Anwendungsstruktur}
+\subsection{Komposition als Anwendungsstruktur}
 \label{subsec:komposition}
 
 Komposition ist eins der Hauptmerkmale von Komponenten. Komposition bedeutet, dass durch das Zusammenspiel von mehreren Komponenten eine größere Aufgabe erfüllt wird. Jede Komponente ist dabei für einen Teil der Aufgabe zuständig. \citep[Kapitel 1]{Maemecke2017}
@@ -207,7 +207,7 @@ Im globalen State wird das Feld \texttt{project.isFetching} während der Anfrage
 
 Als verschachtelte Komponente kann \texttt{<Project />} dem gleichen Schema folgen. Sie würde dann  dementsprechend nicht das Projekt abrufen, sondern stattdessen eine Liste der Pipelines oder letzten Builds. Im nächsten Abschnitt \ref{subsec:react-routes} wird eine Besonderheit dieser Komponente behandelt.
 
-\subsection{Implementierung von Frontend-Routen}
+\subsection{Implementierung der Frontend-Routen}
 \label{subsec:react-routes}
 
 Die Komponente \texttt{Project} soll verschiedene Screens anzeigen (vgl. Auflistung in Abschnitt \ref{subsec:entwurf-user-interface}). Je nach URL wird die Historie, die neuesten Build-Prozesse oder die Details zu einem Build-Prozess angezeigt.
@@ -292,8 +292,7 @@ Die darin aufgerufene Klasse \texttt{Socket} ist eine eigenes Modul, das auf die
   language=js]
   {snippets/socket.js}
 
-Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Parameter übergeben. Dadurch kann das Modul auf den Redux Store zugreifen und den globalen State modifizieren. Nachdem es sich erfolgreich mit dem Kanal verbunden hat, empfängt das Modul die aktualisierten Daten in einem \emph{Event Listener}.
-
+Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Parameter übergeben. Dadurch kann das Modul auf den Redux Store zugreifen und den globalen State modifizieren. Änderungen am globalen State werden direkt in allen Komponenten angezeigt, die diese Daten anzeigen.
 
 \lstinputlisting
   [caption={socket.js: Verbinden mit dem Projekt-Kanal},
@@ -303,7 +302,7 @@ Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Paramete
   language=js]
   {snippets/socket.js}
 
-In den übertragenen Daten des Events (\texttt{payload}) ist zusätzlich zu der Entität auch ein Name des Events vorhanden. Anhand dieses Namens kann die entsprechende Funktion aufgerufen werden, um beispielsweise die Attribute eines Builds zu aktualisieren.
+Nachdem sich erfolgreich mit dem Kanal verbunden wurde, empfängt das Modul die aktualisierten Daten in einem \emph{Event Listener}. In den übertragenen Daten des Events (\texttt{payload}) ist zusätzlich zu der Entität auch ein Name des Events vorhanden. Anhand dieses Namens kann die entsprechende Funktion aufgerufen werden, um beispielsweise die Attribute eines Builds zu aktualisieren.
 
 Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \texttt{componentWillUnmount} der Komponente aufgerufen (siehe Quelltext \ref{lst:project-websocket} und die Verbindung zum Kanal getrennt.
 

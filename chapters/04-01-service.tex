@@ -81,9 +81,9 @@ Es ist jedoch sehr aufwändig die gesamte JSON API Spezifikation zu befolgen. Da
   label={lst:jsonapi-simple-example}]
   {snippets/jsonapi-example.json}
 
-\subsubsection{Nutzung der API}
+\subsubsection{Aufruf der API}
 
-Auf die Details der Implementierung wird nicht genauer eingegangen. Folgende Beispiele verdeutlichen jedoch die Nutzung der API mit dem \ac{CLI} \texttt{curl}. In einem Browser-Client kann hierfür auch auf ähnlich Weise die fetch-API genutzt werden.
+Auf die Details der Implementierung der API wird nicht genauer eingegangen. Folgende Beispiele verdeutlichen jedoch die Nutzung der API mit dem \ac{CLI} \texttt{curl}. In einem Browser-Client kann hierfür auch auf ähnlich Weise die fetch-API genutzt werden.
 
 \lstinputlisting
   [caption={API Beispiel: Auflistung aller Pipelines mit angelegter Pipeline}]
@@ -141,7 +141,7 @@ Als universelle Lösung für dieses Problem wird ein regulärer Ausdruck als Zuo
 
 In der Datenstruktur (Abbildung \ref{fig:uml}) entspricht dem Feld \emph{git\_ref\_auslöser}.
 
-\subsubsection{Speichern von Konfigurationen in der Datenbank und der Konfigurationsdatei}
+\subsubsection{Nachteile der Konfigurationsdatei}
 
 Ursprünglich wurde nicht geplant, dass eine Pipeline über die API angelegt werden muss. Alle Konfigurationen sollten über die Konfigurationsdatei ausgelesen werden.
 
@@ -186,15 +186,15 @@ Auch wenn bei einem Schritt ein Fehler auftritt, wird dem übergeordneten Worker
 
 Alle Worker übermitteln über einen Websocket die aktualisierten Daten der jeweiligen Entität, damit die Änderungen auch direkt Client angezeigt werden können.
 
-\subsection{Grundlagen der Worker des Build-Prozesses}
+\subsection{Entwurf der Worker}
 
-Ein \textbf{Worker} ist ein Konzept in der Software-Programmierung, bei dem eine Aufgabe einem nebenläufigen Prozess zugeteilt wird. Hat ein Worker seine Arbeit beendet, ruft er einen Callback auf, um nächste Schritte auszuführen.
+Ein \textbf{Worker} ist ein Konzept in der Software-Programmierung, bei dem eine Aufgabe einem nebenläufigen Prozess zugeteilt wird. Hat ein Worker seine Arbeit beendet, ruft er einen Callback auf, um nächste Schritte auszuführen. WARP nutzt Worker zur Implementierung eines Build-Prozesses.
 
 Erlang (und somit auch Elixir) besitzt die Möglichkeit nebenläufige Prozesse zu starten. Diese sind keine Betriebssystem-Prozesse, sondern eigene Prozesse der Erlang VM. Durch die ressourcensparende Natur dieser Prozesse erlaubt es Erlang, eine Vielzahl von Prozessen in einer Anwendung zu verwalten. \citep[133]{Armstrong2007}
 
 Prozesse kommunizieren untereinander mit Nachrichten und können besitzen einen Speicher bzw. Zustand (State). Diese Eigenschaften eignen sich sehr gut zur Implementierung der in Sektion \ref{subsec:ablauf-build} beschriebenen Worker.
 
-\subsubsection{Aufteilung der Worker}
+\subsubsection{Aufteilung in isolierte Worker}
 \label{subsec:aufteilung-der-worker}
 
 Die Worker für den Build-Prozess wurden, getrennt nach ihrer Aufgabe, in verschiedene Module aufgeteilt:
@@ -207,13 +207,11 @@ Die Worker für den Build-Prozess wurden, getrennt nach ihrer Aufgabe, in versch
   \item [StepWorker] Verwaltet die Schritt-Entität und führt ihren Befehl aus.
 \end{description}
 
-\subsubsection{Nutzung von GenServer}
+\subsubsection{Kommunikation zwischen Workern}
 
-Ein \emph{GenServer} ist ein Prozess, der spezielle Funktionen bereitstellt, um State im Prozess zu speichern und die Kommunikation zwischen Prozessen zu erleichtern.
+Ein \emph{GenServer} (generic server) ist ein Elixir Prozess, der bestimmte Funktionen bereitstellt, um State im Prozess zu speichern und die Kommunikation zwischen Prozessen zu erleichtern. Er eignet sich zur Implementierung der Worker und deren Kommunikation untereinander.
 
-Mittels \texttt{call/3} und \texttt{cast/2} lassen sich Nachrichten an einen GenServer senden, worauf der GenServer eine Funktion ausführen kann.
-
-\texttt{call} ist eine synchrone Nachricht: nach Aufruf der Funktion wird auf eine Antwort gewartet. Im Gegensatz dazu ist \texttt{cast} eine asynchrone Nachricht, die keine Antwort erwartet.
+Mittels \texttt{call/3} und \texttt{cast/2} lassen sich Nachrichten an einen GenServer senden, worauf der GenServer eine Funktion ausführen kann. \texttt{call} ist eine synchrone Nachricht: nach Aufruf der Funktion wird auf eine Antwort gewartet. Im Gegensatz dazu ist \texttt{cast} eine asynchrone Nachricht, die keine Antwort erwartet.
 
 Der GenServer nimmt diese Nachrichten über die Callbacks \texttt{handle\_\allowbreak call/3} und \texttt{handle\_\allowbreak cast/2} an.
 
@@ -222,7 +220,7 @@ Der GenServer nimmt diese Nachrichten über die Callbacks \texttt{handle\_\allow
 
 In diesem Abschnitt wird die Implementierung eines Workers mittels GenServer anhand des Build-Workers verdeutlicht. Er ist für die Build-Entität verantwortlich, startet Stages und reagiert auf Callbacks der Stage.
 
-Ein GenServer kann mit \texttt{start/3} oder \texttt{start\_link/3} gestartet werden. Letzteres startet den GenServer unter einem \emph{Supervision Tree}. Der GenServer wird automatisch beendet, wenn der aufrufende Prozess beendet wurde. Da der Build-Prozess eigenständig ausgeführt werden soll, wird \texttt{start} verwendet.
+Ein GenServer kann mit \texttt{start/3} oder \texttt{start\_link/3} gestartet werden. Letzteres startet den GenServer unter einem \emph{Supervision Tree}. Der GenServer wird automatisch beendet, wenn der aufrufende Prozess beendet wurde. Da der Build-Prozess eigenständig ausgeführt werden soll, wird \texttt{start/3} verwendet.
 
 \lstinputlisting
   [caption={BuildWorker.ex: Initialisierung},
