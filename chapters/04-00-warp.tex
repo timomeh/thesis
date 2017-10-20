@@ -6,7 +6,7 @@
 
 \chapter{WARP – Eine Webanwendung für Build- und Deployment-Prozesse}
 
-Die Benennung einer Anwendung ist generell für die Entwicklung irrelevant. Als Entwickler legen wir im Vorfeld trotzdem gerne einen Namen für unsere Software fest – wenigstens einen vorläufigen Projektnamen – um die Benennung verschiedenster Dinge zu erleichtern: u.a. Namensräume, interne Bibliotheken, Projekte auf GitHub \& Co.
+Die Benennung einer Anwendung ist für die Entwicklung grundsätzlich irrelevant. Als Entwickler legen wir im Vorfeld trotzdem gerne einen Namen für unsere Software fest – wenigstens einen vorläufigen Projektnamen – um die Benennung verschiedenster Dinge zu erleichtern: u.a. Namensräume, interne Bibliotheken, Projekte auf GitHub \& Co.
 
 Der Projektname \textbf{WARP} wurde bei Präsentationen meist direkt mit der Science-Fiction Fernsehserie \emph{Star Trek} in Verbindung gebracht. Der Ursprung des Namens liegt jedoch nicht bei der Reise durch das All, sondern bei Nintendos Super Mario.
 
@@ -23,6 +23,7 @@ Die Warp Pipes aus der Super Mario Franchise befördern unseren Pro\-ta\-go\-nis
 Dieses Kapitel beinhaltet den kompletten Entwurf und die Implementierung der Anwendung \textbf{WARP}. Zuerst wird ein genereller Überblick über verschiedene Aspekte der Anwendung gegeben, die zum weiteren Verständnis notwendig sind. Darauf folgen Details des Services und des Clients. Da Service und Client zwei abgegrenzte Teile sind (inhaltlich und technisch), wird jeweils einzeln auf Entwurf und Implementierung eingegangen.
 
 \section{Architekturentwurf}
+\label{sec:architektur}
 
 Die Webanwendung ist im Client-Server-Modell umgesetzt, wobei der Server eine API besitzt und im weiteren Verlauf als Service bzeichnet wird. Im Folgenden wird die grundlegende Architektur der Anwendung kurz beschrieben. Abbildung \ref{fig:architektur} zeigt eine grafische Übersicht über die Bestandteile des Systems und deren Beziehungen.
 

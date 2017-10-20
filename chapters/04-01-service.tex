@@ -1,6 +1,10 @@
 %!TEX root = ../thesis.tex
 \section{Service: Entwurf und Implementierung}
 
+Der Service ist der Antrieb des gesamten Systems. In ihm werden Daten berechnet und persistiert. Wie im Architekturentwurf (Abschnitt \ref{sec:architektur}) schon beschrieben, besitzt der Service eine Schnittstelle. Das ist nichts besonderes: ein Webservice definiert sich darüber, dass er eine maschinenlesbare Schnittstelle besitzt.
+
+Eine Besonderheit in WARP ist die Build-Pipeline. Sie wird ebenfalls vom Service ausgeführt. Daher beschäftigt sich dieser Abschnitt zwar auch mit der API, aber vor allem mit dem Entwurf und der Implementierung der Build-Pipeline.
+
 \subsection{Elixir und Phoenix}
 
 Bei Webanwendungen hängt (wie in anderen Domänen auch) die Wahl einer Programmiersprache des Webservices weniger davon ab, welches Problem die Anwendung lösen soll, sondern mehr von den Erfahrungen der im Projekt beteiligten Entwickler ab. Die Auswahl an serverseitigen Programmiersprachen ist groß, und jede Programmiersprache besitzt ihre eigenen Vorteile.
@@ -82,6 +86,7 @@ Es ist jedoch sehr aufwändig die gesamte JSON API Spezifikation zu befolgen. Da
   {snippets/jsonapi-example.json}
 
 \subsubsection{Aufruf der API}
+\label{subsec:api-usage}
 
 Auf die Details der Implementierung der API wird nicht genauer eingegangen. Folgende Beispiele verdeutlichen jedoch die Nutzung der API mit dem \ac{CLI} \texttt{curl}. In einem Browser-Client kann hierfür auch auf ähnlich Weise die fetch-API genutzt werden.
 
@@ -111,13 +116,13 @@ Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spe
 
 Das Anlegen komplexer Pipelines mit mehreren Stages, Abschnitten und verschachtelten Gruppen gestaltet sich über eine UI schwierig. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt auch unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
 
-Eine Datei namens `.warp.yml` im Dokumentenstamm des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses als Entitäten gespeichert.
+Eine Datei namens \emph{.warp.yml} im Dokumentenstamm des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses als Entitäten gespeichert.
 
-Die Zugehörigkeit zwischen Pipeline in der Datenbank und in der Konfigurationsdatei wird über einen Identifikator bestimmt. (Vgl. \texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, vgl. Sektion \ref{subsec:api-usage})
+Die Zugehörigkeit zwischen Pipeline in der Datenbank und in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe Sektion \ref{subsec:api-usage})
 
 Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Im Gegensatz zu JSON, was zur API-Kommunikation genutzt wird, besitzt YAML beispielweise Kommentare.
 
-Quelltext \ref{lst:example-config} zeigt eine mögliche Konfiguration. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Gruppen, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Abschnitte ineinander verschachteln lassen.
+Quelltext \ref{lst:example-config} zeigt eine mögliche Konfiguration einer Pipeline. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Gruppen, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Gruppen ineinander verschachteln lassen.
 
 \lstinputlisting
   [caption={Konfiguration einer Pipeline im YAML Format},
