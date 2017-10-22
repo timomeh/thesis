@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \section{Service: Entwurf und Implementierung}
 
-Der Service ist der Antrieb des gesamten Systems. In ihm werden Daten berechnet und persistiert. Wie im Architekturentwurf (Abschnitt \ref{sec:architektur}) schon beschrieben, besitzt der Service eine Schnittstelle. Das ist nichts besonderes: ein Webservice definiert sich darüber, dass er eine maschinenlesbare Schnittstelle besitzt.
+Der Service ist der Antrieb des gesamten Systems. In ihm werden Daten berechnet und persistiert. Wie im Architekturentwurf (\fullref{sec:architektur}) schon beschrieben, besitzt der Service eine Schnittstelle. Das ist nichts besonderes: ein Webservice definiert sich darüber, dass er eine maschinenlesbare Schnittstelle besitzt.
 
 Eine Besonderheit in WARP ist die Build-Pipeline. Sie wird ebenfalls vom Service ausgeführt. Daher beschäftigt sich dieser Abschnitt zwar auch mit der API, aber vor allem mit dem Entwurf und der Implementierung der Build-Pipeline.
 
@@ -58,7 +58,7 @@ Für den Service wurden die in Tabelle \ref{tab:rest-routes} definierten Endpunk
     GET & {\scriptsize \texttt{/pipelines/:pipeline\_id/builds}} & Auflisten der letzten Builds einer Pipeline anhand ihrer ID \\ \hline
     GET & {\scriptsize \texttt{/builds/:build\_id}} & Auslesen eines Builds anhand seiner ID \\
     \hline\hline
-    POST & {\scriptsize \texttt{/webhooks/receive}} & Endpunkt für Git Webhooks mit verschiedenen Aktionen, bspw. Erstellen eines neuen Builds\footnote{Diese Route entspricht nicht einer typischen RESTful Route, wird allerdings für das Empfangen von Webhooks auf diese benötigt} \\
+    POST & {\scriptsize \texttt{/webhooks/receive}} & Endpunkt für Git Webhooks mit verschiedenen Aktionen, bspw. Erstellen eines neuen Builds. Entspricht nicht einer typischen RESTful Route, wird allerdings für das Empfangen von Webhooks benötigt. \\
     \hline
   \end{tabularx}
   \caption{RESTful API Routen}
@@ -102,7 +102,7 @@ Auf die Details der Implementierung der API wird nicht genauer eingegangen. Folg
   [caption={API Beispiel: Löschen einer Pipeline}]
   {snippets/api-example-delete-pipeline.txt}
 
-Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spezifikation definiert (siehe Sektion \ref{subsec:jsonapi}) – eine passende Fehlermeldung ausgegeben. In Beispiel \ref{lst:api-example-update-error} wird zur Erzeugung eines Fehlers der Titel der Pipeline auf eine Nummer aktualisiert.
+Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spezifikation definiert (siehe \fullref{subsec:jsonapi}) – eine passende Fehlermeldung ausgegeben. In Beispiel \ref{lst:api-example-update-error} wird zur Erzeugung eines Fehlers der Titel der Pipeline auf eine Nummer aktualisiert.
 
 \lstinputlisting
   [caption={API Beispiel: Ungültige Aktualisierung einer Pipeline},
@@ -112,13 +112,13 @@ Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spe
 
 \subsection{Konfiguration einer Pipeline}
 
-Über die API werden nur die Attribute der Pipeline angelegt, nicht jedoch die Stages, Gruppen und Schritte der Pipeline (siehe Sektion \ref{subsec:uml}). Dies wurde bewusst nicht über die API implementiert. Die Stages, Gruppen und Schritte sollen nämlich aus einer Konfigurationsdatei ausgelesen werden.
+Über die API werden nur die Attribute der Pipeline angelegt, nicht jedoch die Stages, Gruppen und Schritte der Pipeline (siehe \fullref{subsec:uml}). Dies wurde bewusst nicht über die API implementiert. Die Stages, Gruppen und Schritte sollen nämlich aus einer Konfigurationsdatei ausgelesen werden.
 
 Das Anlegen komplexer Pipelines mit mehreren Stages, Abschnitten und verschachtelten Gruppen gestaltet sich über eine UI schwierig. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt auch unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
 
 Eine Datei namens \emph{.warp.yml} im Dokumentenstamm des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses als Entitäten gespeichert.
 
-Die Zugehörigkeit zwischen Pipeline in der Datenbank und in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe Sektion \ref{subsec:api-usage})
+Die Zugehörigkeit zwischen Pipeline in der Datenbank und in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe \fullref{subsec:api-usage})
 
 Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Im Gegensatz zu JSON, was zur API-Kommunikation genutzt wird, besitzt YAML beispielweise Kommentare.
 
@@ -138,7 +138,7 @@ In der Praxis ist es sinnvoll für verschiedene Git Branches auch unterschiedlic
 
 Für alle Feature Branches eines Projekts wird nur ein \ac{CI} Build durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, solche Branches auf eine Serverumgebung zu deployen. Wurde ein Feature fertiggestellt, wird der Feature Branch in den Branch \texttt{master} gemerged. Bei Änderungen an diesem Branch wird ein Build Prozess durchgeführt, der zudem auch ein Deployment auf eine Staging-Umgebung beinhaltet. Ein weiterer Branch \texttt{production} ist mit einem Build Prozess verbunden, der ein Deployment auf eine Produktions-Umgebung durchführt.
 
-Der in Abschnitt \ref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei jedem Push in das Remote Repository ausgeführt. Aus ihm müssen wir auslesen, welche Pipeline dem Push zugeordnet ist. Dies kann über die Git Reference gelöst werden, aus der man den Namen des zugehörigen Branches und sogar auch den Namen eines Git Tags auslesen kann.
+Der in \fullref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei jedem Push in das Remote Repository ausgeführt. Aus ihm müssen wir auslesen, welche Pipeline dem Push zugeordnet ist. Dies kann über die Git Reference gelöst werden, aus der man den Namen des zugehörigen Branches und sogar auch den Namen eines Git Tags auslesen kann.
 
 Somit wird in der Pipeline konfiguriert, welcher Git Reference sie zugeordnet ist. Im gerade beschriebenen Szenario sollte eine Pipeline für \emph{alle} Feature Branches ausgeführt werden. Feature Branches besitzen üblicherweise das Präfix \texttt{feature/} (z.B. \texttt{feature/worker\allowbreak -refactor} oder \texttt{feature/queue\allowbreak -implementation}). Es wäre jedoch unpraktisch, wenn für jeden neuen Feature Branch eine weitere, identische Pipeline angelegt werden muss, bei der sich nur die Git Reference unterscheidet.
 
@@ -150,7 +150,7 @@ In der Datenstruktur (Abbildung \ref{fig:uml}) entspricht dem Feld \emph{git\_re
 
 Ursprünglich wurde nicht geplant, dass eine Pipeline über die API angelegt werden muss. Alle Konfigurationen sollten über die Konfigurationsdatei ausgelesen werden.
 
-In der Praxis hat sich dies als problematisch erwiesen. Bei jedem Webhook hätte ein Build-Prozess initialisiert werden müssen, um in der Konfigurationsdatei nach einer passenden Git Reference (siehe Abschnitt \ref{subsec:git-reference}) zu suchen. Wenn keine passende Git Reference gefunden wird, müsste der Build-Prozess sofort abgebrochen werden.
+In der Praxis hat sich dies als problematisch erwiesen. Bei jedem Webhook hätte ein Build-Prozess initialisiert werden müssen, um in der Konfigurationsdatei nach einer passenden Git Reference (siehe \fullref{subsec:git-reference}) zu suchen. Wenn keine passende Git Reference gefunden wird, müsste der Build-Prozess sofort abgebrochen werden.
 
 Da dies einen großen Overhead erzeugt, wurden bestimmte Attribute der Pipeline, vor allem der Reguläre Ausdruck der Git Reference, in die Datenbank ausgelagert. Bei einem einkommenden Webhook kann dadurch direkt in der Datenbank nach einer zugehörigen Pipeline gesucht werden. Wenn keine gefunden wird, muss auch kein Build-Prozess initialisiert werden.
 
@@ -197,7 +197,7 @@ Ein \textbf{Worker} ist ein Konzept in der Software-Programmierung, bei dem eine
 
 Erlang (und somit auch Elixir) besitzt die Möglichkeit nebenläufige Prozesse zu starten. Diese sind keine Betriebssystem-Prozesse, sondern eigene Prozesse der Erlang VM. Durch die ressourcensparende Natur dieser Prozesse erlaubt es Erlang, eine Vielzahl von Prozessen in einer Anwendung zu verwalten. \citep[133]{Armstrong2007}
 
-Prozesse kommunizieren untereinander mit Nachrichten und können besitzen einen Speicher bzw. Zustand (State). Diese Eigenschaften eignen sich sehr gut zur Implementierung der in Sektion \ref{subsec:ablauf-build} beschriebenen Worker.
+Prozesse kommunizieren untereinander mit Nachrichten und können besitzen einen Speicher bzw. Zustand (State). Diese Eigenschaften eignen sich sehr gut zur Implementierung der in \fullref{subsec:ablauf-build} beschriebenen Worker.
 
 \subsubsection{Aufteilung in isolierte Worker}
 \label{subsec:aufteilung-der-worker}
@@ -265,7 +265,7 @@ Der GenServer muss nun auf die Nachricht \texttt{:run} reagieren. Da es sich um 
   lastline=30]
   {snippets/build-worker.ex}
 
-Die Funktion \texttt{run\_\allowbreak next\_\allowbreak stage/1} erhöht den Index der aktiven Stage und führt die entsprechende Stage als GroupWorker aus (vgl. Abschnitt \ref{subsec:aufteilung-der-worker}):
+Die Funktion \texttt{run\_\allowbreak next\_\allowbreak stage/1} erhöht den Index der aktiven Stage und führt die entsprechende Stage als GroupWorker aus (vgl. \fullref{subsec:aufteilung-der-worker}):
 
 \lstinputlisting
   [caption={BuildWorker.ex: Starten eines GroupWorkers für eine Stage},
@@ -315,9 +315,3 @@ An einigen Stellen des Workers wird die Funktion \texttt{broadcast/2} aufgerufen
 Die Funktion \texttt{log/2} dient zum Logging und Debugging. Auf sie wird nicht weiter eingegangen.
 
 Die Implementierung der anderen Worker gestaltet sich ähnlich. Selbstverständlich unterscheiden sich einige Stellen und werden komplexer, beispielsweise das serielle oder parallele Ausführen von Schritten in einer Gruppe. Der Ablauf des BuildWorkers und die Kommunikation zum GroupWorker ist jedoch übertragbar auf andere Worker.
-
-\subsection{Isolation der Build-Steps}
-
-In der aktuellen Implementation wird der Build-Prozess in einem temporären Ordner ausgeführt. Die Befehle werden in einer Shell der Maschine ausgeführt, auf der der Service ausgeführt wird.
-
-Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Build Steps) sollten isoliert voneinander, bestenfalls in Instanzen einer virtuellen Maschine (z.B. Docker) ausgeführt werden. Eine solche Implementation sprengt den Umsatz dieser Arbeit, daher wurde ein sehr simpler Ansatz verwendet.

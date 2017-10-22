@@ -99,7 +99,7 @@ Die Komponente ist nicht sehr hoch, damit mehr Elemente gleichzeitig im Viewport
 
 Die neuesten Builds ist eine der wichtigsten Informationen. Zu jeder Pipeline wird der aktuellste Build-Prozess angezeigt. Daraus wird direkt ersichtlich, ob es aktuell Probleme gibt. Ebenso kann der Nutzer in dieser Übersicht direkt erkennen, welche Version der Software auf welche Umgebung deployed wurde.
 
-Hierfür wird im Vergleich zur Historie (siehe Abschnitt \ref{subsec:visualisierung-build-history}) eine Komponente mit mehr Informationen benötigt.
+Hierfür wird im Vergleich zur Historie (siehe \fullref{subsec:visualisierung-build-history}) eine Komponente mit mehr Informationen benötigt.
 
 \begin{figure}[h]
   \caption{Informationsreiche Build-Prozess Komponenten mit positivem Status}
@@ -147,7 +147,7 @@ Letztendlich wurde sich für die Visualisierung in Abbildung \ref{fig:pipeline-o
     \includegraphics[width=\textwidth]{assets/pipeline-overview}
 \end{figure}
 
-Um nicht weitere visuelle Elemente einzuführen, wurden Designelemente der Historie (siehe Abschnitt \ref{subsec:visualisierung-build-history}) wiederverwendet.
+Um nicht weitere visuelle Elemente einzuführen, wurden Designelemente der Historie (siehe \fullref{subsec:visualisierung-build-history}) wiederverwendet.
 
 Ein Nachteil dieser Visualisierung ist, dass bei zu vielen parallelen Prozessen die einzelnen Schritte sehr schmal werden können. Eine Pipeline mit sehr vielen verschachtelten parallelen Prozessen kann allerdings auch ein Anzeichen für einen schlechten Aufbau der Pipeline sein.
 
@@ -162,7 +162,7 @@ Ein Konzept von React ist der \emph{State}. Im State werden Daten gespeichert, d
 
 Mit Redux lässt sich ein globaler State verwalten, auf den alle Komponenten zugreifen können. Wenn eine Komponente Daten im globalen State modifiziert, werden die Änderungen direkt in allen anderen Komponenten bekannt, die auf diese Daten zugreifen.
 
-\subsection{Komposition als Anwendungsstruktur}
+\subsection{Komposition als An\-wen\-dungs\-struk\-tur}
 \label{subsec:komposition}
 
 Komposition ist eins der Hauptmerkmale von Komponenten. Komposition bedeutet, dass durch das Zusammenspiel von mehreren Komponenten eine größere Aufgabe erfüllt wird. Jede Komponente ist dabei für einen Teil der Aufgabe zuständig. \citep[Kapitel 1]{Maemecke2017}
@@ -199,7 +199,7 @@ Wir nutzen die Lifecycle-Methode \texttt{componentWillMount()}, wie in Quelltext
   language=js]
   {snippets/project-container.js}
 
-\texttt{dispatch()} in Zeile 4 ist eine Method aus Redux (siehe Abschnitt \ref{subsec:react-redux}). Durch sie werden Änderungen an den globalen State übermittelt. Die Methode \texttt{fetchProject()} startet eine Anfrage an die API mit der entsprechenden Projekt-ID.
+\texttt{dispatch()} in Zeile 4 ist eine Method aus Redux (siehe \fullref{subsec:react-redux}). Durch sie werden Änderungen an den globalen State übermittelt. Die Methode \texttt{fetchProject()} startet eine Anfrage an die API mit der entsprechenden Projekt-ID.
 
 Im globalen State wird das Feld \texttt{project.isFetching} während der Anfrage auf \texttt{true} gesetzt. Sind die Daten angekommen, wird sie auf \texttt{false} gesetzt. Damit kann in entweder ein Ladeindikator angezeigt werden, oder die verschachtelte Komponente aufgerufen werden (siehe Quelltext \ref{lst:project-render}).
 
@@ -211,12 +211,12 @@ Im globalen State wird das Feld \texttt{project.isFetching} während der Anfrage
   language=js]
   {snippets/project-container.js}
 
-Als verschachtelte Komponente kann \texttt{<Project />} dem gleichen Schema folgen. Sie würde dann  dementsprechend nicht das Projekt abrufen, sondern stattdessen eine Liste der Pipelines oder letzten Builds. Im nächsten Abschnitt \ref{subsec:react-routes} wird eine Besonderheit dieser Komponente behandelt.
+Als verschachtelte Komponente kann \texttt{<Project />} dem gleichen Schema folgen. Sie würde dann  dementsprechend nicht das Projekt abrufen, sondern stattdessen eine Liste der Pipelines oder letzten Builds. Im nächsten \fullref{subsec:react-routes} wird eine Besonderheit dieser Komponente behandelt.
 
 \subsection{Implementierung der Frontend-Routen}
 \label{subsec:react-routes}
 
-Die Komponente \texttt{Project} soll verschiedene Screens anzeigen (vgl. Auflistung in Abschnitt \ref{subsec:entwurf-user-interface}). Je nach URL wird die Historie, die neuesten Build-Prozesse oder die Details zu einem Build-Prozess angezeigt.
+Die Komponente \texttt{Project} soll verschiedene Screens anzeigen (vgl. Auflistung in \fullref{subsec:entwurf-user-interface}). Je nach URL wird die Historie, die neuesten Build-Prozesse oder die Details zu einem Build-Prozess angezeigt.
 
 Bei der Implementierung dafür hilft die Bibliothek react-router\footnote{https://reacttraining.com/react-router/}. Mit ihr lassen sich Routen und die zugehörige Komponente definieren.
 
@@ -226,13 +226,13 @@ Bei der Implementierung dafür hilft die Bibliothek react-router\footnote{https:
   language=js]
   {snippets/project.js}
 
-Die in Quelltext \ref{lst:project-routes} verlinkten Komponenten \texttt{BuildDetails}, \texttt{History} und \texttt{LatestBuilds} folgen jeweils wieder dem in Abschnitt \ref{subsec:implementierung-struktur} beschriebenen Aufbau. Daher benötigt die Komponente \texttt{Project} keinen API-Aufruf in einer Lifecycle-Methode. Der Aufruf wird an die zutreffende Komponenten ausgelagert.
+Die in Quelltext \ref{lst:project-routes} verlinkten Komponenten \texttt{BuildDetails}, \texttt{History} und \texttt{Latest\-Builds} folgen jeweils wieder dem in \autoref{subsec:implementierung-struktur} beschriebenen Aufbau. Daher benötigt die Komponente \texttt{Project} keinen API-Aufruf in einer Lifecycle-Methode. Der Aufruf wird an die zutreffende Komponenten ausgelagert.
 
 \subsection{Asynchroner Datenfluss mit Redux}
 
 Zur Implementierung des Redux Stores gibt es eine Best Practice für asynchrone Redux-Actions\footnote{siehe http://redux.js.org/docs/advanced/AsyncActions.html}. Zusammen mit der Bibliothek redux-thunk können in einem \emph{Action Creator} weitere Actions und asynchrone Funktionen aufgerufen werden.
 
-Eine Funktion wie beispielsweise \texttt{fetchProject()} aus Abschnitt \ref{subsec:implementierung-struktur} besteht aus mehreren Aufrufen:
+Eine Funktion wie beispielsweise \texttt{fetchProject()} aus \fullref{subsec:implementierung-struktur} besteht aus mehreren Aufrufen:
 
 \begin{enumerate}
  \item Hinweis \texttt{isFetching} setzen, dass Daten abgerufen werden
@@ -276,7 +276,7 @@ Der Quelltext aus diesen Beispielen ist eine vereinfachte Version der tat\-säch
 
 Während eines Build-Prozesses werden aktualisierte Daten des Builds über einen Websocket an den Client übertragen. Dadurch kann der aktuelle Stand des Prozesses in nahezu Echtzeit angezeigt werden.
 
-Wie in Abschnitt \ref{subsec:implementierung-worker} erläutert, werden diese Aktualisierungen in einem Kanal je Projekt gesendet. Die Komponente \texttt{ProjectContainer}, die in Abschnitt \ref{subsec:implementierung-struktur} beschrieben wurde, eignet sich sehr gut, um sich mit diesem Kanal zu verbinden.
+Wie in \fullref{subsec:implementierung-worker} erläutert, werden diese Aktualisierungen in einem Kanal je Projekt gesendet. Die Komponente \texttt{Project\-Con\-tain\-er}, die in \fullref{subsec:implementierung-struktur} beschrieben wurde, eignet sich sehr gut, um sich mit diesem Kanal zu verbinden.
 
 Die Komponente wird durch die Methoden in Quelltext \ref{lst:project-websocket} ergänzt.
 
@@ -298,7 +298,7 @@ Die darin aufgerufene Klasse \texttt{Socket} ist eine eigenes Modul, das auf die
   language=js]
   {snippets/socket.js}
 
-Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Parameter übergeben. Dadurch kann das Modul auf den Redux Store zugreifen und den globalen State modifizieren. Änderungen am globalen State werden direkt in allen Komponenten angezeigt, die diese Daten anzeigen.
+Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Pa\-ra\-me\-ter über\-ge\-ben. Dadurch kann das Modul auf den Redux Store zugreifen und den globalen State modifizieren. Änderungen am globalen State werden direkt in allen Komponenten angezeigt, die diese Daten anzeigen.
 
 \lstinputlisting
   [caption={socket.js: Verbinden mit dem Projekt-Kanal},
@@ -320,4 +320,4 @@ Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \te
   language=js]
   {snippets/socket.js}
 
-Bei den Quelltexten handelt es sich um vereinfachte Version zur besseren Verständlichkeit. Die reale Implementation gestaltet sich etwas komplexer, besitzt allerdings den gleichen Aufbau.
+Bei den Quelltexten handelt es sich um vereinfachte Version zur besseren Ver\-ständ\-lich\-keit. Die reale Implementation gestaltet sich etwas komplexer, besitzt jedoch den gleichen Aufbau.

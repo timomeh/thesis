@@ -95,15 +95,15 @@ Travis CI, im folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-
 
 Für öffentliche Repositories ist Travis kostenlos, bei privaten Repositories fallen Kosten ab \$69 an. Mit ``Travis CI Enterprise'' besteht auch die Möglichkeit, Travis selbst zu hosten. Abseits der Nutzung öffentlichen oder privaten Repositories, besitzt die kostenlose Version nicht weniger Funktionalitäten als die kostenpflichtige Version.
 
-Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt hinzufügen: Mit einem Schalter lassen sich Build-Prozesse für ein Repository aktivieren (insofern man darauf Zugriff hat. Siehe Abbildung \ref{fig:travis-activate}).
+Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt hinzufügen: Mit einem Schalter lassen sich Build-Prozesse für ein Repository aktivieren (insofern man darauf Zugriff hat. Siehe Abbildung \ref{fig:travis-active }).
 
 \begin{figure}[h]
   \caption{Travis CI: Aktivieren eines Build Prozess}
-  \label{fig:travis-activate}
+  \label{fig:travis-active}
   \includegraphics[width=.8\textwidth]{assets/travis-activate}
 \end{figure}
 
-Der Build-Prozess wird über die Datei \emph{.travis.yml} im Stammverzeichnis des Repositories konfiguriert. Mit Travis lassen sich jedoch keine Pipelines definieren, wie es bei Jenkins (Abschnitt \ref{sec:analyse-jenkins}) der Fall ist. Travis besitzt vielmehr einen vorgefertigen Prozess, der über diese Datei genauer eingestellt werden kann.\footnote{https://docs.travis-ci.com/user/customizing-the-build/} Dadurch ist ein Prozess zwar nicht so flexibel, jedoch kann dank solcher Standardeinstellungen die Konfiguration minimiert werden – bis zu einem Punkt, an dem keine Konfiguration notwendig ist.
+Der Build-Prozess wird über die Datei \emph{.travis.yml} im Stammverzeichnis des Repositories konfiguriert. Mit Travis lassen sich jedoch keine Pipelines definieren, wie es bei Jenkins (\fullref{sec:analyse-jenkins}) der Fall ist. Travis besitzt vielmehr einen vorgefertigen Prozess, der über diese Datei genauer eingestellt werden kann.\footnote{https://docs.travis-ci.com/user/customizing-the-build/} Dadurch ist ein Prozess zwar nicht so flexibel, jedoch kann dank solcher Standardeinstellungen die Konfiguration minimiert werden – bis zu einem Punkt, an dem keine Konfiguration notwendig ist.
 
 Zum aktuellen Zeitpunkt wurden Stages als Beta-Funktionalität hinzugefügt.\footnote{https://docs.travis-ci.com/user/build-stages/} Damit lassen sich Schritte definieren, die einer Stage zugeordnet sind (siehe Quelltext \ref{lst:travis-config}).
 
@@ -161,6 +161,7 @@ Bei der Verwendung von Stages ist aufgefallen, dass Travis vor jedem Schritt zur
 \end{itemize}
 
 \section{Codeship}
+\label{sec:analyse-codeship}
 
 Codeship ist ein Cloud-Dienst, der sich in die zwei Modelle ``Codeship Basic'' und ``Codeship Pro'' aufteilt. Mit beiden lassen sich Pipelines definieren und ausführen. Codeship Basic kann kostenlos genutzt werden. Mehr Ressourcen und Funktionalitäten sind gegen Aufpreis ab \$49 verfügbar: beispielsweise lassen sich in der kostenlosen Version keine parallelen Schritte ausführen, und auch keine Konfigurationsdateien nutzen.
 
@@ -168,7 +169,7 @@ Codeship Basic lässt sich über den Browser konfigurieren, Build-Prozesse werde
 
 Codeship lässt sich mit Repositories in GitHub, Bitbucket und GitLab nutzen. Im Folgenden wurde die kostenlose Version von Codeship Basic genutzt.
 
-Im Gegensatz zu Travis CI (siehe Abschnitt \ref{sec:analyse-travis}) ist Codeship in Organisationen aufgeteilt. Jede Organisation besitzt somit eine eigene Übersicht.
+Im Gegensatz zu Travis CI (siehe \fullref{sec:analyse-travis}) ist Codeship in Organisationen aufgeteilt. Jede Organisation besitzt somit eine eigene Übersicht.
 
 Beim Einrichten über die Browser-Oberfläche stehen Formularfelder zur Verfügung (siehe Abbildung \ref{fig:codeship-setup}), in die direkt Konfigurationen eingefügt werden, wie man es auch in einer Konfigurationsdatei tun würde.
 

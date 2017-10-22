@@ -1,18 +1,22 @@
 \documentclass[
+  fontsize=12pt,
   paper=a4,
   bibliography=totocnumbered,
   listof=totoc,
   listof=entryprefix,
   toc=sectionentrywithdots,
-  DIV=calc,
+  DIV=default,
   oneside,
   BCOR=14mm,
+  headsepline
 ]{scrbook}
 \include{fragments/packages}
+\linespread{1.5}
 
 \begin{document}
   \pagenumbering{roman}
   \include{fragments/titlepage}
+  \include{chapters/00-zusammenfassung}
   \include{fragments/toc}
   \include{fragments/acronyms}
 

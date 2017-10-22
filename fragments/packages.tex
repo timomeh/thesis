@@ -7,12 +7,14 @@
 \usepackage{makecell}
 \usepackage{epigraph}
 \usepackage{marginnote}
+\usepackage{setspace}
 \usepackage{xcolor}
 \usepackage{dirtree}
 \usepackage{listings}
 \usepackage{inconsolata}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage[hidelinks]{hyperref}
 \usepackage[capposition=top]{floatrow}
 
 
@@ -48,6 +50,16 @@
 
 \renewcaptionname{ngerman}{\figurename}{Abbildung}
 \renewcaptionname{ngerman}{\tablename}{Tabelle}
+
+\addto\extrasngerman{%
+  \renewcommand{\chapterautorefname}{Kapitel}%
+  \renewcommand{\sectionautorefname}{Abschnitt}%
+  \renewcommand{\subsectionautorefname}{Abschnitt}%
+  \renewcommand{\subsubsectionautorefname}{Abschnitt}%
+}
+
+\newcommand{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} – \textit{\nameref*{#1}}}}
+%\newcommand{\fullref}[1]{\hyperref[{#1}]{Kapitel \textit{\ref*{#1} – \nameref*{#1}}}}
 
 \newcommand{\draft}[1]{\color{red}#1}
 

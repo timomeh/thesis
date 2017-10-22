@@ -6,23 +6,22 @@
 
 \chapter{Einleitung}
 
-Automatisierung ist nicht nur in der Informatik sondern auch in vielen anderen Branchen erstrebenswert. Eins der bekanntesten historischen Vorbilder ist Sakichi Toyoda, der schon in den 1920er Jahren das Potential der Automatisierung erkannte und einen automatisierten Webstuhl erfand, der Qualität und Effizienz erhöhte und gleichzeitig Produktionskosten verringerte. Später wird er die Toyota Industries Corporation gründen, die bis heute dafür bekannt ist, stets ihre Prozesse zu verbessern.
+Automatisierung ist nicht nur in der Informatik sondern auch in vielen anderen Branchen erstrebenswert. Eins der bekanntesten historischen Vorbilder ist Sakichi Toyoda, der schon in den 1920er Jahren das Potential der Automatisierung erkannte und einen automatisierten Webstuhl erfand, mit dem sich die Produktionskosten drastisch verringerten und gleichzeitig die Qualität der Produkte und die Effizienz der Produktion stark erhöhte. Später wird Toyoda die Toyota Industries Corporation gründen, die bis heute dafür bekannt ist, stets ihre Prozesse zu optimieren.
 
-In der Informatik gibt es viele Stellen, an denen Automatisierung eingesetzt werden kann. Ziel ist es immer, repetitive Prozesse von einem Computer durchführen zu lassen, welcher den Prozess schneller und zuverlässiger durchführen kann.
+In der Informatik gibt es viele Stellen, an denen Automatisierung eingesetzt wird. Ziel ist es immer, repetitive Prozesse von einem Computer durchführen zu lassen, der den Prozess schneller und zuverlässiger durchführen kann. Dadurch bekommt der Programmierer mehr Zeit, um sich seiner eigentlichen Aufgabe zu widmen: dem Programmieren.
 
-Diese Arbeit beschäftigt sich mit der Automatisierung von Software Deployments: der Prozess der Inbetriebsetzung einer Software, angefangen von der lokalen Arbeitsstation des Entwicklers bis hin zur Produktionsumgebung und ihrer Nutzer.
+Deployments sind eine dieser Prozesse, die automatisiert werden können und dabei den Arbeitsablauf des Entwicklers verbessern. Unter Deployment verstehen wir die Schritte zur Inbetriebsetzung einer Anwendung, angefangen von der lokalen Arbeitsstation des Entwicklers bis hin zur Produktionsumgebung und deren Nutzer.
 
+Nach eigener Erfahrung – durch die Arbeit als Webentwickler, auch in betreuender Tätigkeit – gibt es noch viele Rückstände in kleinen, aber auch größeren Unternehmen. Das Einrichten des Deployments verlangt Expertise, die unter Umständen im Unternehmen nicht vorhanden ist. Es nimmt Zeit in Anspruch, womit unmittelbar auch Kosten verbunden sind. Die Anschaffung eines automatisierten Deployments ist somit eine Investition, welche keinen direkten Vorteil des eigentlichen Produkts mit sich bringt: die Anwendung wird dadurch nicht schneller und es werden auch nicht direkt Fehler behoben oder gar neue Features eingeführt. All dies sind Aufgaben, die im Tagesgeschäft eine höhere Priorität haben.
 
-\section{Problemstellung}
+Stattdessen ermöglicht das automatisierte Deployment ein zuverlässigeres und schnelleres Veröffentlichen von Änderungen an der Software. Der Release-Zyklus kann deutlich verkürzt werden, und fehlerhafte Features schneller zurückgenommen werden \citep[11f]{Humble2010}. All diese Merkmale sind auf längere Sicht vorteilhaft und erstrebenswert, aber nicht direkt ersichtlich, wenn man nicht mit der Thematik vertraut ist.
 
+Die Verwendung von Versionskontrollsystemen wie Git ist weit verbreitet; alle Entwickler eines Projekts arbeiten gemeinsam in einem Repository. Demnach ist der notwendige Schritt zum automatisierten Deployment eine Anwendung, die mit dem Repository verbunden ist und daraus automatisierte Prozesse ausführt, wie die Durchführung von Tests und (bei Erfolg) den Transfer der Anwendung auf die Zielumgebung.
 
-\section{Motivation}
+Bevor dieser Schritt gegangen wird und eine Anwendung entwickelt wird, werden zu Beginn der Arbeit  theoretische Grundlagen zu Builds, Deployments und damit verbundenen Arbeitsabläufen gelegt. Die Definitionen zu Begriffen in der Thematik bilden ein Vokabular, welches durch die gesamte Arbeit verwendet wird. Außerdem werden somit die Anforderungen an eine solche Anwendung ausgearbeitet. Dabei wird das Themengebiet auf Deployment-Prozesse von \emph{Webanwendungen} eingegrenzt, um von möglichen Besonderheiten anderer Anwendungsarten absehen zu können.
 
+Die darauffolgende Analyse betrachtet vorhandene Anwendungen und zeigt deren Gemeinsamkeiten und Unterschiede. Dadurch werden auch wieder Anforderungen für eine eigene Anwendung deutlich, aber auch Verbesserungspotenzial deutlich. Bei der Analyse handelt es sich jedoch nur um eine verkürzte Marktanalyse, da eine ausführlichere Betrachtung den Rahmen dieser Arbeit sprengen würde.
 
-\section{Zielsetzung}
+Der Hauptteil der Arbeit beschäftigt sich mit dem Entwurf und der Implementierung einer Webanwendung für automatisierte Build- und De\-ploy\-ment-Prozesse. Dieses Kapitel ist in zwei Teile unterteilt: Der erste Teil beschäftigt sich mit dem Service, welcher vor allem für die Durchführung des automatisierten Prozesses zuständig ist. Der Service wird zuerst entworfen und dann die Implementierung anhand von Ausschnitten gezeigt. Im zweiten Teil wird der Client näher betrachtet. Zum Entwurf des Clients gehört auch die Gestaltung des User Interfaces. Die Implementierung des Clients wird auch hier anhand von Ausschnitten erklärt.
 
-
-\section{Aufbau der Arbeit}
-
-
-\section{Zielgruppe}
+Zum Abschluss der Arbeit wird ein Ausblick auf mögliche Verbesserungen und Weiterentwicklungen der Anwendung gegeben, und ein Fazit über die Arbeit gezogen.
