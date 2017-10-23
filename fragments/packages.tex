@@ -44,20 +44,10 @@
 \renewcommand*\dictumauthorformat[1]{\vspace{0.5em}--- #1\vspace{1em}}
 \renewcommand*\dictumrule{}
 
-\renewcaptionname{ngerman}{\figurename}{Abbildung}
-\renewcaptionname{ngerman}{\tablename}{Tabelle}
-
-\addto\extrasngerman{%
-  \renewcommand{\chapterautorefname}{Kapitel}%
-  \renewcommand{\sectionautorefname}{Abschnitt}%
-  \renewcommand{\subsectionautorefname}{Abschnitt}%
-  \renewcommand{\subsubsectionautorefname}{Abschnitt}%
-}
-
 \newcommand{\fullref}[1]{\hyperref[{#1}]{Kapitel \textit{{\ref*{#1} – \nameref{#1}}}}}
 \newcommand{\lstref}[1]{\hyperref[{#1}]{Listing \ref*{#1}}}
 \newcommand{\figref}[1]{\hyperref[{#1}]{Abbildung \ref*{#1}}}
-%\newcommand{\fullref}[1]{\hyperref[{#1}]{Kapitel \textit{\ref*{#1} – \nameref*{#1}}}}
+\newcommand{\tabref}[1]{\hyperref[{#1}]{Tabelle \ref*{#1}}}
 
 \newcommand{\draft}[1]{\color{red}#1}
 
