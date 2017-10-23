@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \chapter{Analyse von Build- und Deployment-Anwendungen}
 
-Vor der Umsetzung der Anwendung wurde eine Analyse vorhandener Anwendungen durchgeführt. Die Ausarbeitung der Gemeinsamkeiten, Unterschiede, Vor- und Nachteile dieser Anwendungen helfen bei der Umsetzung einer eigenen Anwendung.
+Vor der Umsetzung der Anwendung wurde eine Analyse vorhandener Systeme durchgeführt. Die Ausarbeitung der Gemeinsamkeiten, Unterschiede, Vor- und Nachteile dieser Anwendungen helfen bei der Umsetzung der eigenen Anwendung.
 
 Besonders Vor- und Nachteile sind subjektiv und unterscheiden sich zwischen Nutzergruppen. Bei der Betrachtung über Personae können diese Eigenschaften auf verschiedene Nutzergruppen projiziert werden.
 
@@ -28,18 +28,18 @@ Folgende Persona wurde zur Analyse genutzt:
   \item [Interessen] Internet, neue Technologien, Open Source, Indie-Filme
   \item [Abschluss] Informatik B. Sc.
   \item [Beruf] Freiberuflicher Softwareentwickler von Webanwendungen
-  \item [Biografie] Christian hat Informatik studiert und dort seine Interesse an moderner Webentwicklung entdeckt. Im Studium hat er freiberuflich als Webentwickler gearbeitet und dies nach dem Studium fortgesetzt. In seiner Freizeit entwickelt und unterstützt er Open Source Projekte. Christian möchte einen eigenen Online-Dienst entwickeln, dafür aber vorerst nicht viel Geld investieren. Als Abwechslung vom Programmieren schaut er Kurzfilme aus der Indie-Szene.
+  \item [Biografie] Christian hat Informatik studiert und dort seine Interesse an moderner Webentwicklung entdeckt. Im Studium hat er als freiberuflich Webentwickler gearbeitet und dies nach dem Studium fortgesetzt. In seiner Freizeit entwickelt und unterstützt er Open Source Projekte. Christian möchte einen eigenen Online-Dienst entwickeln, dafür aber vorerst nicht viel Geld investieren. Als Abwechslung vom Programmieren schaut er Kurzfilme aus der Indie-Szene.
   \item [Bedürfnis] Sowohl für seine freiberufliche Tätigkeit als auch für seine Projekte in der Freizeit sucht Christian eine Möglichkeit, um Webanwendungen automatisiert auf einen Server zu übertragen. Christian arbeitet mit Git. Zum Deployment führt er meist manuell auf dem Server einen \texttt{git pull} aus, womit er nicht zufrieden ist.
 \end{description}
 
 \section{Jenkins}
 \label{sec:analyse-jenkins}
 
-Jenkins ist eine in Java programmierte Webanwendung für Build-Prozesse. Es bezeichnet sich selbst als ``the leading open source automation server''. Jenkins ist ein Fork von Hudson, welches 2005 veröffentlicht wurde, mittlerweile aber zugunsten von Jenkins nicht mehr weiterentwickelt wird. Jenkins ist kostenlos und wird selbst gehosted.
+Jenkins ist eine in Java programmierte Webanwendung für Build-Prozesse. Es bezeichnet sich selbst als ``the leading open source automation server''\footnote{Siehe https://jenkins.io/}. Jenkins ist ein Fork von Hudson, welches 2005 veröffentlicht wurde, mittlerweile aber nicht mehr weiterentwickelt wird. Jenkins ist kostenlos und muss selbst gehosted werden.
 
-Jenkins lässt sich mit vielen Plugins erweitern, was in diesem Szenario nicht berücksichtigt wurde.
+Es lässt sich mit vielen Plugins erweitern, was in diesem Szenario nicht berücksichtigt wurde.
 
-Zur Analyse wurde Jenkins auf einer Serverinstanz bei DigitalOcean installiert.
+Zur Analyse wurde Jenkins auf einer Serverinstanz bei DigitalOcean installiert. Durch das angebotene Installationsskript war die Installation nicht sonderlich kompliziert.
 
 \begin{figure}[h]
   \caption{Jenkins: Konfiguration einer Pipeline}
@@ -47,7 +47,7 @@ Zur Analyse wurde Jenkins auf einer Serverinstanz bei DigitalOcean installiert.
   \includegraphics[width=.8\textwidth]{assets/jenkins-pipeline-script}
 \end{figure}
 
-Eine Pipeline wird bei Jenkins in der Skriptsprache Groovy geschrieben. Diese kann entweder über das Browser-Frontend oder über eine Konfigurationsdatei angelegt werden. In \figref{fig:jenkins-pipeline-config} wurde die Pipeline-Konfiguration über das Frontend angelegt. Vor der Pipeline-Konfiguration bietet Jenkins noch einige Einstellungsmöglichkeiten an, wie beispielsweise das deaktivieren von gleichzeitig laufenden Builds dieser Pipeline an.
+Eine Pipeline wird bei Jenkins in der Skriptsprache Groovy geschrieben. Diese kann entweder über das Browser-Frontend oder über eine Konfigurationsdatei angelegt werden. In \figref{fig:jenkins-pipeline-config} wurde die Pipeline-Konfiguration über das Frontend angelegt. Vor der Pipeline-Konfiguration bietet Jenkins noch einige Einstellungsmöglichkeiten an, wie beispielsweise das deaktivieren von gleichzeitig laufenden Builds dieser Pipeline.
 
 \begin{figure}[h]
   \caption{Jenkins: Übersicht der Pipelines}
@@ -74,7 +74,7 @@ Die Detailansicht eines Builds besitzt wenige Informationen (siehe \figref{fig:j
   \item Lässt sich leicht auf vielen Umgebungen installieren
   \item Pipeline kann sowohl über den Browser als auch über eine Datei konfiguriert werden
   \item Pipeline kann beliebig strukturiert werden
-  \item Builds können über Push, direkt, oder zeitgesteuert ausgeführt werden
+  \item Builds können über einen \texttt{git push}, direkt, oder zeitgesteuert ausgeführt werden
 \end{itemize}
 
 \subsection*{Nachteile von Jenkins}
@@ -84,18 +84,18 @@ Die Detailansicht eines Builds besitzt wenige Informationen (siehe \figref{fig:j
   \item Nur so schnell wie die Maschine, auf der es läuft
   \item Keine Echtzeit-Updates im Browser
   \item Design ist in die Jahre gekommen und unübersichtlich
-  \item Details zu einem Build-Prozess nicht direkt ersichtlich
+  \item Details zu einem Build-Prozess sind nicht direkt ersichtlich
   \item Da Groovy auf Java basiert, ist es abseits der Java-Welt weniger bekannt
 \end{itemize}
 
 \section{Travis CI}
 \label{sec:analyse-travis}
 
-Travis CI, im folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-Dienst, dessen Fokus auf Continuous Integration liegt. Es lassen sich damit aber auch Deployments durchführen. Travis ist speziell für Repositories auf GitHub ausgelegt und unterstützt keine anderen Git-Remotes.
+Travis CI\footnote{https://travis-ci.com/ und https://travis-ci.org/}, im folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-Dienst, dessen Fokus auf Continuous Integration liegt. Es lassen sich damit aber auch Deployments durchführen. Travis ist speziell für Repositories auf GitHub ausgelegt und unterstützt keine anderen Git-Remotes.
 
-Für öffentliche Repositories ist Travis kostenlos, bei privaten Repositories fallen Kosten ab \$69 an. Mit ``Travis CI Enterprise'' besteht auch die Möglichkeit, Travis selbst zu hosten. Abseits der Nutzung öffentlichen oder privaten Repositories, besitzt die kostenlose Version nicht weniger Funktionalitäten als die kostenpflichtige Version.
+Für öffentliche Repositories ist Travis kostenlos, bei privaten Repositories fallen Kosten ab \$69 an. Mit ``Travis CI Enterprise'' besteht auch die Möglichkeit, Travis selbst zu hosten. Abseits der Möglichkeit, privaten Repositories verwenden zu können, besitzt die kostenpflichtige Version nicht mehr Funktionalitäten als die kostenlose Version.
 
-Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt hinzufügen: Mit einem Schalter lassen sich Build-Prozesse für ein Repository aktivieren (insofern man darauf Zugriff hat. Siehe \figref{fig:travis-active }).
+Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt hinzufügen: Mit einem Schalter lassen sich Build-Prozesse für ein Repository aktivieren (insofern man darauf Zugriff hat. Siehe \figref{fig:travis-active}).
 
 \begin{figure}[h]
   \caption{Travis CI: Aktivieren eines Build Prozess}
@@ -103,9 +103,9 @@ Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt 
   \includegraphics[width=.8\textwidth]{assets/travis-activate}
 \end{figure}
 
-Der Build-Prozess wird über die Datei \emph{.travis.yml} im Stammverzeichnis des Repositories konfiguriert. Mit Travis lassen sich jedoch keine Pipelines definieren, wie es bei Jenkins (\fullref{sec:analyse-jenkins}) der Fall ist. Travis besitzt vielmehr einen vorgefertigen Prozess, der über diese Datei genauer eingestellt werden kann.\footnote{https://docs.travis-ci.com/user/customizing-the-build/} Dadurch ist ein Prozess zwar nicht so flexibel, jedoch kann dank solcher Standardeinstellungen die Konfiguration minimiert werden – bis zu einem Punkt, an dem keine Konfiguration notwendig ist.
+Der Build-Prozess wird über die Datei \emph{.travis.yml} im Stammverzeichnis des Repositories konfiguriert. Mit Travis lassen sich jedoch keine Pipelines definieren, wie es bei Jenkins (\fullref{sec:analyse-jenkins}) der Fall ist. Travis besitzt vielmehr einen vorgefertigen Prozess, der über diese Datei genauer eingestellt werden kann.\footnote{vgl. https://docs.travis-ci.com/user/customizing-the-build/} Dadurch ist ein Prozess zwar nicht so flexibel, jedoch kann dank solcher Standardeinstellungen die Konfiguration minimiert werden – bis zu einem Punkt, an dem überhaupt keine Konfiguration notwendig ist.
 
-Zum aktuellen Zeitpunkt wurden Stages als Beta-Funktionalität hinzugefügt.\footnote{https://docs.travis-ci.com/user/build-stages/} Damit lassen sich Schritte definieren, die einer Stage zugeordnet sind (siehe \lstref{lst:travis-config}).
+Zum aktuellen Zeitpunkt wurden Stages als Beta-Funktionalität hinzugefügt.\footnote{vgl. https://docs.travis-ci.com/user/build-stages/} Damit lassen sich Schritte definieren, die einer Stage zugeordnet sind (siehe \lstref{lst:travis-config}).
 
 \lstinputlisting
   [caption={Konfiguration eines Prozesses mit Travis CI Stages},
@@ -122,9 +122,9 @@ Im Hauptbereich der Ansicht sind jeweils Details zu einem Build-Prozess zu sehen
   \includegraphics[width=.8\textwidth]{assets/travis-running-build}
 \end{figure}
 
-Travis zeigt viele hilfreiche Informationen wie Build-Zeiten und Informationen aus Git an. Einige Informationen haben sich in Echtzeit aktualisiert, wobei andere Informationen erst nach erneutem Laden der Seite aktualisiert wurden.
+Travis zeigt viele hilfreiche Informationen wie Build-Zeiten und Daten aus Git an. Einige Informationen haben sich in Echtzeit aktualisiert, wobei andere Informationen erst nach erneutem Laden der Seite aktualisiert wurden.
 
-Es gibt eine komplette Historie der Build-Prozesse (siehe \figref{fig:travis-history}) und eine Übersicht der letzten Builds eines Branches (siehe \figref{fig:travis-branch}).
+Es gibt zudem eine komplette Historie der Build-Prozesse (siehe \figref{fig:travis-history}) und eine Übersicht der letzten Builds eines Branches (siehe \figref{fig:travis-branch}).
 
 \begin{figure}[h]
   \caption{Travis CI: Build-Historie}
@@ -163,7 +163,7 @@ Bei der Verwendung von Stages ist aufgefallen, dass Travis vor jedem Schritt zur
 \section{Codeship}
 \label{sec:analyse-codeship}
 
-Codeship ist ein Cloud-Dienst, der sich in die zwei Modelle ``Codeship Basic'' und ``Codeship Pro'' aufteilt. Mit beiden lassen sich Pipelines definieren und ausführen. Codeship Basic kann kostenlos genutzt werden. Mehr Ressourcen und Funktionalitäten sind gegen Aufpreis ab \$49 verfügbar: beispielsweise lassen sich in der kostenlosen Version keine parallelen Schritte ausführen, und auch keine Konfigurationsdateien nutzen.
+Codeship\footnote{Siehe https://codeship.com/} ist ein Cloud-Dienst, der sich in die zwei Modelle ``Codeship Basic'' und ``Codeship Pro'' aufteilt. Mit beiden lassen sich Pipelines definieren und ausführen. Codeship Basic kann kostenlos genutzt werden. Mehr Ressourcen und Funktionalitäten sind gegen Aufpreis ab \$49 verfügbar: beispielsweise lassen sich in der kostenlosen Version keine parallelen Schritte ausführen und auch keine Konfigurationsdateien nutzen.
 
 Codeship Basic lässt sich über den Browser konfigurieren, Build-Prozesse werden in vorkonfigurierten Instanzen ausgeführt und Deployments können auf vorbestimmte Umgebungen durchgeführt werden. Im Vergleich dazu lässt sich Codeship in der Pro-Variante über Dateien konfigurieren, es können eigene Instanzen genutzt werden, und der gesamte Prozess inklusive Deployments ist anpassbar.
 

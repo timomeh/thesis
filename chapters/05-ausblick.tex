@@ -3,7 +3,7 @@
 
 Die entwickelte Webanwendung ist noch in einem prototypischen Zustand und daher nicht als Anwendung in Produktion oder gar Cloud-Dienst geeignet. Trotzdem wurde eine Basis geschaffen, die sich weiterentwickeln lässt und dann sogar als Alternative zu anderen Anwendungen genutzt werden kann.
 
-In Präsentationen des Zwischenstandes der Arbeit und vor allem der Anwendung wurde überwiegend auf positives Feedback gestoßen. Eine Weiterentwicklung ist somit auch sehr sinnvoll. In folgenden Abschnitten werden einige wichtige Themen genannt, die für ein funktionierendes Produkt noch behandelt werden müssen.
+In Präsentationen des Zwischenstandes der Arbeit und vor allem der Anwendung wurde überwiegend auf positives Feedback gestoßen. Eine Weiterentwicklung ist somit auch sehr sinnvoll. Im Folgenden werden einige wichtige Themen genannt, die für ein funktionierendes Produkt noch behandelt werden müssen.
 
 \section{Implementierung einer Nutzer-Authentifizierung}
 
@@ -13,9 +13,9 @@ Als Prototyp wurden Nutzer und ein Nutzer-Login nicht beachtet. Eine Authentifiz
 
 In der aktuellen Implementierung des Services wird der Build-Prozess in einem temporären Ordner ausgeführt. Die Befehle werden in einer Shell direkt auf der Maschine ausgeführt, auf der auch der Service ausgeführt wird.
 
-Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Build Steps) sollten isoliert voneinander, bestenfalls jeweils in eigenen Instanzen einer virtuellen Maschine ausgeführt werden. Dies bringt auch Performance-Vorteile mit sich. Eine solche Implementierung sprengt den Umsatz dieser Arbeit, daher wurde ein sehr simpler Ansatz verwendet.
+Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Build Steps) sollten isoliert voneinander, bestenfalls jeweils in eigenen Instanzen einer virtuellen Maschine ausgeführt werden. Dies bringt auch Performance-Vorteile mit sich. Eine solche Implementierung geht weit über den Umfang dieser Arbeit hinau, daher wurde ein sehr simpler Ansatz verwendet.
 
-Zur Isolation würde sich Docker\footnote{https://www.docker.com/} eignen, womit sehr schnell virtuelle Maschinen (``Container'') gestartet und gestoppt werden können. Diese Systemstruktur könnte einen Pool aus Instanzen besitzen, zusammen mit einer Queue, sollten alle Instanzen beschäftigt sein. Als Verwaltung der gesamten Systemstruktur mit ihren Instanzen, inklusive automatischem Skalieren bei hohem Aufkommen, würde sich Kubernetes\footnote{https://kubernetes.io/} eignen.
+Zur Isolation würde sich Docker\footnote{vgl. https://www.docker.com/} eignen, womit sehr schnell virtuelle Maschinen (``Container'') gestartet und gestoppt werden können. Diese Systemstruktur könnte einen Pool aus Instanzen besitzen, zusammen mit einer Queue, sollten alle Instanzen beschäftigt sein. Als Verwaltung der gesamten Systemstruktur mit ihren Instanzen, inklusive automatischem Skalieren bei hohem Aufkommen, würde sich Kubernetes\footnote{vgl. https://kubernetes.io/} eignen.
 
 Allerdings hat die Isolation in einzelne Instanzen auch einen Nachteil: Ab\-häng\-ig\-kei\-ten wie externe Bibliotheken sind in einer neuen Instanz nicht mehr verfügbar. Eine einfache Lösung wäre es, in jeder Instanz diese Abhängigkeiten erneut zu installieren. Das Installieren nimmt jedoch jedes mal Zeit in Anspruch, wodurch die Ausführung der Pipeline um einiges länger dauert. Dieser Ansatz wird von Travis (wie schon in \fullref{sec:analyse-travis} erwähnt) verfolgt. Eine komplexere Lösung wäre die Verwendung von Caches, wie es beispielsweise Codeship implementiert.
 
@@ -28,9 +28,9 @@ Um diesen Aufwand zu reduzieren, wären Integrationen vorteilhaft, die vorgefert
 
 \begin{itemize}
   \item Den Build-Status auf GitHub anzeigen
-  \item Benachrichtigungen über Slack\footnote{https://slack.com} versenden
+  \item Benachrichtigungen über Slack\footnote{vgl. https://slack.com} versenden
   \item Benachrichtigungen über Email versenden
-  \item Transfer von Assets auf einen Amazon S3 Speicher\footnote{https://aws.amazon.com/de/s3/}
+  \item Transfer von Assets auf einen Amazon S3 Speicher\footnote{vgl. https://aws.amazon.com/de/s3/}
   \item Erstellen von Docker Containern
   \item \emph{und vieles mehr...}
 \end{itemize}
@@ -39,7 +39,7 @@ Solche Integrationen können auch nach und nach hinzugefügt werden.
 
 \section{Veröffentlichen als Open-Source Software}
 
-Letztendlich soll die Anwendung unter einer Open-Source Lizenz veröffentlicht werden. Andere Entwickler können dadurch bei der Weiterentwicklung helfen, die Anwendung verbessern und eigene Funktionalitäten beitragen.
+Letztendlich soll die Anwendung unter einer Open-Source Lizenz veröffentlicht werden. Andere Entwickler können dadurch bei der Weiterentwicklung helfen, und somit die Anwendung verbessern und eigene Funktionalitäten beitragen.
 
 Auf beide Bedürfnisse verschiedener Nutzergruppen kann eingegangen werden: WARP könnte als Cloud-Dienst angeboten werden und zudem als selbst-gehostete Anwendung zur Verfügung gestellt werden.
 
