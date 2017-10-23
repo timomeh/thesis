@@ -16,6 +16,7 @@
 \usepackage{multirow}
 \usepackage[hidelinks]{hyperref}
 \usepackage[capposition=top]{floatrow}
+\usepackage{afterpage}
 
 \usepackage[draft]{graphicx}
 \usepackage{enumitem}
@@ -50,6 +51,12 @@
 \newcommand{\tabref}[1]{\hyperref[{#1}]{Tabelle \ref*{#1}}}
 
 \newcommand{\draft}[1]{\color{red}#1}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
 
 \definecolor{listingnormal}{HTML}{24292E}
 \definecolor{listingred}{HTML}{D73A49}
