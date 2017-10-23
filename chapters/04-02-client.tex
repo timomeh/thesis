@@ -82,11 +82,11 @@ Die Historie ist eine chronologische Auflistung aller Builds des Projekts. Aus i
     \includegraphics[width=\textwidth]{assets/build-overview-failed}
 \end{figure}
 
-Zu den wichtigsten Informationen eines Build-Prozesses gehört sein Status. Daher ist der Status in der Komponente aus Abbildung \ref{fig:build-process-short} gut sichtbar links platziert. Weitere Daten in dieser Komponente wurden auf die wichtigsten Informationen reduziert.
+Zu den wichtigsten Informationen eines Build-Prozesses gehört sein Status. Daher ist der Status in der Komponente aus \figref{fig:build-process-short} gut sichtbar links platziert. Weitere Daten in dieser Komponente wurden auf die wichtigsten Informationen reduziert.
 
 Die Informationen wurden auf feste vertikale Ebenen aufgeteilt. Bei der Auflistung entsteht dadurch ein einheitliches Bild ohne visuelle Störungen.
 
-Die Komponente ist nicht sehr hoch, damit mehr Elemente gleichzeitig im Viewport sichtbar sind (siehe Abbildung \ref{fig:build-history}).
+Die Komponente ist nicht sehr hoch, damit mehr Elemente gleichzeitig im Viewport sichtbar sind (siehe \figref{fig:build-history}).
 
 \begin{figure}[H]
   \caption{Chronologische Auflistung der Build-Prozesse}
@@ -108,7 +108,7 @@ Hierfür wird im Vergleich zur Historie (siehe \fullref{subsec:visualisierung-bu
     \includegraphics[width=\textwidth]{assets/build-detail-finished}
 \end{figure}
 
-Die Komponente in Abbildung \ref{fig:build-process-detail} ist im Vergleich zur kleineren Komponente in Abbildung \ref{fig:build-process-short} anders strukturiert, da der Fokus nicht mehr auf der Auflistung sondern dem einzelnen Build-Prozess liegt. Trotzdem enthält sie visuelle Ähnlichkeiten, damit ein Bezug zwischen beiden Komponenten erkennbar bleibt.
+Die Komponente in \figref{fig:build-process-detail} ist im Vergleich zur kleineren Komponente in \figref{fig:build-process-short} anders strukturiert, da der Fokus nicht mehr auf der Auflistung sondern dem einzelnen Build-Prozess liegt. Trotzdem enthält sie visuelle Ähnlichkeiten, damit ein Bezug zwischen beiden Komponenten erkennbar bleibt.
 
 Die Informationen des Build-Prozesses haben neben dem Icon nun auch eine textuelle Bezeichnung, um Verwirrung durch die Masse an Daten zu vermeiden.
 
@@ -121,9 +121,9 @@ Bei einem aktiven Build-Prozess ist an dieser Stelle eine Fortschrittsanzeige si
     \includegraphics[width=\textwidth]{assets/build-detail-active}
 \end{figure}
 
-Daher werden die Schritte auch als solches in vereinfachter Darstellung aufgelistet, wie in Abbildung \ref{fig:build-process-detail-active} zu sehen. Der Nutzer sieht, aus wie vielen Schritten ein Build-Prozess besteht, wie viele davon beendet wurden und wie viele noch ausstehen
+Daher werden die Schritte auch als solches in vereinfachter Darstellung aufgelistet, wie in \figref{fig:build-process-detail-active} zu sehen. Der Nutzer sieht, aus wie vielen Schritten ein Build-Prozess besteht, wie viele davon beendet wurden und wie viele noch ausstehen
 
-Auf dem Screen (siehe Abbildung \ref{fig:latest-builds}) sind diese Komponenten nach Datum absteigend sortiert. Ein größerer Abstand und die deutlich sichtbaren durchgezogenen Farbbalken hilft bei der Trennung der Komponenten voneinander, damit der Fokus auf der einzelne Komponente bleibt.
+Auf dem Screen (siehe \figref{fig:latest-builds}) sind diese Komponenten nach Datum absteigend sortiert. Ein größerer Abstand und die deutlich sichtbaren durchgezogenen Farbbalken hilft bei der Trennung der Komponenten voneinander, damit der Fokus auf der einzelne Komponente bleibt.
 
 \begin{figure}[H]
   \caption{Übersicht der neuesten Builds}
@@ -138,7 +138,7 @@ Die Visualiserung der gesamten Pipeline (also aller Stages und Abfolge der Schri
 
 Die Stärke der Anwendung, dass Schritte beliebig tief in Gruppen verschachtelt werden können, ist gleichzeitig eine Schwäche bei der Visualisierung. Die Pipeline soll übersichtlich und dargestellt werden, was sehr schwierig ist, wenn sich Schritte beliebig aufteilen können und parallele Prozesse entstehen. Zudem soll die Breite des Viewports nicht überschritten werden, wodurch der Nutzer horizontal und vertikal scrollen müsste.
 
-Letztendlich wurde sich für die Visualisierung in Abbildung \ref{fig:pipeline-overview} entschieden, bei der alle Schritte chronologisch untereinander aufgelistet werden, und parallele Prozesse nebeneinander angezeigt werden.
+Letztendlich wurde sich für die Visualisierung in \figref{fig:pipeline-overview} entschieden, bei der alle Schritte chronologisch untereinander aufgelistet werden, und parallele Prozesse nebeneinander angezeigt werden.
 
 \begin{figure}[h]
   \caption{Einzelansicht des Build-Prozesses}
@@ -173,7 +173,7 @@ Komponente B kann sich somit rein um die Darstellung der Daten kümmern. Zu kein
 
 Die Komposition von Abhängigkeiten kann tiefer verschachtelt werden. Im gerade genannten Beispiel kann Komponente B wiederrum weitere Daten laden, die auf den Daten von Komponente A aufbauen.
 
-In der Anwendung wird diese Art der Komposition als Grundgerüst der Anwendungsstruktur verwendet. Abbildung \ref{fig:komposition} zeigt außerdem, was nach einer Interaktion des Nutzers geschieht. Beim initialen Aufruf der Anwendung wird die komplette Struktur des Screens generiert. Wenn der Nutzer auf einen anderen Screen navigiert, wird die Komponente mit den alten Daten durch eine neue Komponente ausgetauscht.
+In der Anwendung wird diese Art der Komposition als Grundgerüst der Anwendungsstruktur verwendet. \figref{fig:komposition} zeigt außerdem, was nach einer Interaktion des Nutzers geschieht. Beim initialen Aufruf der Anwendung wird die komplette Struktur des Screens generiert. Wenn der Nutzer auf einen anderen Screen navigiert, wird die Komponente mit den alten Daten durch eine neue Komponente ausgetauscht.
 
 \begin{figure}[h]
   \caption{Komposition von Komponenten als Anwendungsstruktur}
@@ -189,7 +189,7 @@ Zum asynchronen Laden der Daten wird der \emph{Lifecycle} einer Komponente genut
 
 Eine Komponente besitzt verschiedene Methoden, die in ihrem Lebenszyklus an bestimmten Stellen aufgerufen werden. Wird beispielsweise eine Komponente angezeigt (``mount''), wird direkt davor die Methode \texttt{componentWillMount()} aufgerufen, und direkt nachdem sie angezeigt wurde, wird \texttt{componentDidMount()} aufgerufen. Genauso wird die Methode \texttt{componentWillUnmount()} aufgerufen, sobald eine Komponente nicht mehr angezeigt wird.
 
-Wir nutzen die Lifecycle-Methode \texttt{componentWillMount()}, wie in Quelltext \ref{lst:project-will-mount} zu sehen, um die Anfrage an die API zu starten.
+Wir nutzen die Lifecycle-Methode \texttt{componentWillMount()}, wie in \lstref{lst:project-will-mount} zu sehen, um die Anfrage an die API zu starten.
 
 \lstinputlisting
   [caption={ProjectContainer.js: Laden eines Projekts},
@@ -201,7 +201,7 @@ Wir nutzen die Lifecycle-Methode \texttt{componentWillMount()}, wie in Quelltext
 
 \texttt{dispatch()} in Zeile 4 ist eine Method aus Redux (siehe \fullref{subsec:react-redux}). Durch sie werden Änderungen an den globalen State übermittelt. Die Methode \texttt{fetchProject()} startet eine Anfrage an die API mit der entsprechenden Projekt-ID.
 
-Im globalen State wird das Feld \texttt{project.isFetching} während der Anfrage auf \texttt{true} gesetzt. Sind die Daten angekommen, wird sie auf \texttt{false} gesetzt. Damit kann in entweder ein Ladeindikator angezeigt werden, oder die verschachtelte Komponente aufgerufen werden (siehe Quelltext \ref{lst:project-render}).
+Im globalen State wird das Feld \texttt{project.isFetching} während der Anfrage auf \texttt{true} gesetzt. Sind die Daten angekommen, wird sie auf \texttt{false} gesetzt. Damit kann in entweder ein Ladeindikator angezeigt werden, oder die verschachtelte Komponente aufgerufen werden (siehe \lstref{lst:project-render}).
 
 \lstinputlisting
   [caption={ProjectContainer.js: render-Methode},
@@ -226,7 +226,7 @@ Bei der Implementierung dafür hilft die Bibliothek react-router\footnote{https:
   language=js]
   {snippets/project.js}
 
-Die in Quelltext \ref{lst:project-routes} verlinkten Komponenten \texttt{BuildDetails}, \texttt{History} und \texttt{Latest\-Builds} folgen jeweils wieder dem in \autoref{subsec:implementierung-struktur} beschriebenen Aufbau. Daher benötigt die Komponente \texttt{Project} keinen API-Aufruf in einer Lifecycle-Methode. Der Aufruf wird an die zutreffende Komponenten ausgelagert.
+Die in \lstref{lst:project-routes} verlinkten Komponenten \texttt{BuildDetails}, \texttt{History} und \texttt{Latest\-Builds} folgen jeweils wieder dem in \fullref{subsec:implementierung-struktur} beschriebenen Aufbau. Daher benötigt die Komponente \texttt{Project} keinen API-Aufruf in einer Lifecycle-Methode. Der Aufruf wird an die zutreffende Komponenten ausgelagert.
 
 \subsection{Asynchroner Datenfluss mit Redux}
 
@@ -241,7 +241,7 @@ Eine Funktion wie beispielsweise \texttt{fetchProject()} aus \fullref{subsec:imp
  \item Hinweis entfernen, dass Daten abgerufen werden
 \end{enumerate}
 
-Dieser Ablauf ist im Action Creator aus Quelltext \ref{lst:project-async-action} auch so implementiert. (Im Action Creator \texttt{receiveProject()} in Quelltext \ref{lst:project-action-creators} ist das Hinzufügen der Daten und Entfernen des Hinweises vereint.)
+Dieser Ablauf ist im Action Creator aus \lstref{lst:project-async-action} auch so implementiert. (Im Action Creator \texttt{receiveProject()} in \lstref{lst:project-action-creators} ist das Hinzufügen der Daten und Entfernen des Hinweises vereint.)
 
 \lstinputlisting
   [caption={redux/project.js: Asynchrone Action},
@@ -251,7 +251,7 @@ Dieser Ablauf ist im Action Creator aus Quelltext \ref{lst:project-async-action}
   language=js]
   {snippets/project-store.js}
 
-Die beiden aufgerufenen Funktionen \texttt{requestProject()} und \texttt{receiveProject()} (siehe Quelltext \ref{lst:project-action-creators}) geben die Actions aus, auf die der Reducer aus Quelltext \ref{lst:project-reducer} reagiert und somit den globale State modifiziert.
+Die beiden aufgerufenen Funktionen \texttt{requestProject()} und \texttt{receiveProject()} (siehe \lstref{lst:project-action-creators}) geben die Actions aus, auf die der Reducer aus \lstref{lst:project-reducer} reagiert und somit den globale State modifiziert.
 
 \lstinputlisting
   [caption={redux/project.js: Action Creators},
@@ -278,7 +278,7 @@ Während eines Build-Prozesses werden aktualisierte Daten des Builds über einen
 
 Wie in \fullref{subsec:implementierung-worker} erläutert, werden diese Aktualisierungen in einem Kanal je Projekt gesendet. Die Komponente \texttt{Project\-Con\-tain\-er}, die in \fullref{subsec:implementierung-struktur} beschrieben wurde, eignet sich sehr gut, um sich mit diesem Kanal zu verbinden.
 
-Die Komponente wird durch die Methoden in Quelltext \ref{lst:project-websocket} ergänzt.
+Die Komponente wird durch die Methoden in \lstref{lst:project-websocket} ergänzt.
 
 \lstinputlisting
   [caption={ProjectContainer.js: Verbinden mit Websocket},
@@ -310,7 +310,7 @@ Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Pa\-ra\-
 
 Nachdem sich erfolgreich mit dem Kanal verbunden wurde, empfängt das Modul die aktualisierten Daten in einem \emph{Event Listener}. In den übertragenen Daten des Events (\texttt{payload}) ist zusätzlich zu der Entität auch ein Name des Events vorhanden. Anhand dieses Namens kann die entsprechende Funktion aufgerufen werden, um beispielsweise die Attribute eines Builds zu aktualisieren.
 
-Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \texttt{componentWillUnmount} der Komponente aufgerufen (siehe Quelltext \ref{lst:project-websocket} und die Verbindung zum Kanal getrennt.
+Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \texttt{componentWillUnmount} der Komponente aufgerufen (siehe \lstref{lst:project-websocket} und die Verbindung zum Kanal getrennt.
 
 \lstinputlisting
   [caption={socket.js: Trennung der Verbindung},

@@ -17,7 +17,6 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage[capposition=top]{floatrow}
 
-
 \usepackage[draft]{graphicx}
 \usepackage{enumitem}
 \usepackage{epstopdf}
@@ -34,9 +33,6 @@
 \bibliographystyle{natdin}
 
 \lstset{aboveskip=\bigskipamount,belowskip=\medskipamount}
-
-\renewcommand{\lstlistlistingname}{Quelltexte}
-\renewcommand{\lstlistingname}{Quelltext}
 
 \clubpenalty = 10000 % Schusterjunge
 \widowpenalty = 10000 % Hurenkind
@@ -58,7 +54,9 @@
   \renewcommand{\subsubsectionautorefname}{Abschnitt}%
 }
 
-\newcommand{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} – \textit{\nameref*{#1}}}}
+\newcommand{\fullref}[1]{\hyperref[{#1}]{Kapitel \textit{{\ref*{#1} – \nameref{#1}}}}}
+\newcommand{\lstref}[1]{\hyperref[{#1}]{Listing \ref*{#1}}}
+\newcommand{\figref}[1]{\hyperref[{#1}]{Abbildung \ref*{#1}}}
 %\newcommand{\fullref}[1]{\hyperref[{#1}]{Kapitel \textit{\ref*{#1} – \nameref*{#1}}}}
 
 \newcommand{\draft}[1]{\color{red}#1}

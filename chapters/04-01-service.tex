@@ -102,7 +102,7 @@ Auf die Details der Implementierung der API wird nicht genauer eingegangen. Folg
   [caption={API Beispiel: Löschen einer Pipeline}]
   {snippets/api-example-delete-pipeline.txt}
 
-Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spezifikation definiert (siehe \fullref{subsec:jsonapi}) – eine passende Fehlermeldung ausgegeben. In Beispiel \ref{lst:api-example-update-error} wird zur Erzeugung eines Fehlers der Titel der Pipeline auf eine Nummer aktualisiert.
+Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spezifikation definiert (siehe \fullref{subsec:jsonapi}) – eine passende Fehlermeldung ausgegeben. In \lstref{lst:api-example-update-error} wird zur Erzeugung eines Fehlers der Titel der Pipeline auf eine Nummer aktualisiert.
 
 \lstinputlisting
   [caption={API Beispiel: Ungültige Aktualisierung einer Pipeline},
@@ -118,11 +118,11 @@ Das Anlegen komplexer Pipelines mit mehreren Stages, Abschnitten und verschachte
 
 Eine Datei namens \emph{.warp.yml} im Dokumentenstamm des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses als Entitäten gespeichert.
 
-Die Zugehörigkeit zwischen Pipeline in der Datenbank und in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak inidentifikator} in Abbildung \ref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe \fullref{subsec:api-usage})
+Die Zugehörigkeit zwischen Pipeline in der Datenbank und in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak inidentifikator} in \figref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe \fullref{subsec:api-usage})
 
 Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Im Gegensatz zu JSON, was zur API-Kommunikation genutzt wird, besitzt YAML beispielweise Kommentare.
 
-Quelltext \ref{lst:example-config} zeigt eine mögliche Konfiguration einer Pipeline. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Gruppen, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Gruppen ineinander verschachteln lassen.
+\lstref{lst:example-config} zeigt eine mögliche Konfiguration einer Pipeline. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Gruppen, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Gruppen ineinander verschachteln lassen.
 
 \lstinputlisting
   [caption={Konfiguration einer Pipeline im YAML Format},
@@ -144,7 +144,7 @@ Somit wird in der Pipeline konfiguriert, welcher Git Reference sie zugeordnet is
 
 Als universelle Lösung für dieses Problem wird ein regulärer Ausdruck als Zuordnung zur Git Reference verwendet. Ein zum Szenario passender Ausdrück wäre \texttt{feature/.*\$}. Über ihn können alle Feature Branches der gleichen Pipeline zugeordnet werden.
 
-In der Datenstruktur (Abbildung \ref{fig:uml}) entspricht dem Feld \emph{git\_ref\_auslöser}.
+In der Datenstruktur (\figref{fig:uml}) entspricht dem Feld \emph{git\_ref\_auslöser}.
 
 \subsubsection{Nachteile der Konfigurationsdatei}
 
@@ -174,7 +174,7 @@ Für jeden Eintrag in der Warteschlange werden folgende Schritte ausgeführt:
   \item[Schritt 10:] Löschen der temporären Umgebung.
 \end{description}
 
-Das Ausführen des eigentlichen Build-Prozesses (Schritte 5 bis 9) und dessen Abhängigkeiten zu anderen Workern lässt sich als Prozess grafisch verständlicher in einem vereinfachten Ablaufdiagramm (Abbildung \ref{fig:ablauf-build-prozess}) darstellen.
+Das Ausführen des eigentlichen Build-Prozesses (Schritte 5 bis 9) und dessen Abhängigkeiten zu anderen Workern lässt sich als Prozess grafisch verständlicher in einem vereinfachten Ablaufdiagramm (\figref{fig:ablauf-build-prozess}) darstellen.
 
 \begin{figure}[h]
   \caption{Vereinfachtes Ablaufdiagramm des Build-Prozesses}
@@ -183,7 +183,7 @@ Das Ausführen des eigentlichen Build-Prozesses (Schritte 5 bis 9) und dessen Ab
     \includegraphics[width=\textwidth]{assets/worker_diagram}
 \end{figure}
 
-In Abbildung \ref{fig:ablauf-build-prozess} ist zu sehen, wie von links nach rechts der Ablauf des Build-Prozesses geleitet wird, bis ganz rechts jeweils ein \emph{Step Worker} den eigentlichen Befehl ausführt.
+In \figref{fig:ablauf-build-prozess} ist zu sehen, wie von links nach rechts der Ablauf des Build-Prozesses geleitet wird, bis ganz rechts jeweils ein \emph{Step Worker} den eigentlichen Befehl ausführt.
 
 Verschachtelte Worker melden ihrem übergeordneten Worker, wenn sie ihre Arbeit beendet haben. Der übergeordnete Worker kann darauf weitere Worker starten, oder selbst seinem übergeordneten Worker melden, dass er beendet ist. Die Abfolge findet also rein über Kommunikation zwischen den einzelnen Workern statt.
 

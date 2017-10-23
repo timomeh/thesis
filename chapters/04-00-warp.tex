@@ -1,5 +1,5 @@
 %!TEX root = ../thesis.tex
-\setchapterpreamble[ur][.9\textwidth]{%
+\setchapterpreamble[ur][.8\textwidth]{%
 \dictum[Dr. Zefram Cochrane, Entwickler des Warp-Antriebs \\ aus ``Star Trek: Enterprise – Broken Bow: Part 1'']{%
 ``On this site, a powerful engine will be built - an engine that will someday help us to travel a hundred times faster than we can today. [...] This engine will let us go boldly, where no man has gone before.''}
 }
@@ -10,7 +10,7 @@ Die Benennung einer Anwendung ist für die Entwicklung grundsätzlich irrelevant
 
 Der Projektname \textbf{WARP} wurde bei Präsentationen meist direkt mit der Science-Fiction Fernsehserie \emph{Star Trek} in Verbindung gebracht. Der Ursprung des Namens liegt jedoch nicht bei der Reise durch das All, sondern bei Nintendos Super Mario.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \caption{Warp Pipes in Super Mario Bros.}
   \label{fig:super-mario-warp-pipes}
   \centering
@@ -25,7 +25,7 @@ Dieses Kapitel beinhaltet den kompletten Entwurf und die Implementierung der Anw
 \section{Architekturentwurf}
 \label{sec:architektur}
 
-Die Webanwendung ist im Client-Server-Modell umgesetzt, wobei der Server eine API besitzt und im weiteren Verlauf als Service bzeichnet wird. Im Folgenden wird die grundlegende Architektur der Anwendung kurz beschrieben. Abbildung \ref{fig:architektur} zeigt eine grafische Übersicht über die Bestandteile des Systems und deren Beziehungen.
+Die Webanwendung ist im Client-Server-Modell umgesetzt, wobei der Server eine API besitzt und im weiteren Verlauf als Service bzeichnet wird. Im Folgenden wird die grundlegende Architektur der Anwendung kurz beschrieben. \figref{fig:architektur} zeigt eine grafische Übersicht über die Bestandteile des Systems und deren Beziehungen.
 
 \begin{figure}[h]
   \caption{Architektur der Anwendung}
@@ -50,11 +50,11 @@ Der Client zeigt letztendlich alle Daten. Über seine Oberfläche hat der Nutzer
 \subsection{Datenstruktur}
 \label{subsec:uml}
 
-Abbildung \ref{fig:uml} zeigt die Datenstruktur der Anwendung.
+\figref{fig:uml} zeigt die Datenstruktur der Anwendung.
 
 Eine Pipeline besitzt beliebig viele Builds als Instanz einer Pipeline. Ein Build ist einem Commit des im Projekt definierten Git Repositories zugeordnet. Dadurch ist für den Nutzer später schneller ersichtlich, welcher Stand einem Build zugrunde liegt.
 
-Wie in \fullref{sec:deployment-pipeline} bereits definiert wurde, besteht ein Build aus mehreren Stages, die nacheinander ausgeführt werden. Im Datenmodell (Abbildung \ref{fig:uml}) wurde die Stage jedoch als \emph{Abschnitt} generalisiert. Ein solcher Abschnitt besitzt einen Ausführungstyp, welcher festlegt, ob die Kinder eines Abschnittes parallel oder seriell ausgeführt werden sollen. Der Abschnitt besitzt entweder weitere Abschnitte oder Schritte als Kinder. Somit ist eine Stage eine bestimmte Instanz eines Abschnittes, deren Ausführungstyp immer seriell ist. Dies macht eine Generalisierung sinnvoll.
+Wie in \fullref{sec:deployment-pipeline} bereits definiert wurde, besteht ein Build aus mehreren Stages, die nacheinander ausgeführt werden. Im Datenmodell (\figref{fig:uml}) wurde die Stage jedoch als \emph{Abschnitt} generalisiert. Ein solcher Abschnitt besitzt einen Ausführungstyp, welcher festlegt, ob die Kinder eines Abschnittes parallel oder seriell ausgeführt werden sollen. Der Abschnitt besitzt entweder weitere Abschnitte oder Schritte als Kinder. Somit ist eine Stage eine bestimmte Instanz eines Abschnittes, deren Ausführungstyp immer seriell ist. Dies macht eine Generalisierung sinnvoll.
 
 Ein \emph{Schritt} ist die kleinste Einheit des Build-Prozesses. Er besitzt neben den Attributen des Abschnittes auch den auszuführenden Befehl und ein Feld für die Ausgabe (Log). Alle Schritte zusammen ergeben den gesamten Build-Prozess, dessen Abfolge über Abschnitte festgelegt ist.
 

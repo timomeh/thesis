@@ -1,4 +1,11 @@
 %!TEX root = ../thesis.tex
+\let\oldlstlistoflistings\lstlistoflistings
+\renewcommand{\lstlistoflistings}{%
+  \begingroup%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{\lstlistingname~\oldnumberline}%
+  \oldlstlistoflistings%
+  \endgroup}
 
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}

@@ -47,7 +47,7 @@ Zur Analyse wurde Jenkins auf einer Serverinstanz bei DigitalOcean installiert.
   \includegraphics[width=.8\textwidth]{assets/jenkins-pipeline-script}
 \end{figure}
 
-Eine Pipeline wird bei Jenkins in der Skriptsprache Groovy geschrieben. Diese kann entweder über das Browser-Frontend oder über eine Konfigurationsdatei angelegt werden. In Abbildung \ref{fig:jenkins-pipeline-config} wurde die Pipeline-Konfiguration über das Frontend angelegt. Vor der Pipeline-Konfiguration bietet Jenkins noch einige Einstellungsmöglichkeiten an, wie beispielsweise das deaktivieren von gleichzeitig laufenden Builds dieser Pipeline an.
+Eine Pipeline wird bei Jenkins in der Skriptsprache Groovy geschrieben. Diese kann entweder über das Browser-Frontend oder über eine Konfigurationsdatei angelegt werden. In \figref{fig:jenkins-pipeline-config} wurde die Pipeline-Konfiguration über das Frontend angelegt. Vor der Pipeline-Konfiguration bietet Jenkins noch einige Einstellungsmöglichkeiten an, wie beispielsweise das deaktivieren von gleichzeitig laufenden Builds dieser Pipeline an.
 
 \begin{figure}[h]
   \caption{Jenkins: Übersicht der Pipelines}
@@ -55,7 +55,7 @@ Eine Pipeline wird bei Jenkins in der Skriptsprache Groovy geschrieben. Diese ka
   \includegraphics[width=.8\textwidth]{assets/jenkins-pipeline-overview}
 \end{figure}
 
-In der Übersicht (siehe Abbildung \ref{fig:jenkins-pipeline-overview}) werden alle Pipelines mit Informationen zum letzten Build aufgelistet. Ein aktiver Build-Prozess wird seitlich unauffällig mit einem Ladebalken angezeigt.
+In der Übersicht (siehe \figref{fig:jenkins-pipeline-overview}) werden alle Pipelines mit Informationen zum letzten Build aufgelistet. Ein aktiver Build-Prozess wird seitlich unauffällig mit einem Ladebalken angezeigt.
 
 \begin{figure}[h]
   \caption{Jenkins: Detailansicht eines aktiven Builds}
@@ -63,7 +63,7 @@ In der Übersicht (siehe Abbildung \ref{fig:jenkins-pipeline-overview}) werden a
   \includegraphics[width=.8\textwidth]{assets/jenkins-build-detail}
 \end{figure}
 
-Die Detailansicht eines Builds besitzt wenige Informationen (siehe Abbildung \ref{fig:jenkins-build-detail}). Auf einer Unterseite wird die Konsolenausgabe der gesamten Pipeline angezeigt.
+Die Detailansicht eines Builds besitzt wenige Informationen (siehe \figref{fig:jenkins-build-detail}). Auf einer Unterseite wird die Konsolenausgabe der gesamten Pipeline angezeigt.
 
 \subsection*{Vorteile von Jenkins}
 
@@ -95,7 +95,7 @@ Travis CI, im folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-
 
 Für öffentliche Repositories ist Travis kostenlos, bei privaten Repositories fallen Kosten ab \$69 an. Mit ``Travis CI Enterprise'' besteht auch die Möglichkeit, Travis selbst zu hosten. Abseits der Nutzung öffentlichen oder privaten Repositories, besitzt die kostenlose Version nicht weniger Funktionalitäten als die kostenpflichtige Version.
 
-Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt hinzufügen: Mit einem Schalter lassen sich Build-Prozesse für ein Repository aktivieren (insofern man darauf Zugriff hat. Siehe Abbildung \ref{fig:travis-active }).
+Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt hinzufügen: Mit einem Schalter lassen sich Build-Prozesse für ein Repository aktivieren (insofern man darauf Zugriff hat. Siehe \figref{fig:travis-active }).
 
 \begin{figure}[h]
   \caption{Travis CI: Aktivieren eines Build Prozess}
@@ -105,14 +105,14 @@ Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt 
 
 Der Build-Prozess wird über die Datei \emph{.travis.yml} im Stammverzeichnis des Repositories konfiguriert. Mit Travis lassen sich jedoch keine Pipelines definieren, wie es bei Jenkins (\fullref{sec:analyse-jenkins}) der Fall ist. Travis besitzt vielmehr einen vorgefertigen Prozess, der über diese Datei genauer eingestellt werden kann.\footnote{https://docs.travis-ci.com/user/customizing-the-build/} Dadurch ist ein Prozess zwar nicht so flexibel, jedoch kann dank solcher Standardeinstellungen die Konfiguration minimiert werden – bis zu einem Punkt, an dem keine Konfiguration notwendig ist.
 
-Zum aktuellen Zeitpunkt wurden Stages als Beta-Funktionalität hinzugefügt.\footnote{https://docs.travis-ci.com/user/build-stages/} Damit lassen sich Schritte definieren, die einer Stage zugeordnet sind (siehe Quelltext \ref{lst:travis-config}).
+Zum aktuellen Zeitpunkt wurden Stages als Beta-Funktionalität hinzugefügt.\footnote{https://docs.travis-ci.com/user/build-stages/} Damit lassen sich Schritte definieren, die einer Stage zugeordnet sind (siehe \lstref{lst:travis-config}).
 
 \lstinputlisting
   [caption={Konfiguration eines Prozesses mit Travis CI Stages},
   label={lst:travis-config}]
   {snippets/travis-config-stages.yml}
 
-Seitlich werden immer alle aktivierten Repositories, auf die man Zugriff hat, mit ihrem letzten Build-Status angezeigt (siehe Abbildung \ref{fig:travis-active}). Der Fokus liegt also nicht auf den einzelnen Build-Prozessen, sondern dem Integrationsstatus des Repositories.
+Seitlich werden immer alle aktivierten Repositories, auf die man Zugriff hat, mit ihrem letzten Build-Status angezeigt (siehe \figref{fig:travis-active}). Der Fokus liegt also nicht auf den einzelnen Build-Prozessen, sondern dem Integrationsstatus des Repositories.
 
 Im Hauptbereich der Ansicht sind jeweils Details zu einem Build-Prozess zu sehen. Bei der Verwendung von Stages werden die Schritte in ihrer Reihenfolge aufgelistet. Ohne Stages wird die Pipeline nicht visualisiert, sondern die komplette Konsolenausgabe der Build-Instanz angezeigt.
 
@@ -124,7 +124,7 @@ Im Hauptbereich der Ansicht sind jeweils Details zu einem Build-Prozess zu sehen
 
 Travis zeigt viele hilfreiche Informationen wie Build-Zeiten und Informationen aus Git an. Einige Informationen haben sich in Echtzeit aktualisiert, wobei andere Informationen erst nach erneutem Laden der Seite aktualisiert wurden.
 
-Es gibt eine komplette Historie der Build-Prozesse (siehe Abbildung \ref{fig:travis-history}) und eine Übersicht der letzten Builds eines Branches (siehe Abbildung \ref{fig:travis-branch}).
+Es gibt eine komplette Historie der Build-Prozesse (siehe \figref{fig:travis-history}) und eine Übersicht der letzten Builds eines Branches (siehe \figref{fig:travis-branch}).
 
 \begin{figure}[h]
   \caption{Travis CI: Build-Historie}
@@ -171,7 +171,7 @@ Codeship lässt sich mit Repositories in GitHub, Bitbucket und GitLab nutzen. Im
 
 Im Gegensatz zu Travis CI (siehe \fullref{sec:analyse-travis}) ist Codeship in Organisationen aufgeteilt. Jede Organisation besitzt somit eine eigene Übersicht.
 
-Beim Einrichten über die Browser-Oberfläche stehen Formularfelder zur Verfügung (siehe Abbildung \ref{fig:codeship-setup}), in die direkt Konfigurationen eingefügt werden, wie man es auch in einer Konfigurationsdatei tun würde.
+Beim Einrichten über die Browser-Oberfläche stehen Formularfelder zur Verfügung (siehe \figref{fig:codeship-setup}), in die direkt Konfigurationen eingefügt werden, wie man es auch in einer Konfigurationsdatei tun würde.
 
 \begin{figure}[h]
   \caption{Codeship: Einrichten eines Projekts}
@@ -179,7 +179,7 @@ Beim Einrichten über die Browser-Oberfläche stehen Formularfelder zur Verfügu
   \includegraphics[width=.8\textwidth]{assets/codeship-setup}
 \end{figure}
 
-Es gibt ähnlich zu Travis CI eine Übersicht über alle Projekte inklusive ihrem letzten Status, eine chronologische Auflistung aller Builds (Abbildung \ref{fig:codeship-builds}) und Informationen zu einem einzelnen Build (Abbildung \ref{fig:codeship-build-details}).
+Es gibt ähnlich zu Travis CI eine Übersicht über alle Projekte inklusive ihrem letzten Status, eine chronologische Auflistung aller Builds (\figref{fig:codeship-builds}) und Informationen zu einem einzelnen Build (\figref{fig:codeship-build-details}).
 
 \begin{figure}[h]
   \caption{Codeship: Auflistung aller Builds}
