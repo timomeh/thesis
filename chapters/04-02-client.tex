@@ -5,7 +5,7 @@ Bereits im Praxisprojekt \citep{Maemecke2017}, welches dieser Arbeit voran ging,
 
 Mit diesem Ansatz lassen sich stabile, skalierbare, wartbare und testbare Anwendungen für den Browser entwickelt werden.
 
-Der komponentenbasierte Gedanke wird nicht nur bei der Programmierung sondern auch bei der Gestaltung von \acp{UI} verfolgt. Design-Programme wie Sketch\footnote{https://www.sketchapp.com/} sind darauf ausgelegt, ein User Interface in Komponenten zu gestalten.
+Der komponentenbasierte Gedanke wird nicht nur bei der Programmierung, sondern auch bei der Gestaltung von \acp{UI} verfolgt. Design-Programme wie Sketch\footnote{https://www.sketchapp.com/} sind darauf ausgelegt, ein User Interface in Komponenten zu gestalten.
 
 Dieses Kapitel beschäftigt sich mit der kompletten Entstehung des Clients: von der Planung über die Gestaltung bis hin zur Implementierung.
 
@@ -123,7 +123,7 @@ Bei einem aktiven Build-Prozess ist an dieser Stelle eine Fortschrittsanzeige si
 
 Daher werden die Schritte auch als solches in vereinfachter Darstellung aufgelistet, wie in \figref{fig:build-process-detail-active} zu sehen. Der Nutzer sieht, aus wie vielen Schritten ein Build-Prozess besteht, wie viele davon beendet wurden und wie viele noch ausstehen.
 
-Auf dem Screen (siehe \figref{fig:latest-builds}) sind diese Komponenten nach Datum absteigend sortiert. Ein größerer Abstand und die auffälligen durchgezogenen Farbbalken helfen bei der visuellen Trennung der Komponenten voneinander, damit der Fokus auf der einzelne Komponente bleibt.
+Auf dem Screen (siehe \figref{fig:latest-builds}) sind diese Komponenten nach absteigendem Datum sortiert. Ein größerer Abstand und die auffälligen durchgezogenen Farbbalken helfen bei der visuellen Trennung der Komponenten voneinander, damit der Fokus auf der einzelne Komponente bleibt.
 
 \begin{figure}[H]
   \caption{Übersicht der neuesten Builds}
@@ -134,7 +134,7 @@ Auf dem Screen (siehe \figref{fig:latest-builds}) sind diese Komponenten nach Da
 
 \subsection{Visualisierung der Pipeline}
 
-Die Visualiserung der gesamten Pipeline (also aller Stages und Abfolge ihrer Schritte) ist für den Nutzer vor allem dann wichtig, wenn ein Build-Prozess fehlgeschlagen ist. Bei Erfolg des Prozesses wird die Detail-Ansicht eher nicht benötigt.
+Die Visualiserung der gesamten Pipeline (also aller Stages und die Abfolge ihrer Schritte) ist für den Nutzer vor allem dann wichtig, wenn ein Build-Prozess fehlgeschlagen ist. Bei Erfolg des Prozesses wird die Detail-Ansicht eher nicht benötigt.
 
 In der Detail-Ansicht lässt sich erkennen, an welcher Stelle der Build-Prozess fehlgeschlagen ist und was die Ausgabe des fehlgeschlagenen Befehls war.
 
@@ -149,7 +149,7 @@ Letztendlich wurde die Visualisierung in \figref{fig:pipeline-overview} gestalte
     \includegraphics[width=\textwidth]{assets/pipeline-overview}
 \end{figure}
 
-Um nicht weitere visuelle Elemente einzuführen, wurden Designelemente der Historie (siehe \fullref{subsec:visualisierung-build-history}) wiederverwendet.
+Um keine weiteren visuelle Elemente einzuführen, wurden Designelemente der Historie (siehe \fullref{subsec:visualisierung-build-history}) wiederverwendet.
 
 Ein Nachteil dieser Visualisierung ist, dass bei zu vielen parallelen Prozessen die einzelnen Schritte sehr schmal werden können. Eine Pipeline mit sehr vielen verschachtelten parallelen Prozessen kann allerdings auch ein Anzeichen für einen schlechten Aufbau der Pipeline sein.
 
@@ -171,7 +171,7 @@ Mit Redux lässt sich ein globaler State verwalten, auf den alle Komponenten zug
 
 Komposition ist eins der Hauptmerkmale von Komponenten. Komposition bedeutet, dass durch das Zusammenspiel von mehreren Komponenten eine größere Aufgabe erfüllt wird. Jede Komponente ist dabei für einen Teil der Aufgabe zuständig. \citep[Kapitel 1]{Maemecke2017}
 
-Wir können Komposition zur Modellierung von Daten-Abhängigkeiten nutzen: eine Komponente (A) ruft asynchron Daten von der \ac{API} auf. Während die Daten geladen werden, kann in Komponente A ein Ladeindikator angezeigt werden. Wenn die Daten geladen wurden, kann Komponente A eine weitere Komponente (B) angezeigen, die die geladenen Daten darstellt.
+Man kann Komposition auch zur Modellierung von Daten-Abhängigkeiten nutzen: eine Komponente (A) ruft asynchron Daten von der \ac{API} auf. Während die Daten geladen werden, kann in Komponente A ein Ladeindikator angezeigt werden. Wenn die Daten geladen wurden, kann Komponente A eine weitere Komponente (B) angezeigen, die die geladenen Daten darstellt.
 
 Komponente B kann sich somit rein um die Darstellung der Daten kümmern. Zu keinem Zeitpunkt benötigt Komponente B eine Abfrage, ob die Daten bereits vorhanden sind.
 
@@ -292,7 +292,7 @@ Die Komponente wird durch die Methoden in \lstref{lst:project-websocket} ergänz
   language=js]
   {snippets/project-container-ws.js}
 
-Die darin aufgerufene Klasse \texttt{Socket} ist eine eigenes Modul, welches auf die Socket-Implementation aus der JavaScript-Bibliothek von Phoenix zugreift.
+Die darin aufgerufene Klasse \texttt{Socket} ist ein eigenes Modul, welches auf die Socket-Implementation aus der JavaScript-Bibliothek von Phoenix zugreift.
 
 \lstinputlisting
   [caption={socket.js: Constructor},
@@ -324,4 +324,4 @@ Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \te
   language=js]
   {snippets/socket.js}
 
-Bei den Quelltexten handelt es sich um vereinfachte Version zur besseren Ver\-ständ\-lich\-keit. Die reale Implementation gestaltet sich etwas komplexer, besitzt jedoch den gleichen Aufbau.
+Bei den Quelltexten handelt es sich um eine vereinfachte Version zur besseren Ver\-ständ\-lich\-keit. Die reale Implementation gestaltet sich etwas komplexer, besitzt jedoch den gleichen Aufbau.

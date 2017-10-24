@@ -91,7 +91,7 @@ Die Detailansicht eines Builds besitzt wenige Informationen (siehe \figref{fig:j
 \section{Travis CI}
 \label{sec:analyse-travis}
 
-Travis CI\footnote{https://travis-ci.com/ und https://travis-ci.org/}, im folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-Dienst, dessen Fokus auf Continuous Integration liegt. Es lassen sich damit aber auch Deployments durchführen. Travis ist speziell für Repositories auf GitHub ausgelegt und unterstützt keine anderen Git-Remotes.
+Travis CI\footnote{https://travis-ci.com/ und https://travis-ci.org/}, im Folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-Dienst, dessen Fokus auf Continuous Integration liegt. Es lassen sich damit aber auch Deployments durchführen. Travis ist speziell für Repositories auf GitHub ausgelegt und unterstützt keine anderen Git-Remotes.
 
 Für öffentliche Repositories ist Travis kostenlos, bei privaten Repositories fallen Kosten ab \$69 an. Mit ``Travis CI Enterprise'' besteht auch die Möglichkeit Travis selbst zu hosten. Abseits der Möglichkeit, privaten Repositories verwenden zu können, besitzt die kostenpflichtige Version nicht mehr Funktionalitäten als die kostenlose Version.
 
@@ -163,7 +163,7 @@ Bei der Verwendung von Stages ist aufgefallen, dass Travis vor jedem Schritt zur
 \section{Codeship}
 \label{sec:analyse-codeship}
 
-Codeship\footnote{https://codeship.com/} ist ein Cloud-Dienst, der sich in die zwei Modelle ``Codeship Basic'' und ``Codeship Pro'' aufteilt. Mit beiden lassen sich Pipelines definieren und ausführen. Codeship Basic kann kostenlos genutzt werden. Mehr Ressourcen und Funktionalitäten sind gegen Aufpreis ab \$49 verfügbar: beispielsweise lassen sich in der kostenlosen Version keine parallelen Schritte ausführen und auch keine Konfigurationsdateien nutzen.
+Codeship\footnote{https://codeship.com/} ist ein Cloud-Dienst, der sich in die zwei Modelle ``Codeship Basic'' und ``Codeship Pro'' aufteilt. Mit beiden lassen sich Pipelines definieren und ausführen. Codeship Basic kann kostenlos genutzt werden. Mehr Ressourcen und Funktionalitäten sind gegen Aufpreis ab \$49 verfügbar: beispielsweise lassen sich in der kostenlosen Version weder parallele Schritte ausführen noch Konfigurationsdateien nutzen.
 
 Codeship Basic lässt sich über den Browser konfigurieren, Build-Prozesse werden in vorkonfigurierten Instanzen ausgeführt und Deployments können auf vorbestimmte Umgebungen durchgeführt werden. Im Vergleich dazu lässt sich Codeship in der Pro-Variante über Dateien konfigurieren, es können eigene Instanzen genutzt werden, und der gesamte Prozess inklusive Deployments ist anpassbar.
 
@@ -179,7 +179,7 @@ Beim Einrichten über die Browser-Oberfläche stehen Formularfelder zur Verfügu
   \includegraphics[width=.8\textwidth]{assets/codeship-setup}
 \end{figure}
 
-Es gibt ähnlich zu Travis CI eine Übersicht über alle Projekte inklusive ihrem letzten Status, eine chronologische Auflistung aller Builds (\figref{fig:codeship-builds}) und Informationen zu einem einzelnen Build (\figref{fig:codeship-build-details}).
+Es gibt (ähnlich zu Travis) eine Übersicht über alle Projekte inklusive ihrem letzten Status, eine chronologische Auflistung aller Builds (\figref{fig:codeship-builds}) und Informationen zu einem einzelnen Build (\figref{fig:codeship-build-details}).
 
 \begin{figure}[h]
   \caption{Codeship: Auflistung aller Builds}

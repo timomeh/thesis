@@ -134,7 +134,7 @@ Einer der wichtigsten Aspekte für Continuous Integration ist das Integrieren un
 
 Deployment-Pipelines müssen immer idempotent sein: egal wie oft man eine Pipeline mit dem gleichen Quelltext aufruft, sie muss immer das gleiche Ergebnis haben. Daher sollte eine Pipeline immer auf dem gleichen System ausgeführt werden; bestenfalls eine Maschine, welche alle Pipelines ausführt. \citep[155]{Humble2010}
 
-Eine weitere Anforderung ist das zeitliche Steuern der Pipeline. Im krassestes Szenario dürfen zwei Pipelines nicht simultan ein Deployment auf die gleiche Umgebung durchführen. Dies könnte zu unvorhersehbaren Ergebnissen führen. Stages, die sich gegenseitig beeinflussen können, müssen demnach nacheinander ausgeführt werden. \citep[119]{Humble2010}
+Eine weitere Anforderung ist das zeitliche Steuern der Pipeline. Im krassesten Szenario dürfen zwei Pipelines ein Deployment nicht simultan auf die gleiche Umgebung durchführen. Dies könnte zu unvorhersehbaren Ergebnissen führen. Stages, die sich gegenseitig beeinflussen können, müssen demnach nacheinander ausgeführt werden. \citep[119]{Humble2010}
 
 In der oben genannten Definition wird die Pipeline nach jeder Änderung ausgeführt. Es gibt auch Abläufe, bei denen eine Pipeline in regelmäßigen Intervallen ausgeführt wird, z.B. jede Nacht (``Nightly Build''). Bei Webanwendungen ist dies meist jedoch nicht der Fall.
 

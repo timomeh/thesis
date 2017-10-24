@@ -13,7 +13,7 @@ Als Prototyp wurden Nutzer und ein Nutzer-Login nicht beachtet. Eine Authentifiz
 
 In der aktuellen Implementierung des Services wird der Build-Prozess in einem temporären Ordner ausgeführt. Die Befehle werden in einer Shell direkt auf der Maschine ausgeführt, auf der auch der Service ausgeführt wird.
 
-Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Steps) sollten isoliert voneinander, bestenfalls jeweils in eigenen Instanzen einer virtuellen Maschine ausgeführt werden. Dies bringt auch Performance-Vorteile mit sich. Eine solche Implementierung geht weit über den Umfang dieser Arbeit hinaus, daher wurde ein sehr simpler Ansatz verwendet.
+Für einen Service in Produktion eignet sich dies allerdings nicht. Die Befehle (Steps) sollten isoliert voneinander, bestenfalls jeweils in eigenen Instanzen einer virtuellen Maschine, ausgeführt werden. Dies bringt auch Performance-Vorteile mit sich. Eine solche Implementierung geht weit über den Umfang dieser Arbeit hinaus, daher wurde ein sehr simpler Ansatz verwendet.
 
 Zur Isolation würde sich Docker\footnote{vgl. https://www.docker.com/} eignen, womit sehr schnell virtuelle Maschinen (``Container'') gestartet und gestoppt werden können. Diese Systemstruktur könnte einen Pool aus Instanzen besitzen, zusammen mit einer Queue, sollten alle Instanzen beschäftigt sein. Als Verwaltung der gesamten Systemstruktur mit ihren Instanzen, inklusive automatischem Skalieren bei hohem Aufkommen, würde sich Kubernetes\footnote{vgl. https://kubernetes.io/} eignen.
 

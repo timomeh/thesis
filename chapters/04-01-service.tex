@@ -2,13 +2,13 @@
 \section{Service: Entwurf und Implementierung}
 \label{sec:service}
 
-Der Service ist der Antrieb des gesamten Systems. In ihm werden Daten berechnet und persistiert. Wie im Architekturentwurf (\fullref{sec:architektur}) schon beschrieben, besitzt der Service eine \ac{API}. Das ist nichts besonderes: ein Webservice definiert sich darüber, dass er eine maschinenlesbare Schnittstelle besitzt.
+Der Service ist der Antrieb des gesamten Systems. In ihm werden Daten berechnet und persistiert. Wie im Architekturentwurf (\fullref{sec:architektur}) beschrieben, besitzt der Service eine \ac{API}. Das ist nichts besonderes: ein Webservice definiert sich darüber, dass er eine maschinenlesbare Schnittstelle besitzt.
 
 Eine Besonderheit im Webservice von WARP ist die Pipeline. Sie wird ebenfalls vom Service ausgeführt. Daher beschäftigt sich dieser Abschnitt zwar auch mit der \ac{API}, aber vor allem mit dem Entwurf und der Implementierung der Pipeline.
 
 \subsection{Elixir und Phoenix}
 
-Bei Webanwendungen hängt (wie in anderen Domänen auch) die Wahl einer Programmiersprache des Webservices weniger davon ab, welches Problem die Anwendung lösen soll, sondern mehr von den Erfahrungen der im Projekt beteiligten Entwickler ab. Die Auswahl an serverseitigen Programmiersprachen ist groß, und jede Programmiersprache besitzt ihre eigenen Vorteile.
+Bei Webanwendungen hängt (wie in anderen Domänen auch) die Wahl einer Programmiersprache des Webservices weniger davon ab, welches Problem die Anwendung lösen soll, sondern mehr von den Erfahrungen der im Projekt beteiligten Entwickler. Die Auswahl an serverseitigen Programmiersprachen ist groß, und jede Programmiersprache besitzt ihre eigenen Vorteile.
 
 Die Wahl der Programmiersprache fiel für dieses Projekt auf \textbf{Elixir}.
 
@@ -89,7 +89,7 @@ Es ist jedoch sehr aufwändig, die gesamte JSON API Spezifikation zu befolgen. D
 \subsubsection{Aufruf der API}
 \label{subsec:api-usage}
 
-Auf die Details der Implementierung der API wird nicht genauer eingegangen. Folgende Beispiele verdeutlichen jedoch die Nutzung der API mit dem \ac{CLI} \texttt{curl}. (In einem Browser-Client kann auf eine ähnlich Weise die fetch-API genutzt werden.)
+Auf die Details der Implementierung der API wird nicht genauer eingegangen. Folgende Beispiele verdeutlichen jedoch die Nutzung der API mit dem \ac{CLI} \texttt{curl}. (In einem Browser-Client kann auf eine ähnliche Weise die fetch-API genutzt werden.)
 
 \lstinputlisting
   [caption={API Beispiel: Anlegen einer Pipeline}]
@@ -115,7 +115,7 @@ Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spe
 
 Über die API werden nur die Attribute der Pipeline angelegt, nicht jedoch die Stages, Gruppen und Schritte der Pipeline (siehe \fullref{subsec:uml}). Dies wurde bewusst nicht über die API implementiert. Die Stages, Gruppen und Schritte sollen nämlich aus einer Konfigurationsdatei ausgelesen werden.
 
-Das Anlegen komplexer Pipelines mit mehreren Stages und verschachtelten Gruppen gestaltet sich über ein \acf{UI} schwierig. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt auch unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
+Das Anlegen komplexer Pipelines mit mehreren Stages und verschachtelten Gruppen gestaltet sich über ein \acf{UI} schwierig. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
 
 Eine Datei namens \emph{.warp.yml} im Dokumentenstamm des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses in der Datenbank gespeichert.
 
@@ -155,7 +155,7 @@ Ursprünglich wurde nicht geplant, dass eine Pipeline auch über die API angeleg
 
 In der Praxis hat sich dies als problematisch erwiesen. Bei jedem Webhook hätte ein Build-Prozess initialisiert werden müssen, um in der Konfigurationsdatei nach einer passenden Git Reference (siehe \fullref{subsec:git-reference}) zu suchen. Wenn keine passende Git Reference gefunden wird, müsste der Build-Prozess sofort abgebrochen werden.
 
-Da dies einen großen Overhead erzeugt, wurden bestimmte Attribute der Pipeline, vor allem der Reguläre Ausdruck der Git Reference, in die Datenbank ausgelagert. Bei einem einkommenden Webhook kann dadurch direkt in der Datenbank nach einer zugehörigen Pipeline gesucht werden. Wenn keine gefunden wird, muss auch kein Prozess initialisiert werden.
+Da dies einen großen Overhead erzeugt, wurden bestimmte Attribute der Pipeline, vor allem der reguläre Ausdruck der Git Reference, in die Datenbank ausgelagert. Bei einem einkommenden Webhook kann dadurch direkt in der Datenbank nach einer zugehörigen Pipeline gesucht werden. Wenn keine gefunden wird, muss auch kein Prozess initialisiert werden.
 
 \subsection{Ablauf einer Deployment-Pipeline}
 \label{subsec:ablauf-build}
@@ -198,7 +198,7 @@ Alle Worker übermitteln über einen Websocket die aktualisierten Daten der jewe
 
 Ein Worker ist ein Konzept in der Software-Programmierung, bei dem eine Aufgabe einem nebenläufigen Prozess zugeteilt wird. Hat ein Worker seine Arbeit beendet, ruft er einen Callback auf, um nächste Schritte auszuführen. WARP nutzt Worker zur Implementierung der Deployment-Pipeline.
 
-Erlang (und somit auch Elixir) besitzt die Möglichkeit nebenläufige Prozesse zu starten. Diese sind keine Betriebssystem-Prozesse, sondern eigene Prozesse der Erlang VM. Durch die ressourcensparende Natur dieser Prozesse erlaubt es Erlang, eine Vielzahl von Prozessen in einer Anwendung zu verwalten. \citep[133]{Armstrong2007}
+Erlang (und somit auch Elixir) besitzt die Möglichkeit, nebenläufige Prozesse zu starten. Diese sind keine Betriebssystem-Prozesse, sondern eigene Prozesse der Erlang VM. Durch die ressourcensparende Natur dieser Prozesse erlaubt es Erlang, eine Vielzahl von Prozessen in einer Anwendung zu verwalten. \citep[133]{Armstrong2007}
 
 Prozesse kommunizieren untereinander mit Nachrichten und besitzen einen Speicher bzw. Zustand (State). Diese Eigenschaften eignen sich sehr gut zur Implementierung der in \fullref{subsec:ablauf-build} beschriebenen Worker.
 
