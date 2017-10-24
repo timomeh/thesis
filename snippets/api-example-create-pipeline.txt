@@ -12,6 +12,7 @@ Content-Type: application/json; charset=utf-8
     "title": "Build & Deploy to Staging",
     "ref_match": "staging$",
     "project_id": 1,
+    "human_id": "build_deploy_staging",
     // ...
   }
 }

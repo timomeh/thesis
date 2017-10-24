@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \section{Client: Entwurf und Implementierung}
 
-Bereits im Praxisprojekt \citep{Maemecke2017}, welches dieser Arbeit voran ging, wurde der komponentenbasierte Ansatz zur Programmierung von Browser-Frontends näher betrachtet. Eine Komponente ist ein modularer, in sich geschlossener Teil eines User Interfaces, der für eine Aufgabe zuständig ist. Aufgabe einer Komponente kann nicht nur das Anzeigen von Daten oder anderer Elemente sein, sondern auch die Verwaltung von Daten und die Kommunikation mit einer API.
+Bereits im Praxisprojekt \citep{Maemecke2017}, welches dieser Arbeit voran ging, wurde der komponentenbasierte Ansatz zur Programmierung von Browser-Frontends näher betrachtet. Eine Komponente ist ein modularer, in sich geschlossener Teil eines User Interfaces, der für eine Aufgabe zuständig ist. Die Aufgabe einer Komponente kann nicht nur das Anzeigen von Daten oder anderer Elemente sein, sondern auch die Verwaltung von Daten und die Kommunikation mit einer API.
 
 Mit diesem Ansatz lassen sich stabile, skalierbare, wartbare und testbare Anwendungen für den Browser entwickelt werden.
 
@@ -24,7 +24,7 @@ Screens mit Formularen, beispielsweise zum Erstellen einer Pipeline, wurden auß
 
 \subsubsection{Content Inventory}
 
-Ein \emph{Content Inventory}\footnote{vgl. https://github.com/north/north\#content-inventory} ist eine Auflistung aller verfügbarer Daten, die beim Designprozess dabei hilft, einen Überblick über alle zu verwendenden Daten zu behalten und Prioritäten herauszuarbeiten.
+Ein \emph{Content Inventory}\footnote{vgl. https://github.com/north/north\#content-inventory, abgerufen am 23.10.2017} ist eine Auflistung aller verfügbarer Daten, welches beim De\-sign\-pro\-zess dabei hilft, einen Überblick über alle verwendbaren Daten zu behalten und Prioritäten herauszuarbeiten.
 
 In \tabref{tab:content-inventory} ist das Content Inventory auf die wichtigsten anzuzeigenden Komponenten bzw. Entitäten aufgeteilt.
 
@@ -112,7 +112,7 @@ Die Komponente in \figref{fig:build-process-detail} ist im Vergleich zur kleiner
 
 Die Informationen des Build-Prozesses besitzen neben einem passenden Icon nun auch eine textuelle Bezeichnung, um Verwirrung durch die Masse an Daten zu vermeiden.
 
-Bei einem aktiven Build-Prozess ist an dieser Stelle eine Fortschrittsanzeige sinnvoll. Manche Anwendungen verwenden hierfür einen Ladebalken mit prozentualem Fortschritt. Diese Anzeige ist jedoch irreführend: Nachdem ein Schritt in einem Build-Prozess gestartet wurde, kennt die Anwendung nicht den Fortschritt innerhalb des Schrittes. Sie weiß nur, ob der Befehl gestartet und ob er beendet wurde. Die Anwendung weiß auch nicht, wie lange ein Schritt dauert\footnote{Die Dauer eines Schrittes liese sich schätzen, indem ein Duchschnittswert aus füheren Build-Prozessen errechnet wird.}. Möglicherweise dauert ein bestimmter Schritt um ein vielfaches länger als andere Schritte.
+Bei einem aktiven Build-Prozess ist an dieser Stelle eine Fortschrittsanzeige sinnvoll. Manche Anwendungen (wie Jenkins, siehe \fullref{sec:analyse-jenkins}) verwenden hierfür einen Ladebalken mit prozentualem Fortschritt. Diese Anzeige ist jedoch irreführend: Nachdem ein Schritt in einem Build-Prozess gestartet wurde, kennt die Anwendung nicht den Fortschritt innerhalb des Schrittes. Sie weiß nur, ob der Befehl gestartet und ob er beendet wurde. Die Anwendung weiß auch nicht, wie lange ein Schritt dauert\footnote{Die Dauer eines Schrittes ließe sich schätzen, indem ein Duchschnittswert aus früheren Build-Prozessen errechnet wird.}. Möglicherweise dauert ein bestimmter Schritt um ein vielfaches länger als andere Schritte.
 
 \begin{figure}[h]
   \caption{Informationsreiche Build-Prozess Komponenten mit aktivem Status}
@@ -134,13 +134,13 @@ Auf dem Screen (siehe \figref{fig:latest-builds}) sind diese Komponenten nach Da
 
 \subsection{Visualisierung der Pipeline}
 
-Die Visualiserung der gesamten Pipeline (also aller Stages und Abfolge ihrer Schritte) ist für den Nutzer dann wichtig, wenn ein Build-Prozess fehlgeschlagen ist. Bei Erfolg des Prozesses wird die Detail-Ansicht eher nicht benötigt.
+Die Visualiserung der gesamten Pipeline (also aller Stages und Abfolge ihrer Schritte) ist für den Nutzer vor allem dann wichtig, wenn ein Build-Prozess fehlgeschlagen ist. Bei Erfolg des Prozesses wird die Detail-Ansicht eher nicht benötigt.
 
 In der Detail-Ansicht lässt sich erkennen, an welcher Stelle der Build-Prozess fehlgeschlagen ist und was die Ausgabe des fehlgeschlagenen Befehls war.
 
 Die Stärke der Anwendung, dass Schritte beliebig tief in Gruppen verschachtelt werden können, ist gleichzeitig eine Schwäche bei der Visualisierung. Die Pipeline soll übersichtlich dargestellt werden, was sehr schwierig ist, wenn sich Schritte beliebig aufteilen können und parallele Prozesse entstehen. Zudem soll die Breite des Viewports nicht überschritten werden, wodurch der Nutzer horizontal und vertikal scrollen müsste.
 
-Letztendlich wurde sich für die Visualisierung in \figref{fig:pipeline-overview} entschieden, bei der alle Schritte chronologisch untereinander aufgelistet werden, und parallele Prozesse nebeneinander angezeigt werden.
+Letztendlich wurde die Visualisierung in \figref{fig:pipeline-overview} gestaltet, bei der alle Schritte chronologisch untereinander aufgelistet werden, und parallele Prozesse nebeneinander angezeigt werden.
 
 \begin{figure}[h]
   \caption{Einzelansicht des Build-Prozesses}
@@ -158,11 +158,13 @@ Ein Nachteil dieser Visualisierung ist, dass bei zu vielen parallelen Prozessen 
 
 \textbf{React} ist eine Bibliothek für JavaScript, mit der sich komponentenbasierte User Interfaces für den Browser programmieren lassen. Wie schon im Praxisprojekt \citep{Maemecke2017} ausgearbeitet, eignet sich React besonders für dynamische Web\-anwendungen bzw. \acp{SPA} mit komplexen Funktionalitäten.
 
-React wird von Facebook entwickelt und seit 2011 auf facebook.com verwendet. 2013 wurde React als Open-Source-Projekt veröffentlicht. Mittlerweile besitzt React eine sehr große und stetig wachsende Community, und wird auch von vielen Unternehmen und Projekten genutzt. Zu den Bekanntesten zählen u.a. Twitter, Netflix, Paypal, Reddit, Airbnb und viele mehr\footnote{vgl. https://github.com/facebook/react/wiki/sites-using-react. Tatsächlich ist die Verwendung von React aktuell so weit verbreitet, dass eine komplette Auflistung nur der bekanntesten Unternehmen schon den Rahmen sprengen würde.}.
+React wird von Facebook entwickelt und seit 2011 auf facebook.com verwendet. 2013 wurde React als Open-Source Projekt veröffentlicht. Mittlerweile besitzt React eine sehr große und stetig wachsende Community, und wird auch von vielen Unternehmen und Projekten genutzt. Zu den Bekanntesten zählen u.a. Twitter, Netflix, Paypal, Reddit, Airbnb und viele mehr\footnote{vgl. https://github.com/facebook/react/wiki/sites-using-react. Tatsächlich ist die Verwendung von React aktuell so weit verbreitet, dass eine komplette Auflistung nur der bekanntesten Unternehmen schon den Rahmen sprengen würde.}.
 
-Ein Konzept von React ist der \emph{State}. Im State werden Daten gespeichert, die zur Anzeige des aktuellen Zustands einer Komponente benötigt werden. Jede Komponente kann ihren eigenen State verwalten. \citep[State and Lifecycle]{ReactDocs} Bei großen Anwendungen mit vielen Daten, die in verschiedenen Komponenten benötigt werden, wird die State-Verwaltung in voneinander getrennten Komponenten schnell schwierig. Zur Lösung dieses Problems gibt es die JavaScript-Bibliothek \textbf{Redux}.
+\emph{Ein} Konzept in React ist der \emph{State}. In ihm werden Daten gespeichert, die zur Anzeige des aktuellen Zustands einer Komponente benötigt werden. Jede Komponente kann ihren eigenen State verwalten. \citep[State and Lifecycle]{ReactDocs}
 
-Mit Redux lässt sich ein globaler State verwalten, auf den alle Komponenten zugreifen können. Wenn eine Komponente Daten im globalen State modifiziert, werden die Änderungen direkt in allen anderen Komponenten bekannt, die auf diese Daten zugreifen.
+Bei großen Anwendungen mit vielen Daten, die in verschiedenen Komponenten benötigt werden, wird die State-Verwaltung in voneinander getrennten Komponenten schnell schwierig. Zur Lösung dieses Problems gibt es die JavaScript-Bibliothek \textbf{Redux}.
+
+Mit Redux lässt sich ein globaler State verwalten, auf den alle Komponenten zugreifen können. Wenn eine Komponente Daten im globalen State modifiziert, werden die Änderungen daran direkt in allen anderen Komponenten bekannt, die auf diese Daten zugreifen.
 
 \subsection{Komposition als An\-wen\-dungs\-struk\-tur}
 \label{subsec:komposition}
@@ -191,7 +193,7 @@ Zum asynchronen Laden der Daten wird der \emph{Lifecycle} einer Komponente genut
 
 Eine Komponente besitzt verschiedene Methoden, die in ihrem Lebenszyklus an bestimmten Stellen aufgerufen werden. Wird beispielsweise eine Komponente angezeigt (``mount''), wird direkt davor die Methode \texttt{componentWillMount()} aufgerufen, und direkt nachdem sie angezeigt wurde, wird \texttt{componentDidMount()} aufgerufen. Genauso wird die Methode \texttt{componentWillUnmount()} aufgerufen, sobald eine Komponente nicht mehr angezeigt wird. \citep[State and Lifecycle]{ReactDocs}
 
-Wir nutzen die Lifecycle-Methode \texttt{componentWillMount()}, wie in \lstref{lst:project-will-mount} zu sehen, um die Anfrage an die API zu starten.
+Wir nutzen die Lifecycle-Methode \texttt{componentWillMount()} um die Anfrage an die API zu starten, wie in \lstref{lst:project-will-mount} zu sehen.
 
 \lstinputlisting
   [caption={ProjectContainer.js: Laden eines Projekts},
@@ -218,9 +220,9 @@ Als verschachtelte Komponente kann \texttt{<Project />} dem gleichen Schema folg
 \subsection{Implementierung der Frontend-Routen}
 \label{subsec:react-routes}
 
-Die Komponente \texttt{Project} soll verschiedene Screens anzeigen (vgl. Auflistung in \fullref{subsec:entwurf-user-interface}). Je nach \ac{URL} wird die Historie, die neuesten Build-Prozesse oder die Details zu einem Build-Prozess angezeigt.
+Die Komponente \texttt{Project} soll verschiedene Screens anzeigen (vgl. Auflistung in \fullref{subsec:entwurf-user-interface}). Je nach \acs{URL} wird die Historie, die neuesten Build-Prozesse oder die Details zu einem Build-Prozess angezeigt.
 
-Bei der Implementierung dafür hilft die Bibliothek react-router\footnote{vgl. https://reacttraining.com/react-router/}. Mit ihr lassen sich Routen und die zugehörige Komponente definieren.
+Bei der Implementierung dafür hilft die Bibliothek react-router\footnote{Siehe https://reacttraining.com/react-router/}. Mit ihr lassen sich Routen und die zugehörige Komponente definieren.
 
 \lstinputlisting
   [caption={Project.js: Definition von Routen mit react-router},
@@ -232,7 +234,7 @@ Die in \lstref{lst:project-routes} verlinkten Komponenten \texttt{BuildDetails},
 
 \subsection{Asynchroner Datenfluss mit Redux}
 
-Zur Implementierung des Redux Stores gibt es eine Best Practice für asynchrone Redux-Actions\footnote{vgl. http://redux.js.org/docs/advanced/AsyncActions.html}. Zusammen mit der Bibliothek redux-thunk\footnote{vgl. https://github.com/gaearon/redux-thunk} können in einem \emph{Action Creator} weitere Actions und asynchrone Funktionen aufgerufen werden.
+Zur Implementierung des Redux Stores gibt es eine Best Practice für asynchrone Redux-Actions\footnote{Siehe http://redux.js.org/docs/advanced/AsyncActions.html, abgerufen am 23.10.2017}. Zusammen mit der Bibliothek redux-thunk\footnote{Siehe https://github.com/gaearon/redux-thunk} können in einem \emph{Action Creator} weitere Actions und asynchrone Funktionen aufgerufen werden.
 
 Eine Funktion wie beispielsweise \texttt{fetchProject()} aus \fullref{subsec:implementierung-struktur} besteht aus mehreren Aufrufen:
 
@@ -271,7 +273,7 @@ Die beiden aufgerufenen Funktionen \texttt{requestProject()} und \texttt{receive
   language=js]
   {snippets/project-store.js}
 
-Der Quelltext aus diesen Beispielen ist eine vereinfachte Version der tat\-säch\-lich\-en Implementierung. Anstatt an dieser Stelle das Projekt zu speichern, wird nur die ID gespeichert und das dazugehörige Objekt in einem anderen Reducer gespeichert, in dem auch andere Entitäten gespeichert werden.
+Der Quelltext aus diesen Beispielen ist eine vereinfachte Version der tat\-säch\-lich\-en Implementierung. Anstatt an dieser Stelle das Projekt zu speichern, wird dort nur die ID gespeichert und das dazugehörige Objekt in einem anderen Reducer gespeichert, in dem auch andere Entitäten gespeichert werden.
 
 
 \subsection{Aktualisierung der Daten über einen Websocket}
@@ -312,7 +314,7 @@ Bei der Instanziierung wird die \texttt{dispatch} Methode aus Redux als Pa\-ra\-
 
 Nachdem sich erfolgreich mit dem Kanal verbunden wurde, empfängt das Modul die aktualisierten Daten in einem \emph{Event Listener}. In den übertragenen Daten des Events (\texttt{payload}) ist zusätzlich zu der Entität auch ein Name des Events vorhanden. Anhand dieses Namens kann die entsprechende Funktion aufgerufen werden, um beispielsweise die Attribute eines Builds zu aktualisieren.
 
-Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \texttt{componentWillUnmount} der Komponente aufgerufen (siehe \lstref{lst:project-websocket} und die Verbindung zum Kanal getrennt.
+Wenn der Nutzer auf ein anderes Projekt wechselt, wird die Lifecycle-Methode \texttt{componentWillUnmount()} aufgerufen (siehe \lstref{lst:project-websocket}) und die Verbindung zum Kanal getrennt (siehe \lstref{lst:socket-leave}).
 
 \lstinputlisting
   [caption={socket.js: Trennung der Verbindung},
