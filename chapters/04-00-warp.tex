@@ -6,7 +6,7 @@
 
 \chapter{WARP – Eine Webanwendung für Build- und Deployment-Prozesse}
 
-Die Benennung einer Anwendung ist für die Entwicklung grundsätzlich irrelevant. Als Entwickler legen wir im Vorfeld trotzdem gerne einen Namen für unsere Software fest – wenigstens einen vorläufigen Projektnamen – um die Benennung verschiedenster Dinge zu erleichtern, wie Namensräume, interne Bibliotheken, Projekte auf GitHub \& Co.
+Die Benennung einer Anwendung ist für die Entwicklung grundsätzlich irrelevant. Als Entwickler legen wir im Vorfeld trotzdem gerne einen Namen für unsere Software fest – wenigstens einen vorläufigen Projektnamen – um die Benennung verschiedenster Dinge zu erleichtern, wie Module, interne Bibliotheken, Projekte auf GitHub \& Co.
 
 Der Projektname \textbf{WARP} wurde bei Präsentationen meist direkt mit der Science-Fiction Fernsehserie \emph{Star Trek} in Verbindung gebracht. Der Ursprung des Namens liegt jedoch nicht bei der Reise durch das All, sondern bei Nintendos Super Mario Bros.
 
@@ -59,7 +59,7 @@ Die Pipeline besitzt beliebig viele Build-Prozesse als Instanzen der Pipeline. E
 
 Wie in \fullref{sec:deployment-pipeline} bereits definiert wurde, besteht eine Pipeline aus mehreren Stages, die nacheinander ausgeführt werden. In einer Stage werden Schritte oder Gruppen nacheinander (seriell) oder gleichzeitig (parallel) ausgeführt.
 
-Eine \emph{Gruppe} ist, ähnlich wie eine Stage, eine Gruppierung von weiteren Schritten oder Gruppen, die wiederrum seriell oder parallel ausgeführt werden. Gruppen lassen sich somit ineinander verschachteln, um komplexe Abläufe in der Pipeline abbilden zu können.
+Eine \emph{Gruppe} ist, ähnlich wie eine Stage, eine Gruppierung von weiteren Schritten oder Gruppen, die wiederum seriell oder parallel ausgeführt werden. Gruppen lassen sich somit ineinander verschachteln, um komplexe Pipelines abbilden zu können.
 
 Stages, Gruppen und Schritte teilen sich die gleichen Attribute. Gruppen und Schritte besitzen zusätzlich ein Attribut für den Ausführungstyp, der seriell oder parallel ist.
 

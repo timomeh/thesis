@@ -3,7 +3,7 @@
 
 Bereits im Praxisprojekt \citep{Maemecke2017}, welches dieser Arbeit voran ging, wurde der komponentenbasierte Ansatz zur Programmierung von Browser-Frontends näher betrachtet. Eine Komponente ist ein modularer, in sich geschlossener Teil eines User Interfaces, der für eine Aufgabe zuständig ist. Die Aufgabe einer Komponente kann nicht nur das Anzeigen von Daten oder anderer Elemente sein, sondern auch die Verwaltung von Daten und die Kommunikation mit einer API.
 
-Mit diesem Ansatz lassen sich stabile, skalierbare, wartbare und testbare Anwendungen für den Browser entwickelt werden.
+Mit diesem Ansatz lassen sich stabile, skalierbare und testbare Anwendungen für den Browser entwickeln.
 
 Der komponentenbasierte Gedanke wird nicht nur bei der Programmierung, sondern auch bei der Gestaltung von \acp{UI} verfolgt. Design-Programme wie Sketch\footnote{https://www.sketchapp.com/} sind darauf ausgelegt, ein User Interface in Komponenten zu gestalten.
 
@@ -95,7 +95,7 @@ Die Komponente ist nicht sehr hoch, damit mehr Elemente gleichzeitig im Viewport
     \includegraphics[width=\textwidth]{assets/build-history}
 \end{figure}
 
-\subsection{Visualisierung der neuesten Builds}
+\subsection{Visualisierung der neuesten Build-Prozesse}
 
 Eine der wichtigsten Informationen sind die neusten Builds. Zu jeder Pipeline wird der aktuellste Build-Prozess angezeigt. Daraus wird direkt ersichtlich, ob es aktuell Probleme gibt, und welche Version der Software auf welche Umgebung deployed wurde.
 
@@ -112,7 +112,7 @@ Die Komponente in \figref{fig:build-process-detail} ist im Vergleich zur kleiner
 
 Die Informationen des Build-Prozesses besitzen neben einem passenden Icon nun auch eine textuelle Bezeichnung, um Verwirrung durch die Masse an Daten zu vermeiden.
 
-Bei einem aktiven Build-Prozess ist an dieser Stelle eine Fortschrittsanzeige sinnvoll. Manche Anwendungen (wie Jenkins, siehe \fullref{sec:analyse-jenkins}) verwenden hierfür einen Ladebalken mit prozentualem Fortschritt. Diese Anzeige ist jedoch irreführend: Nachdem ein Schritt in einem Build-Prozess gestartet wurde, kennt die Anwendung nicht den Fortschritt innerhalb des Schrittes. Sie weiß nur, ob der Befehl gestartet und ob er beendet wurde. Die Anwendung weiß auch nicht, wie lange ein Schritt dauert\footnote{Die Dauer eines Schrittes ließe sich schätzen, indem ein Duchschnittswert aus früheren Build-Prozessen errechnet wird.}. Möglicherweise dauert ein bestimmter Schritt um ein vielfaches länger als andere Schritte.
+Bei einem aktiven Build-Prozess ist an dieser Stelle eine Fortschrittsanzeige sinnvoll. Manche Anwendungen (wie Jenkins, siehe \fullref{sec:analyse-jenkins}) verwenden hierfür einen Ladebalken mit prozentualem Fortschritt. Diese Anzeige ist jedoch irreführend: Nachdem ein Schritt in einem Build-Prozess gestartet wurde, kennt die Anwendung nicht den Fortschritt innerhalb des Schrittes. Sie weiß nur, ob der Befehl gestartet und ob er beendet wurde. Die Anwendung weiß auch nicht, wie lange ein Schritt dauert\footnote{Die Dauer eines Schrittes ließe sich schätzen, indem ein Durchschnittswert aus früheren Build-Prozessen errechnet wird.}. Möglicherweise dauert ein bestimmter Schritt um ein vielfaches länger als andere Schritte.
 
 \begin{figure}[h]
   \caption{Informationsreiche Build-Prozess Komponenten mit aktivem Status}
@@ -126,7 +126,7 @@ Daher werden die Schritte auch als solches in vereinfachter Darstellung aufgelis
 Auf dem Screen (siehe \figref{fig:latest-builds}) sind diese Komponenten nach absteigendem Datum sortiert. Ein größerer Abstand und die auffälligen durchgezogenen Farbbalken helfen bei der visuellen Trennung der Komponenten voneinander, damit der Fokus auf der einzelne Komponente bleibt.
 
 \begin{figure}[H]
-  \caption{Übersicht der neuesten Builds}
+  \caption{Übersicht der neuesten Build-Prozesse}
   \label{fig:latest-builds}
   \centering
     \includegraphics[width=\textwidth]{assets/latest-builds}
@@ -134,7 +134,7 @@ Auf dem Screen (siehe \figref{fig:latest-builds}) sind diese Komponenten nach ab
 
 \subsection{Visualisierung der Pipeline}
 
-Die Visualiserung der gesamten Pipeline (also aller Stages und die Abfolge ihrer Schritte) ist für den Nutzer vor allem dann wichtig, wenn ein Build-Prozess fehlgeschlagen ist. Bei Erfolg des Prozesses wird die Detail-Ansicht eher nicht benötigt.
+Die Visualisierung der gesamten Pipeline (also aller Stages und die Abfolge ihrer Schritte) ist für den Nutzer vor allem dann wichtig, wenn ein Build-Prozess fehlgeschlagen ist. Bei Erfolg des Prozesses wird die Detail-Ansicht eher nicht benötigt.
 
 In der Detail-Ansicht lässt sich erkennen, an welcher Stelle der Build-Prozess fehlgeschlagen ist und was die Ausgabe des fehlgeschlagenen Befehls war.
 
@@ -171,11 +171,11 @@ Mit Redux lässt sich ein globaler State verwalten, auf den alle Komponenten zug
 
 Komposition ist eins der Hauptmerkmale von Komponenten. Komposition bedeutet, dass durch das Zusammenspiel von mehreren Komponenten eine größere Aufgabe erfüllt wird. Jede Komponente ist dabei für einen Teil der Aufgabe zuständig. \citep[Kapitel 1]{Maemecke2017}
 
-Man kann Komposition auch zur Modellierung von Daten-Abhängigkeiten nutzen: eine Komponente (A) ruft asynchron Daten von der \ac{API} auf. Während die Daten geladen werden, kann in Komponente A ein Ladeindikator angezeigt werden. Wenn die Daten geladen wurden, kann Komponente A eine weitere Komponente (B) angezeigen, die die geladenen Daten darstellt.
+Man kann Komposition auch zur Modellierung von Daten-Abhängigkeiten nutzen: eine Komponente (A) ruft asynchron Daten von der \ac{API} auf. Während die Daten geladen werden, kann in Komponente A ein Ladeindikator angezeigt werden. Wenn die Daten geladen wurden, kann Komponente A eine weitere Komponente (B) anzeigen, welche die geladenen Daten darstellt.
 
 Komponente B kann sich somit rein um die Darstellung der Daten kümmern. Zu keinem Zeitpunkt benötigt Komponente B eine Abfrage, ob die Daten bereits vorhanden sind.
 
-Die Komposition von Abhängigkeiten kann tiefer verschachtelt werden. Im gerade genannten Beispiel kann Komponente B wiederrum weitere Daten laden, die auf den Daten von Komponente A aufbauen.
+Die Komposition von Abhängigkeiten kann tiefer verschachtelt werden. Im gerade genannten Beispiel kann Komponente B wiederum weitere Daten laden, die auf den Daten von Komponente A aufbauen.
 
 In der Anwendung wird diese Art der Komposition als Grundgerüst der Anwendungsstruktur verwendet. \figref{fig:komposition} zeigt außerdem, was nach einer Interaktion des Nutzers geschieht. Beim initialen Aufruf der Anwendung wird die komplette Struktur des Screens generiert. Wenn der Nutzer auf einen anderen Screen navigiert, wird nur die Komponente mit den alten Daten durch eine neue Komponente ausgetauscht.
 

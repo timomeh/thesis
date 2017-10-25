@@ -5,7 +5,7 @@ Vor der Umsetzung der Anwendung wurde eine Analyse vorhandener Systeme durchgef�
 
 Besonders Vor- und Nachteile sind subjektiv und unterscheiden sich zwischen Nutzergruppen. Bei der Betrachtung über Personae können diese Eigenschaften auf verschiedene Nutzergruppen projiziert werden.
 
-Da der Fokus der Arbeit auf der Umsetzung liegt, wird die Analyse nur verkürzt durchgeführt, anhand der drei Anwendungen Jenkins, Travis CI und Codeship mit einer Persona. Die Anwendungen wurden aufgrund ihrere Bekanntheit und unterschiedlichen Herangehensweisen gewählt.
+Da der Fokus der Ausarbeitung auf der Umsetzung liegt, wird die Analyse nur verkürzt durchgeführt, anhand der drei Anwendungen Jenkins, Travis CI und Codeship mit einer Persona. Die Anwendungen wurden aufgrund ihrere Bekanntheit und unterschiedlichen Herangehensweisen gewählt.
 
 Zum Testen wurde jeweils eine Pipeline konfiguriert und mehrere Build-Prozesse nacheinander ausgelöst. Dabei wurden alle Anwendungen so benutzt, wie sie Out-of-the-box angeboten werden, ohne Erweiterungen oder externe Hilfsmittel.
 
@@ -35,11 +35,11 @@ Folgende Persona wurde zur Analyse genutzt:
 \section{Jenkins}
 \label{sec:analyse-jenkins}
 
-Jenkins ist eine in Java programmierte Webanwendung für Build-Prozesse. Es bezeichnet sich selbst als ``the leading open source automation server''\footnote{Quelle: https://jenkins.io/}. Jenkins ist ein Fork von Hudson, welches 2005 veröffentlicht wurde, mittlerweile aber nicht mehr weiterentwickelt wird. Jenkins ist kostenlos und muss selbst gehosted werden.
+Jenkins ist eine in Java programmierte Webanwendung für Build-Prozesse. Es bezeichnet sich selbst als ``the leading open source automation server''\footnote{Quelle: https://jenkins.io/}. Jenkins ist ein Fork von Hudson, welches 2005 veröffentlicht wurde, mittlerweile aber nicht mehr weiterentwickelt wird. Jenkins ist kostenlos und muss selbst auf einem Server (oder einer anderen Maschine) betrieben werden.
 
 Es lässt sich mit vielen Plugins erweitern, was in diesem Szenario nicht berücksichtigt wurde.
 
-Zur Analyse wurde Jenkins auf einer Serverinstanz installiert. Durch das angebotene Installationsskript war die Installation unkompliziert.
+Zur Analyse wurde Jenkins zuerst auf einem Server installiert. Durch das angebotene Installationsskript war die Installation unkompliziert.
 
 \begin{figure}[h]
   \caption{Jenkins: Konfiguration einer Pipeline}
@@ -58,7 +58,7 @@ Eine Pipeline wird bei Jenkins in der Skriptsprache Groovy geschrieben. Diese ka
 In der Übersicht (siehe \figref{fig:jenkins-pipeline-overview}) werden alle Pipelines mit Informationen zum letzten Build aufgelistet. Ein aktiver Build-Prozess wird seitlich unauffällig mit einem Ladebalken angezeigt.
 
 \begin{figure}[h]
-  \caption{Jenkins: Detailansicht eines aktiven Builds}
+  \caption{Jenkins: Detailansicht eines aktiven Build-Prozesses}
   \label{fig:jenkins-build-detail}
   \includegraphics[width=.8\textwidth]{assets/jenkins-build-detail}
 \end{figure}
@@ -98,12 +98,12 @@ Für öffentliche Repositories ist Travis kostenlos, bei privaten Repositories f
 Durch die enge Integration an GitHub lässt sich Travis leicht zu einem Projekt hinzufügen: Mit einem Schalter lassen sich Build-Prozesse für ein Repository aktivieren (insofern man darauf Zugriff hat. Siehe \figref{fig:travis-activate}).
 
 \begin{figure}[h]
-  \caption{Travis CI: Aktivieren eines Build Prozess}
+  \caption{Travis CI: Aktivieren des Build-Prozesses}
   \label{fig:travis-activate}
   \includegraphics[width=.8\textwidth]{assets/travis-activate}
 \end{figure}
 
-Der Build-Prozess wird über die Datei \emph{.travis.yml} im Stammverzeichnis des Repositories konfiguriert. Mit Travis lassen sich jedoch keine Pipelines definieren, wie es bei Jenkins (\fullref{sec:analyse-jenkins}) der Fall ist. Travis besitzt vielmehr einen vorgefertigen Prozess, der über diese Datei genauer eingestellt werden kann.\footnote{vgl. https://docs.travis-ci.com/user/customizing-the-build/, abgerufen am 23.10.2017} Dadurch ist der Prozess zwar nicht so flexibel, jedoch kann dank solcher Standardeinstellungen die Konfiguration minimiert werden – bis zu einem Punkt, an dem überhaupt keine Konfiguration mehr notwendig ist.
+Der Build-Prozess wird über die Datei \emph{.travis.yml} im Stammverzeichnis des Repositories konfiguriert. Mit Travis lassen sich jedoch keine Pipelines definieren, wie es bei Jenkins (\fullref{sec:analyse-jenkins}) der Fall ist. Travis besitzt vielmehr einen vorgefertigten Prozess, der über diese Datei genauer eingestellt werden kann.\footnote{vgl. https://docs.travis-ci.com/user/customizing-the-build/, abgerufen am 23.10.2017} Dadurch ist der Prozess zwar nicht so flexibel, jedoch kann dank solcher Standardeinstellungen die Konfiguration minimiert werden – bis zu einem Punkt, an dem überhaupt keine Konfiguration mehr notwendig ist.
 
 Zum aktuellen Zeitpunkt wurden Stages als Beta-Funktionalität hinzugefügt.\footnote{vgl. https://docs.travis-ci.com/user/build-stages/, abgerufen am 23.10.2017} Damit lassen sich Schritte definieren, die einer Stage zugeordnet sind (siehe \lstref{lst:travis-config}).
 
@@ -114,7 +114,7 @@ Zum aktuellen Zeitpunkt wurden Stages als Beta-Funktionalität hinzugefügt.\foo
 
 Seitlich werden immer alle aktivierten Repositories, auf die man Zugriff hat, mit ihrem letzten Build-Status angezeigt (siehe \figref{fig:travis-running-build}). Der Fokus liegt also nicht auf den einzelnen Build-Prozessen, sondern dem Integrationsstatus des Repositories.
 
-Im Hauptbereich der Ansicht sind jeweils Details zu einem Build-Prozess zu sehen. Bei der Verwendung von Stages werden die Schritte in ihrer Reihenfolge aufgelistet. Ohne Stages wird die Pipeline überhaupt nicht visualisiert, sondern die komplette Konsolenausgabe der Serverinstanz angezeigt.
+Im Hauptbereich der Ansicht sind jeweils Details zu einem Build-Prozess zu sehen. Bei der Verwendung von Stages werden die Schritte in ihrer Reihenfolge aufgelistet. Ohne Stages wird die Pipeline überhaupt nicht visualisiert, stattdessen wird die Konsolenausgabe der gesamten Pipeline angezeigt.
 
 \begin{figure}[h]
   \caption{Travis CI: Laufender Build-Prozess mit Stages}
@@ -179,10 +179,10 @@ Beim Einrichten über die Browser-Oberfläche stehen Formularfelder zur Verfügu
   \includegraphics[width=.8\textwidth]{assets/codeship-setup}
 \end{figure}
 
-Es gibt (ähnlich zu Travis) eine Übersicht über alle Projekte inklusive ihrem letzten Status, eine chronologische Auflistung aller Builds (\figref{fig:codeship-builds}) und Informationen zu einem einzelnen Build (\figref{fig:codeship-build-details}).
+Es gibt (ähnlich zu Travis) eine Übersicht über alle Projekte inklusive ihrem letzten Status, eine chronologische Auflistung aller Build-Prozesse (\figref{fig:codeship-builds}) und Informationen zu einem einzelnen Build (\figref{fig:codeship-build-details}).
 
 \begin{figure}[h]
-  \caption{Codeship: Auflistung aller Builds}
+  \caption{Codeship: Auflistung aller Build-Prozesse}
   \label{fig:codeship-builds}
   \includegraphics[width=.8\textwidth]{assets/codeship-builds}
 \end{figure}
@@ -190,7 +190,7 @@ Es gibt (ähnlich zu Travis) eine Übersicht über alle Projekte inklusive ihrem
 Im Gegensatz zu Travis CI visualisiert Codeship die gesamte Pipeline Schritt für Schritt und zeigt eine Konsolenausgabe je Schritt an.
 
 \begin{figure}[h]
-  \caption{Codeship: Ansicht eines Builds}
+  \caption{Codeship: Ansicht eines Build-Prozesses}
   \label{fig:codeship-build-details}
   \includegraphics[width=.8\textwidth]{assets/codeship-build-details}
 \end{figure}

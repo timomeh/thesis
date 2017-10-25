@@ -16,9 +16,9 @@ Elixir wurde 2011 von José Valim veröffentlicht und ist somit eine relativ jun
 
 Elixir wurde nicht gewählt, da darin schon Erfahrung besteht, sondern um Erfahrung in Elixir zu erlangen: Zu Beginn der Arbeit waren weder Kenntnisse in Elixir noch in Erlang vorhanden.
 
-Als Webframework für Elixir wurde das bekannteste Framework gewählt: \textbf{Phoenix}.
+Als Webframework wurde das bekannteste Framework für Elixir gewählt: \textbf{Phoenix}.
 
-Phoenix ist ein Framework für Webanwendungen nach dem \ac{MVC} Modell. Es beinhaltet viele nützliche Bestandteile wie eine Datenbank-Abstraktion (ähnlich zu einem \acs{ORM}\footnote{\acf{ORM}. Da Elixir eine funktionale Programmiersprache ist und somit keine Objekte besitzt, ist der Begriff \acs{ORM} nicht zutreffend, jedoch vergleichbar mit ORMs aus anderen Sprachen.}) und eine einfache Implementierung von Websockets, welche im weiteren Verlauf der Arbeit zur Echtzeitkommunikation benötigt werden.
+Phoenix ist ein Framework für Webanwendungen nach dem \ac{MVC} Modell. Es beinhaltet viele nützliche Bestandteile wie eine Datenbank-Abstraktion (ähnlich zu einem \acs{ORM}\footnote{\acf{ORM}. Da Elixir eine funktionale Programmiersprache ist und somit keine Objekte besitzt, ist der Begriff \acs{ORM} nicht zutreffend, jedoch vergleichbar mit ORMs aus anderen Sprachen.}) und eine einfache Implementierung von Websockets, welche im weiteren Verlauf der Arbeit zur Aktualisierung der Daten in Echtzeit benötigt werden.
 
 \subsection{Entwurf einer RESTful API}
 
@@ -29,7 +29,7 @@ Phoenix ist ein Framework für Webanwendungen nach dem \ac{MVC} Modell. Es beinh
   \item Die Kommunikation zwischen Client und Server ist zustandslos (stateless). Der Client muss dem Server alle Daten übermitteln, die der Server zum Verständnis und Ausführen der Anfrage benötigt.\footnote{Im Gegensatz zu Sessions, bei denen auf dem Server Informationen zu jedem Client gespeichert werden.}
 \end{itemize}
 
-Alle Interaktionen mit dem Service sind Anfragen, die aus einer Ressource, einem Identifikator und einer Aktion bestehen \citep[12]{Webber2010}. \ac{REST} ist kein Standard, daher kann sich die Implementierung von \ac{REST}\footnote{Wenn wir REST implementieren, verwenden wir die Adjektivform \emph{``RESTful''}.} von Fall zu Fall unterscheiden. Bei Webanwendungen werden meist mindestens folgende Informationen aus dem \ac{HTTP} Protokol genutzt:
+Alle Interaktionen mit dem Service sind Anfragen, die aus einer Ressource, einem Identifikator und einer Aktion bestehen \citep[12]{Webber2010}. \ac{REST} ist kein Standard, daher kann sich die Implementierung von \ac{REST} von Fall zu Fall unterscheiden\footnote{Bei der Implementierung von REST wird daher oft die Adjektivform ``RESTful'' verwendet.}. Bei Webanwendungen werden meist mindestens folgende Informationen aus dem \ac{HTTP} Protokol genutzt:
 
 \begin{itemize}
   \item Der Pfad der \acs{URL} bestimmt die Ressource und den Identifikator.
@@ -59,7 +59,7 @@ Für den Service wurden die in \tabref{tab:rest-routes} definierten Endpunkte f�
     GET & {\scriptsize \texttt{/pipelines/:pipeline\_id/builds}} & Auflisten der letzten Builds einer Pipeline anhand ihrer ID \\ \hline
     GET & {\scriptsize \texttt{/builds/:build\_id}} & Auslesen eines Builds anhand seiner ID \\
     \hline\hline
-    POST & {\scriptsize \texttt{/webhooks/receive}} & Endpunkt für Git Webhooks mit verschiedenen Aktionen, bspw. Erstellen eines neuen Builds. Diese Routeentspricht nicht einer typischen RESTful Route, sie wird allerdings für das Empfangen von Webhooks benötigt. \\
+    POST & {\scriptsize \texttt{/webhooks/receive}} & Endpunkt für Git Webhooks mit verschiedenen Aktionen, bspw. Erstellen eines neuen Builds. Diese Route entspricht nicht einer typischen RESTful Route, sie wird allerdings für das Empfangen von Webhooks benötigt. \\
     \hline
   \end{tabularx}
   \caption{RESTful API Routen}
@@ -117,16 +117,16 @@ Sollten ungültige Attribute übergeben werden, wird – wie in der JSON API Spe
 
 Das Anlegen komplexer Pipelines mit mehreren Stages und verschachtelten Gruppen gestaltet sich über ein \acf{UI} schwierig. Eine Konfigurationsdatei ist in solchen Fällen vorteilhafter und besonders bei Entwicklern beliebt. Ein sehr großer Vorteil ist, dass die Konfigurationsdatei direkt unter Versionskontrolle steht, wenn sie als Datei im Projekt angelegt ist.
 
-Eine Datei namens \emph{.warp.yml} im Dokumentenstamm des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses in der Datenbank gespeichert.
+Eine Datei namens \emph{.warp.yml} im Stammverzeichnis des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses in der Datenbank gespeichert.
 
-Die Zugehörigkeit zwischen der Pipeline in der Datenbank und den Daten in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak inidentifikator} in \figref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe \fullref{subsec:api-usage})
+Die Zugehörigkeit zwischen der Pipeline in der Datenbank und den Daten in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak identifikator} in \figref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe \fullref{subsec:api-usage})
 
 Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Beispielsweise besitzt YAML Kommentare, was in JSON nicht unterstützt wird.
 
 \lstref{lst:example-config} zeigt eine mögliche Konfiguration einer Pipeline. Bei \texttt{steps\_\allowbreak parallel} und \texttt{steps\_\allowbreak serial} handelt es sich um die Gruppen, deren Schritte entweder seriell oder parallel ausgeführt werden. In diesem Beispiel wird auch ersichtlich, wie sich mehrere Gruppen ineinander verschachteln lassen.
 
 \lstinputlisting
-  [caption={Konfiguration einer Pipeline im YAML Format},
+  [caption={.warp.yml: Konfiguration einer Pipeline},
   label={lst:example-config}]
   {snippets/config-example-yml.yml}
 
@@ -137,7 +137,7 @@ Die Konfigurationsdatei enthält noch andere Besonderheiten, wie einen \texttt{i
 
 In der Praxis ist es sinnvoll für verschiedene Git Branches auch unterschiedliche Build-Prozesse auszuführen. Folgendes Szenario zeigt einen dazu passenden Anwendungsfall:
 
-Für alle Feature-Branches eines Projekts wird \emph{nur} ein \ac{CI} Build durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, solche Branches auf eine Serverumgebung zu deployen. Wurde ein Feature fertiggestellt, wird der entsprechende Branch in den \texttt{master}-Branch gemerged. Bei Änderungen an diesem Branch wird ein Build Prozess durchgeführt, der zudem auch ein Deployment auf die Staging-Umgebung beinhaltet. Ein weiterer Branch ``\texttt{production}'' ist mit einem Build-Prozess verbunden, der ein Deployment auf die Produktions-Umgebung durchführt.
+Für alle Feature-Branches eines Projekts wird \emph{nur} ein \ac{CI} Build durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, diese Branches auf eine Serverumgebung zu transferieren. Wurde ein Feature fertiggestellt, wird der entsprechende Branch in den \texttt{master}-Branch integriert. Bei Änderungen an diesem Branch wird ein Build-Prozess durchgeführt, der zudem auch ein Deployment auf die Staging-Umgebung beinhaltet. Ein weiterer Branch ``\texttt{production}'' ist mit einem Build-Prozess verbunden, der ein Deployment auf die Produktions-Umgebung durchführt.
 
 Der in \fullref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei jedem Push in das Remote Repository ausgeführt. Aus ihm müssen wir auslesen, welche Pipeline dem Push zugeordnet ist. Dies kann über die Git Reference gelöst werden, aus der man den Namen des zugehörigen Branches und sogar auch den Namen eines Tags auslesen kann.
 
@@ -145,7 +145,7 @@ Daher definieren wir in der Pipeline-Konfiguration, durch welche Git Reference s
 
 Im gerade beschriebenen Szenario sollte \emph{eine} Pipeline für \emph{alle} Feature-Branches ausgeführt werden. Es wäre jedoch unpraktisch, wenn für jeden neuen Feature-Branch eine weitere, identische Pipeline angelegt werden muss, bei der sich nur die Git Reference unterscheidet.
 
-Als universelle Lösung für dieses Problem wird ein \emph{regulärer Ausdruck} als Zuordnung zur Git Reference verwendet. Feature-Branches besitzen üblicherweise das Präfix \texttt{feature/}, z.B. \texttt{feature\allowbreak /worker\allowbreak -refactor} oder \texttt{feature/\allowbreak queue\allowbreak -imple\-men\-ta\-tion}. Ein zum Szenario passender regulärer Ausdrück wäre \texttt{feature/.*}. Über ihn können alle Feature-Branches zur gleichen Pipeline zugeordnet werden.
+Als universelle Lösung für dieses Problem wird ein \emph{regulärer Ausdruck} als Zuordnung zur Git Reference verwendet. Feature-Branches besitzen üblicherweise das Präfix \texttt{feature/}, z.B. \texttt{feature\allowbreak /worker\allowbreak -refactor} oder \texttt{feature/\allowbreak queue\allowbreak -imple\-men\-ta\-tion}. Ein zum Szenario passender regulärer Ausdruck wäre \texttt{feature/.*}. Über ihn können alle Feature-Branches zur gleichen Pipeline zugeordnet werden.
 
 In der Datenstruktur (\figref{fig:uml}) wird der reguläre Ausdruck im Feld \texttt{git\_\allowbreak ref\_\allowbreak auslöser} gespeichert.
 
@@ -157,7 +157,7 @@ In der Praxis hat sich dies als problematisch erwiesen. Bei jedem Webhook hätte
 
 Da dies einen großen Overhead erzeugt, wurden bestimmte Attribute der Pipeline, vor allem der reguläre Ausdruck der Git Reference, in die Datenbank ausgelagert. Bei einem einkommenden Webhook kann dadurch direkt in der Datenbank nach einer zugehörigen Pipeline gesucht werden. Wenn keine gefunden wird, muss auch kein Prozess initialisiert werden.
 
-\subsection{Ablauf einer Deployment-Pipeline}
+\subsection{Ablauf einer Pipeline}
 \label{subsec:ablauf-build}
 
 Die Ausführung einer Deployment-Pipeline wird zu Beginn in einer Warteschlange pro Pipeline zwischengespeichert, da verschiedene Instanzen der gleichen Pipeline nicht simultan ausgeführt werden sollten.
@@ -188,7 +188,7 @@ Das Ausführen des eigentlichen Build-Prozesses (Schritte 5 bis 9) und dessen Ab
 
 In \figref{fig:ablauf-build-prozess} ist zu sehen, wie von links nach rechts der Ablauf des Build-Prozesses geleitet wird, bis ganz rechts jeweils ein \emph{StepWorker} den eigentlichen Befehl ausführt.
 
-Verschachtelte Worker melden ihrem übergeordneten Worker, wenn sie ihre Arbeit beendet haben. Der übergeordnete Worker kann darauf weitere Worker starten (sonfern welche ausstehen) oder selbst seinem übergeordneten Worker melden, dass er beendet ist. Die Abfolge findet also rein über die Kommunikation zwischen den einzelnen Workern statt.
+Verschachtelte Worker melden ihrem übergeordneten Worker, wenn sie ihre Arbeit beendet haben. Der übergeordnete Worker kann darauf weitere Worker starten (sofern welche ausstehen) oder selbst seinem übergeordneten Worker melden, dass er beendet ist. Die Abfolge findet also rein über die Kommunikation zwischen den einzelnen Workern statt.
 
 Auch wenn bei einem Schritt ein Fehler auftritt, wird dem übergeordneten Worker der Fehler gemeldet. Dieser beendet nun aktive Kind-Worker (sofern welche existieren) und meldet den Fehler wiederum seinem übergeordneten Worker. Somit werden Fehler im Schneeballprinzip im gesamten Prozess bekannt gegeben und strukturiert abgebrochen.
 
