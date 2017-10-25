@@ -177,7 +177,7 @@ Komponente B kann sich somit rein um die Darstellung der Daten kümmern. Zu kein
 
 Die Komposition von Abhängigkeiten kann tiefer verschachtelt werden. Im gerade genannten Beispiel kann Komponente B wiederum weitere Daten laden, die auf den Daten von Komponente A aufbauen.
 
-In der Anwendung wird diese Art der Komposition als Grundgerüst der Anwendungsstruktur verwendet. \figref{fig:komposition} zeigt außerdem, was nach einer Interaktion des Nutzers geschieht. Beim initialen Aufruf der Anwendung wird die komplette Anwendungsstruktur für diesen Screens generiert. Wenn der Nutzer auf einen anderen Screen navigiert, wird nur die Komponente mit den alten Daten durch eine neue Komponente ausgetauscht.
+In der Anwendung wird diese Art der Komposition als Grundgerüst der Anwendungsstruktur verwendet. \figref{fig:komposition} zeigt außerdem, was nach einer Interaktion des Nutzers geschieht. Beim initialen Aufruf der Anwendung wird die komplette Anwendungsstruktur für diesen Screen generiert. Wenn der Nutzer auf einen anderen Screen navigiert, wird nur die Komponente mit den alten Daten durch eine neue Komponente ausgetauscht.
 
 \begin{figure}[h]
   \caption{Komposition von Komponenten als Anwendungsstruktur}
@@ -279,7 +279,7 @@ Der Quelltext aus diesen Beispielen ist eine vereinfachte Version der tat\-säch
 
 \subsection{Aktualisierung der Daten über einen Websocket}
 
-Während eines Build-Prozesses werden aktualisierte Daten des Builds über einen Websocket an den Client übertragen. Dadurch kann der aktuelle Stand des Prozesses in nahezu Echtzeit aktualisiert werden.
+Während eines Build-Prozesses werden aktualisierte Daten des Builds über einen Websocket an den Client übertragen. Dadurch kann der aktuelle Stand des Prozesses nahezu in Echtzeit aktualisiert werden.
 
 Wie in \fullref{subsec:implementierung-worker} erläutert, werden diese Aktualisierungen in einem Kanal je Projekt gesendet. Die Komponente \texttt{Project\-Con\-tain\-er}, die in \fullref{subsec:implementierung-struktur} beschrieben wurde, eignet sich sehr gut, um sich mit diesem Kanal zu verbinden.
 

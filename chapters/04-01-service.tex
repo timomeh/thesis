@@ -4,7 +4,7 @@
 
 Der Service ist der Antrieb des gesamten Systems. In ihm werden Daten berechnet und persistiert. Wie im Architekturentwurf (\fullref{sec:architektur}) beschrieben, besitzt der Service eine \ac{API}. Das ist nichts besonderes: ein Webservice definiert sich darüber, dass er eine maschinenlesbare Schnittstelle besitzt.
 
-Eine Besonderheit im Webservice von WARP ist die Pipeline. Daher beschäftigt sich dieser Abschnitt zwar auch mit der \ac{API}, aber vor allem mit dem Entwurf und der Implementierung der Pipeline.
+Eine Besonderheit im Webservice von WARP ist die Pipeline. Daher beschäftigt sich dieses Kapitel zwar auch mit der \ac{API}, aber vor allem mit dem Entwurf und der Implementierung der Pipeline.
 
 \subsection{Elixir und Phoenix}
 
@@ -137,7 +137,7 @@ Die Konfigurationsdatei enthält noch andere Besonderheiten, wie einen \texttt{i
 
 In der Praxis ist es sinnvoll für verschiedene Git Branches auch unterschiedliche Build-Prozesse auszuführen. Folgendes Szenario zeigt einen dazu passenden Anwendungsfall:
 
-Für alle Feature-Branches eines Projekts wird \emph{nur die Commit Stage} durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, diese Branches auf eine Serverumgebung zu transferieren. Wurde ein Feature fertiggestellt, wird der entsprechende Branch in den master-Branch integriert. Bei Änderungen am master-Branch wird ein Build-Prozess durchgeführt, der zudem auch ein Deployment auf die Staging-Umgebung beinhaltet. Ein weiterer Branch ``\texttt{production}'' ist mit einem Build-Prozess verbunden, der ein Deployment auf die Produktions-Umgebung durchführt.
+Für alle Feature-Branches eines Projekts wird \emph{nur die Commit Stage} ausgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, diese Branches auf eine Serverumgebung zu transferieren. Wurde ein Feature fertiggestellt, wird der entsprechende Branch in den master-Branch integriert. Bei Änderungen am master-Branch wird ein Build-Prozess durchgeführt, der zudem auch ein Deployment auf die Staging-Umgebung beinhaltet. Ein weiterer Branch ``\texttt{production}'' ist mit einem Build-Prozess verbunden, der ein Deployment auf die Produktions-Umgebung durchführt.
 
 Der in \fullref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei jedem Push in das Remote Repository ausgeführt. Aus ihm müssen wir auslesen, welche Pipeline dem Push zugeordnet ist. Dies kann über die Git Reference gelöst werden, aus der man den Namen des zugehörigen Branches und sogar auch den Namen eines Tags auslesen kann.
 
@@ -177,7 +177,7 @@ Für jeden Eintrag in der Warteschlange werden folgende Schritte ausgeführt:
   \item[Schritt 10:] Löschen der temporären Umgebung.
 \end{description}
 
-Das Ausführen des eigentlichen Build-Prozesses (Schritte 5 bis 9) und dessen Abhängigkeiten zu anderen Workern lässt sich als Prozess grafisch verständlicher in einem vereinfachten Ablaufdiagramm (\figref{fig:ablauf-build-prozess}) darstellen.
+Das Ausführen des eigentlichen Build-Prozesses (Schritte 5 bis 9) und dessen Abhängigkeiten zu anderen Workern lässt sich als Prozess grafisch in einem vereinfachten Ablaufdiagramm (\figref{fig:ablauf-build-prozess}) darstellen.
 
 \begin{figure}[h]
   \caption{Vereinfachtes Ablaufdiagramm des Build-Prozesses}
@@ -211,7 +211,7 @@ Die Worker für die Deployment-Pipeline wurden, getrennt nach ihrer Aufgabe, in 
   \item [PipelineQueue] Eine Queue für Build-Prozesse je Pipeline.
   \item [InitWorker] Initialisiert den Build-Prozess, beginnend mit der Erstellung des temporären Ordners, über \texttt{git clone} und \texttt{git checkout} bis hin zum Abspeichern der Stages, Abschnitte und Schritte aus der Konfigurationsdatei.
   \item [BuildWorker] Verwaltet die Build-Entität und startet die darin befindlichen Stages.
-  \item [GroupWorker] Verwaltet die Stage- oder Gruppen-Entität und startet die darin befindlichen Gruppen oder Schritte. Wie schon erwähnt, unterscheiden sich Stage und Gruppe nur darin, dass Stages immer seriell ausgeführt werden.
+  \item [GroupWorker] Verwaltet die Stage- oder Gruppen-Entität und startet die darin befindlichen Gruppen oder Schritte. Wie schon erwähnt, unterscheiden sich Stage und Gruppe nur darin, dass Stages immer nacheinander ausgeführt werden.
   \item [StepWorker] Verwaltet die Schritt-Entität und führt ihren Befehl aus.
 \end{description}
 
