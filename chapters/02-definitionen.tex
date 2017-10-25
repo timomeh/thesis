@@ -30,13 +30,13 @@ Der Duden \citeyearpar{Duden} definiert \emph{automatisiert} u.a. als ``durch Se
 
 Im Gegensatz dazu steht die manuelle Durchführung eines Prozesses. Im Kontext des Deployments müssen dabei einige oder gar alle Schritte zur Inbetriebsetzung durch menschliches Handeln durchgeführt werden.
 
-Das bedeutet jedoch nicht, dass ein automatisierter Prozess für den Nutzer gänzlich unsichtbar ist. Um auf Erfolg oder Fehlschlag des Automatismus reagieren zu können, muss der Prozess seinen Status an den Nutzer zurück melden. Vorteilhaft sind auch Informationen während des Prozessablaufs, beispielsweise der Fortschritt des Deployments. \citep[10f]{Duvall2007}
+Das bedeutet jedoch nicht, dass ein automatisierter Prozess für den Entwickler gänzlich unsichtbar ist. Um auf Erfolg oder Fehlschlag des Automatismus reagieren zu können, muss der Prozess seinen Status melden. Vorteilhaft sind auch Informationen während des Prozessablaufs, beispielsweise der Fortschritt des Deployments. \citep[10f]{Duvall2007}
 
 \subsection{Definition: Webanwendung}
 
 Eine Webanwendung ist eine Anwendung, die auf einem entfernten Server ausgeführt wird und vom Nutzer mit einen Browser über das \ac{HTTP} aufgerufen wird. Durch die Aufteilung auf Server und Browser spricht man daher vom Client-Server-Modell. \citep{wiki:webanwendung}
 
-Moderne Webanwendungen werden immer öfter als verteilte Systeme programmiert. Hierbei wird der Server über ein \ac{API} angesprochen (zu deutsch \emph{Schnittstelle}), zu welcher der Client dynamisch mittels JavaScript eine grafische Repräsentation ausgibt. Eine solche Server-Anwendung wird auch Service genannt. \citet[Kapitel 5.1.3]{Fielding} beschreibt dies als Client-Stateless-Server-Modell.
+Moderne Webanwendungen werden immer öfter als verteilte Systeme programmiert. Hierbei wird der Server über ein \ac{API} angesprochen (zu deutsch \emph{Schnittstelle}), zu welcher der Client eine grafische Repräsentation ausgibt. Eine solche Server-Anwendung wird auch Service genannt. \citet[Kapitel 5.1.3]{Fielding} beschreibt dies als Client-Stateless-Server-Modell.
 
 \subsection{Begriffserklärung: DevOps}
 \label{subsec:devops}
@@ -63,7 +63,7 @@ Um im weiteren Verlauf der Ausarbeitung Verwechselungen beider Interpretationen 
 
 Tests überprüfen die Qualität und Anforderungen einer Anwendung. Tests, die automatisiert durchgeführt werden können, werden bereits vom Entwickler geschrieben und helfen dabei, Fehler frühzeitig zu erkennen und zu beheben. Hierzu gehören Komponententests (engl. unit test), welche kleinste Einheiten der Anwendung überprüfen, und Integrationstests (engl. integration test), die das Zusammenspiel verschiedener Komponenten testen. Ebenso ermöglichen jene Tests das fehlerfreie Umstrukturieren von Code (engl. refactoring). \citep[104f]{Wolff2016}
 
-Eine weitere Art von Test ist der Akzeptanztest (engl. acceptance test), bei dem die Funktionalität der Anwendung für den Nutzer überprüft wird. Diese können vom Kunden, einer \ac{QA} oder gar dem Nutzer durchgeführt werden. Akzeptanztests können automatisiert ausgeführt werden, zum Teil werden sie aber auch manuell augeführt. \citep[86]{Humble2010}
+Eine weitere Art von Test ist der Akzeptanztest (engl. acceptance test), bei dem die Funktionalität der Anwendung für den Nutzer überprüft wird. Diese können vom Kunden, einer \ac{QA} oder gar dem Nutzer durchgeführt werden. Akzeptanztests können automatisiert ausgeführt werden, zum Teil werden sie aber auch manuell ausgeführt. \citep[86]{Humble2010}
 
 Der Rauchtest (engl. smoke test) ist ein sehr einfach umzusetzender Test, bei dem die Software gestartet wird und direkt überprüft wird, ob sie noch läuft oder abgestürzt ist. Bei Webanwendungen kann hierfür die Startseite aufgerufen werden und nach einer Zeichenkette gesucht werden, die dort auftauchen sollte. \citep[117]{Humble2010}
 
@@ -126,13 +126,13 @@ Wie eben schon bildlich an einer Rohrleitung erklärt, beschreibt eine Deploymen
 
 Ein Beispiel für eine Stage ist die \emph{Commit Stage}. In ihr werden Tests ausgeführt und die Software kompiliert. Ergebnis dieser Stage ist eine Anwendung, die auf technischer Basis lauffähig ist. \citep[110]{Humble2010}
 
-Eine technisch funktionierende Anwendung ist jedoch noch nicht zwangsläufig eine Anwendung, die auch direkt an den Nutzer gegeben werden kann. Demnach kann als zweite Stage beispielsweise ein Akzeptanztest (siehe \fullref{subsec:def-testing}) durchgeführt werden. Möglich sind dann sogar Stages, die erst nach der Authorisierung durch einen Menschen fortgesetzt werden können. \citep{FowlerDP}
+Eine technisch funktionierende Anwendung ist jedoch noch nicht zwangsläufig eine Anwendung, die auch direkt an den Nutzer gegeben werden kann. Demnach kann als zweite Stage beispielsweise ein Akzeptanztest (siehe \fullref{subsec:def-testing}) durchgeführt werden. Möglich sind dann sogar Stages, die erst nach der Autorisierung durch einen Menschen fortgesetzt werden können. \citep{FowlerDP}
 
-Einer der wichtigsten Aspekte für Continuous Integration ist das Integrieren und Testen der Anwendung, was der ersten Stage entspricht. Zur Integration müssen keine weiteren Stages ausgeführt werden. Es können also unterschiedlich viele Stages in einer Pipeline ausgeführt werden, je nachdem, ob weitere Stages überhaupt notwendig sind.
+Einer der wichtigsten Aspekte für Continuous Integration ist das Integrieren und Testen der Anwendung, was der Commit Stage entspricht. Zur Integration müssen keine weiteren Stages ausgeführt werden. Es können also unterschiedlich viele Stages in einer Pipeline ausgeführt werden, je nachdem, ob weitere Stages überhaupt notwendig sind.
 
 \subsection{Anforderungen an eine Deployment-Pipeline}
 
-Deployment-Pipelines müssen immer idempotent sein: egal wie oft man eine Pipeline mit dem gleichen Quelltext aufruft, sie muss immer das gleiche Ergebnis haben. Daher sollte eine Pipeline immer auf dem gleichen System ausgeführt werden; bestenfalls eine Maschine, welche alle Pipelines ausführt. \citep[155]{Humble2010}
+Deployment-Pipelines müssen immer idempotent sein: egal wie oft man eine Pipeline mit dem gleichen Quelltext aufruft, sie muss immer das gleiche Ergebnis haben. Daher sollte eine Pipeline immer auf dem gleichen System ausgeführt werden; bestenfalls eine Maschine, welche \emph{alle} Pipelines ausführt. \citep[155]{Humble2010}
 
 Eine weitere Anforderung ist das zeitliche Steuern der Pipeline. Im krassesten Szenario dürfen zwei Pipelines ein Deployment nicht simultan auf die gleiche Umgebung durchführen. Dies könnte zu unvorhersehbaren Ergebnissen führen. Stages, die sich gegenseitig beeinflussen können, müssen demnach nacheinander ausgeführt werden. \citep[119]{Humble2010}
 

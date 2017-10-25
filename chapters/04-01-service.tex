@@ -4,7 +4,7 @@
 
 Der Service ist der Antrieb des gesamten Systems. In ihm werden Daten berechnet und persistiert. Wie im Architekturentwurf (\fullref{sec:architektur}) beschrieben, besitzt der Service eine \ac{API}. Das ist nichts besonderes: ein Webservice definiert sich darüber, dass er eine maschinenlesbare Schnittstelle besitzt.
 
-Eine Besonderheit im Webservice von WARP ist die Pipeline. Sie wird ebenfalls vom Service ausgeführt. Daher beschäftigt sich dieser Abschnitt zwar auch mit der \ac{API}, aber vor allem mit dem Entwurf und der Implementierung der Pipeline.
+Eine Besonderheit im Webservice von WARP ist die Pipeline. Daher beschäftigt sich dieser Abschnitt zwar auch mit der \ac{API}, aber vor allem mit dem Entwurf und der Implementierung der Pipeline.
 
 \subsection{Elixir und Phoenix}
 
@@ -12,7 +12,7 @@ Bei Webanwendungen hängt (wie in anderen Domänen auch) die Wahl einer Programm
 
 Die Wahl der Programmiersprache fiel für dieses Projekt auf \textbf{Elixir}.
 
-Elixir wurde 2011 von José Valim veröffentlicht und ist somit eine relativ junge Programmiersprache. Elixir basiert auf Erlang, einer seit 1986 von Ericsson entwickelten Programmiersprache und Laufzeitumgebung. Das Erlang System ist u.a. für seine hohe Verfügbarkeit bekannt, es kann auf vielen Servern parallel laufen und aktualisiert werden, ohne die Anwendung stoppen zu müssen. Die Programmiersprache Erlang ist funktional, weshalb Elixir ebenfalls eine funktionale Programmiersprache ist. \citep{wiki:elixir}
+Elixir wurde 2011 von José Valim veröffentlicht und ist somit eine relativ junge Programmiersprache. Elixir basiert auf Erlang, einer seit 1986 von Ericsson entwickelten Programmiersprache und Laufzeitumgebung. Das Erlang System ist u.a. für seine hohe Verfügbarkeit bekannt, es kann auf vielen Servern parallel laufen, und aktualisiert werden, ohne die Anwendung stoppen zu müssen. Die Programmiersprache Erlang ist funktional, weshalb Elixir ebenfalls eine funktionale Programmiersprache ist. \citep{wiki:elixir}
 
 Elixir wurde nicht gewählt, da darin schon Erfahrung besteht, sondern um Erfahrung in Elixir zu erlangen: Zu Beginn der Arbeit waren weder Kenntnisse in Elixir noch in Erlang vorhanden.
 
@@ -22,7 +22,7 @@ Phoenix ist ein Framework für Webanwendungen nach dem \ac{MVC} Modell. Es beinh
 
 \subsection{Entwurf einer RESTful API}
 
-\ac{REST} ist ein von Roy Fielding entworfener Architekturstil für ``verteilte Hypermedia Systeme''. Fielding nennt grundlegend zwei Bedingungen für solche Systeme:
+\ac{REST} ist ein von Roy Fielding entworfener Architekturstil für ``verteilte Hypermedia Systeme''. \citet{Fielding} nennt grundlegend zwei Bedingungen für solche Systeme:
 
 \begin{itemize}
   \item Die Trennung des Systems in eine Client-Server Architektur. Dies folgt dem Prinzip der ``Trennung der Belange'' (Separation of Concerns), und teilt die Anwendung in die Nutzeroberfläche (Client) die Datenverwaltung (Server).
@@ -69,7 +69,7 @@ Für den Service wurden die in \tabref{tab:rest-routes} definierten Endpunkte f�
 \subsubsection{Die ``JSON API'' Spezifikation}
 \label{subsec:jsonapi}
 
-Zum Entwurf einer API im JSON Datenformat gibt es u.a. die Spezifikation ``JSON API''. Sie beinhaltet viele Konventionen zu den Daten, die zur API bzw. von der API gesendet werden.
+Zum Entwurf einer API im JSON Datenformat gibt es u.a. die Spezifikation ``JSON API''. Sie beinhaltet viele Konventionen zu den Daten, die zur und von der API gesendet werden.
 
 Durch das Befolgen dieser Spezifikation lässt sich ein Level Three Service nach Richardsons Maturity Model implementieren (vgl. \citep[20]{Webber2010}): eingebettete Links zu anderen Ressourcen erfüllen die Bedingung des \emph{\ac{HATEOAS}}.
 
@@ -119,7 +119,7 @@ Das Anlegen komplexer Pipelines mit mehreren Stages und verschachtelten Gruppen 
 
 Eine Datei namens \emph{.warp.yml} im Stammverzeichnis des Projekts beinhaltet den Aufbau aller Pipelines im Projekt. Die Konfigurationsdatei wird ausgelesen und vor dem Starten des Build-Prozesses in der Datenbank gespeichert.
 
-Die Zugehörigkeit zwischen der Pipeline in der Datenbank und den Daten in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak identifikator} in \figref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementation, siehe \fullref{subsec:api-usage})
+Die Zugehörigkeit zwischen der Pipeline in der Datenbank und den Daten in der Konfigurationsdatei wird über einen Identifikator bestimmt. (\texttt{konfiguration\_\allowbreak identifikator} in \figref{fig:uml} bzw. \texttt{human\_id} in der letztendlichen Implementierung, siehe \fullref{subsec:api-usage})
 
 Die Konfigurationsdatei ist im YAML-Format notiert. YAML\footnote{http://yaml.org/} ist ein menschenfreundlicher Standard. Beispielsweise besitzt YAML Kommentare, was in JSON nicht unterstützt wird.
 
@@ -137,7 +137,7 @@ Die Konfigurationsdatei enthält noch andere Besonderheiten, wie einen \texttt{i
 
 In der Praxis ist es sinnvoll für verschiedene Git Branches auch unterschiedliche Build-Prozesse auszuführen. Folgendes Szenario zeigt einen dazu passenden Anwendungsfall:
 
-Für alle Feature-Branches eines Projekts wird \emph{nur} ein \ac{CI} Build durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, diese Branches auf eine Serverumgebung zu transferieren. Wurde ein Feature fertiggestellt, wird der entsprechende Branch in den \texttt{master}-Branch integriert. Bei Änderungen an diesem Branch wird ein Build-Prozess durchgeführt, der zudem auch ein Deployment auf die Staging-Umgebung beinhaltet. Ein weiterer Branch ``\texttt{production}'' ist mit einem Build-Prozess verbunden, der ein Deployment auf die Produktions-Umgebung durchführt.
+Für alle Feature-Branches eines Projekts wird \emph{nur die Commit Stage} durchgeführt, um zu verfolgen, ob ein Branch integrierbar bleibt. Es ist nicht nötig, diese Branches auf eine Serverumgebung zu transferieren. Wurde ein Feature fertiggestellt, wird der entsprechende Branch in den master-Branch integriert. Bei Änderungen am master-Branch wird ein Build-Prozess durchgeführt, der zudem auch ein Deployment auf die Staging-Umgebung beinhaltet. Ein weiterer Branch ``\texttt{production}'' ist mit einem Build-Prozess verbunden, der ein Deployment auf die Produktions-Umgebung durchführt.
 
 Der in \fullref{subsec:uebersicht-anwendung} beschriebene Webhook wird bei jedem Push in das Remote Repository ausgeführt. Aus ihm müssen wir auslesen, welche Pipeline dem Push zugeordnet ist. Dies kann über die Git Reference gelöst werden, aus der man den Namen des zugehörigen Branches und sogar auch den Namen eines Tags auslesen kann.
 
@@ -151,9 +151,9 @@ In der Datenstruktur (\figref{fig:uml}) wird der reguläre Ausdruck im Feld \tex
 
 \subsubsection{Nachteile der Konfigurationsdatei}
 
-Ursprünglich wurde nicht geplant, dass eine Pipeline auch über die API angelegt werden muss. Alle Konfigurationen sollten über die Konfigurationsdatei ausgelesen werden.
+Ursprünglich wurde nicht geplant, dass eine Pipeline auch über die API angelegt werden muss. \emph{Alle} Konfigurationen sollten über die Konfigurationsdatei ausgelesen werden.
 
-In der Praxis hat sich dies als problematisch erwiesen. Bei jedem Webhook hätte ein Build-Prozess initialisiert werden müssen, um in der Konfigurationsdatei nach einer passenden Git Reference (siehe \fullref{subsec:git-reference}) zu suchen. Wenn keine passende Git Reference gefunden wird, müsste der Build-Prozess sofort abgebrochen werden.
+In der Praxis hat sich dies als problematisch erwiesen. Bei jedem Webhook hätte ein Build-Prozess initialisiert werden müssen, um in der Konfigurationsdatei nach einer passenden Git Reference zu suchen (siehe \fullref{subsec:git-reference}). Wenn keine passende Git Reference gefunden wird, müsste der Build-Prozess sofort abgebrochen werden.
 
 Da dies einen großen Overhead erzeugt, wurden bestimmte Attribute der Pipeline, vor allem der reguläre Ausdruck der Git Reference, in die Datenbank ausgelagert. Bei einem einkommenden Webhook kann dadurch direkt in der Datenbank nach einer zugehörigen Pipeline gesucht werden. Wenn keine gefunden wird, muss auch kein Prozess initialisiert werden.
 
@@ -171,7 +171,7 @@ Für jeden Eintrag in der Warteschlange werden folgende Schritte ausgeführt:
   \item[Schritt 4:] Auslesen der Konfigurationsdatei und speichern der Stages, Gruppen und Schritte der Pipeline in der Datenbank.
   \item[Schritt 5:] Starten des \textbf{BuildWorkers}.
   \item[Schritt 6:] Darin werden nacheinander die Stages aufgerufen. Eine Stage ist ein \textbf{GroupWorker}.
-  \item[Schritt 7:] In jeder Stage werden weitere Gruppen oder Schritte ausgeführt, parallel oder seriell (\textbf{GroupWorker} bzw. \textbf{StepWorker}).
+  \item[Schritt 7:] In jeder Stage werden weitere Gruppen oder Schritte parallel oder seriell ausgeführt (\textbf{GroupWorker} bzw. \textbf{StepWorker}).
   \item[Schritt 8:] Falls vorhanden werden rekursiv weitere Gruppen oder Schritte ausgeführt.
   \item[Schritt 9:] Wurden alle Stages ausgeführt, wird der BuildWorker beendet.
   \item[Schritt 10:] Löschen der temporären Umgebung.
@@ -219,7 +219,7 @@ Die Worker für die Deployment-Pipeline wurden, getrennt nach ihrer Aufgabe, in 
 
 Ein \emph{GenServer} (generic server) ist ein Elixir Prozess, der bestimmte Funktionen bereitstellt, um State im Prozess zu speichern und die Kommunikation zwischen Prozessen zu erleichtern.\footnote{vgl. https://hexdocs.pm/elixir/GenServer.html, abgerufen am 23.10.2017} Er eignet sich zur Implementierung der Worker und deren Kommunikation untereinander.
 
-Mittels \texttt{call/3} und \texttt{cast/2} lassen sich Nachrichten an einen GenServer senden, worauf der GenServer eine Funktion ausführen kann. \texttt{call} ist eine synchrone Nachricht: nach Aufruf der Funktion wird auf eine Antwort gewartet. Im Gegensatz dazu ist \texttt{cast} eine asynchrone Nachricht, die keine Antwort erwartet.
+Mittels \texttt{call/3} und \texttt{cast/2} lassen sich Nachrichten an einen GenServer senden, worauf der GenServer eine Funktion ausführen kann. \texttt{call} ist eine synchrone Nachricht: beim Aufruf der \texttt{call}-Funktion wird eine Antwort erwartet. Im Gegensatz dazu ist \texttt{cast} eine asynchrone Nachricht, die keine Antwort erwartet.
 
 Der GenServer nimmt diese Nachrichten über die Callbacks \texttt{handle\_\allowbreak call/3} und \texttt{handle\_\allowbreak cast/2} an.
 
@@ -258,7 +258,7 @@ Mittels der beiden Funktionen \texttt{start/2} und \texttt{run/1} kann schon der
   language=elixir]
   {snippets/build-worker-start.ex}
 
-Der GenServer muss nun auf die Nachricht \texttt{:run} reagieren. Da es sich um einen \texttt{cast/2} handelt, wird keine Antwort darauf gesendet. In diesem Callback wird die erste Stage ausgeführt:
+Der GenServer muss nun auf die Nachricht \texttt{:run} reagieren. Da es sich um einen \texttt{cast/2} handelt, wird keine Antwort erwartet. In diesem Callback wird die erste Stage ausgeführt:
 
 \lstinputlisting
   [caption={BuildWorker.ex: Empfangen einer cast-Nachricht zum Starten des BuildWorkers},

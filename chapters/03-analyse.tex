@@ -7,7 +7,7 @@ Besonders Vor- und Nachteile sind subjektiv und unterscheiden sich zwischen Nutz
 
 Da der Fokus der Ausarbeitung auf der Umsetzung liegt, wird die Analyse nur verkürzt durchgeführt, anhand der drei Anwendungen Jenkins, Travis CI und Codeship mit einer Persona. Die Anwendungen wurden aufgrund ihrere Bekanntheit und unterschiedlichen Herangehensweisen gewählt.
 
-Zum Testen wurde jeweils eine Pipeline konfiguriert und mehrere Build-Prozesse nacheinander ausgelöst. Dabei wurden alle Anwendungen so benutzt, wie sie Out-of-the-box angeboten werden, ohne Erweiterungen oder externe Hilfsmittel.
+Zum Testen wurde jeweils eine Pipeline konfiguriert und mehrere Build-Prozesse ausgeführt. Dabei wurden alle Anwendungen so benutzt, wie sie Out-of-the-box angeboten werden, ohne Erweiterungen oder externe Hilfsmittel.
 
 \section{Persona}
 
@@ -35,7 +35,7 @@ Folgende Persona wurde zur Analyse genutzt:
 \section{Jenkins}
 \label{sec:analyse-jenkins}
 
-Jenkins ist eine in Java programmierte Webanwendung für Build-Prozesse. Es bezeichnet sich selbst als ``the leading open source automation server''\footnote{Quelle: https://jenkins.io/}. Jenkins ist ein Fork von Hudson, welches 2005 veröffentlicht wurde, mittlerweile aber nicht mehr weiterentwickelt wird. Jenkins ist kostenlos und muss selbst auf einem Server (oder einer anderen Maschine) betrieben werden.
+Jenkins ist eine in Java programmierte Webanwendung für Build-Prozesse. Es bezeichnet sich selbst als ``the leading open source automation server''\footnote{Quelle: https://jenkins.io/, abgerufen am 23.10.2017}. Jenkins ist ein Fork von Hudson, welches 2005 veröffentlicht wurde, mittlerweile aber nicht mehr weiterentwickelt wird. Jenkins ist kostenlos und muss selbst auf einem Server (oder einer anderen Maschine) betrieben werden.
 
 Es lässt sich mit vielen Plugins erweitern, was in diesem Szenario nicht berücksichtigt wurde.
 
@@ -55,7 +55,7 @@ Eine Pipeline wird bei Jenkins in der Skriptsprache Groovy geschrieben. Diese ka
   \includegraphics[width=.8\textwidth]{assets/jenkins-pipeline-overview}
 \end{figure}
 
-In der Übersicht (siehe \figref{fig:jenkins-pipeline-overview}) werden alle Pipelines mit Informationen zum letzten Build aufgelistet. Ein aktiver Build-Prozess wird seitlich unauffällig mit einem Ladebalken angezeigt.
+In der Übersicht (siehe \figref{fig:jenkins-pipeline-overview}) werden alle Pipelines mit Informationen zum letzten Build aufgelistet. Ein aktiver Build-Prozess wird seitlich (etwas unauffällig) mit einem Ladebalken angezeigt.
 
 \begin{figure}[h]
   \caption{Jenkins: Detailansicht eines aktiven Build-Prozesses}
@@ -82,7 +82,7 @@ Die Detailansicht eines Builds besitzt wenige Informationen (siehe \figref{fig:j
 \begin{itemize}
   \item Muss selbst gehosted werden
   \item Nur so schnell wie die Maschine, auf der es läuft
-  \item Keine Echtzeit-Updates im Browser
+  \item Wenige Echtzeit-Aktualisierungen im Browser
   \item Design ist in die Jahre gekommen und unübersichtlich
   \item Details zu einem Build-Prozess sind nicht direkt ersichtlich
   \item Da Groovy auf Java basiert, ist es abseits der Java-Welt weniger bekannt
@@ -91,7 +91,7 @@ Die Detailansicht eines Builds besitzt wenige Informationen (siehe \figref{fig:j
 \section{Travis CI}
 \label{sec:analyse-travis}
 
-Travis CI\footnote{https://travis-ci.com/ und https://travis-ci.org/}, im Folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-Dienst, dessen Fokus auf Continuous Integration liegt. Es lassen sich damit aber auch Deployments durchführen. Travis ist speziell für Repositories auf GitHub ausgelegt und unterstützt keine anderen Git-Remotes.
+Travis CI\footnote{https://travis-ci.com/ und https://travis-ci.org/}, im Folgenden verkürzt ``Travis'' genannt, ist ein Open Source Cloud-Dienst, dessen Fokus auf Continuous Integration liegt. Es lassen sich damit aber auch Deployments durchführen. Travis ist speziell für Repositories auf GitHub ausgelegt und unterstützt keine anderen Git Remotes.
 
 Für öffentliche Repositories ist Travis kostenlos, bei privaten Repositories fallen Kosten ab \$69 an. Mit ``Travis CI Enterprise'' besteht auch die Möglichkeit Travis selbst zu hosten. Abseits der Möglichkeit, privaten Repositories verwenden zu können, besitzt die kostenpflichtige Version nicht mehr Funktionalitäten als die kostenlose Version.
 

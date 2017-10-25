@@ -19,7 +19,7 @@ export default class Socket {
       .receive('timeout', () => console.log(`[WS] Still waiting to join Channel: ${room}`))
 
     channel.on('event', payload => {
-      const { eventName, data: response } = payload
+      const { eventName, data } = payload
 
       if (eventName === 'update:build') {
         this.dispatch(updateBuild(data))
